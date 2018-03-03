@@ -62,6 +62,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-eslint-and-format-for-vue" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/eslint-and-format-for-vue/" class="article-date">
+  <time datetime="2018-03-03T12:24:59.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/eslint-and-format-for-vue/">Vue项目的代码检查以及格式化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h3><p>代码检查，英文为Lint，词典的解释为：软麻布；线头；棉绒。看的一头雾水。<a href="https://stackoverflow.com/questions/8503559/what-is-linting" target="_blank" rel="noopener">Stack Overflow</a>有比较合理的解释：Linting is the process of running a program that will analyse code for potential errors.</p>
+<p>Javascript的代码检查工具中，比较有名的是<a href="https://eslint.org/" target="_blank" rel="noopener">eslint</a>，是红宝书作者Nicholas C. Zakas创建的。这次就是使用Eslint来做代码检查。</p>
+<h4 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h4><p><br>全局安装：<code>npm install eslint -g</code></p>
+<p>初始化：<code>eslint --init</code></p>
+<p>配置，创建文件：.eslintrc.js，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    &quot;extends&quot;: [&apos;plugin:vue/essential&apos;, &apos;standard&apos;]</span><br><span class="line">+&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这里使用standard，是一套已经约定好的规范。</p>
+<p>因为代码是通过webpack打包生成的，对打包后的代码进行代码检查无意义，所以需要对原始代码检查，这里使用eslint-loader，这个loader是在打包过程中检查语法，并可以将代码问题输出到打包结果中，在网页中展示出来；同时也可以在打包过程中，将错误输出到console中。安装命令：<code>npm install eslint-loader</code></p>
+<p>webpack配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: /\.(js|vue)$/,</span><br><span class="line">    loader: &apos;eslint-loader&apos;,</span><br><span class="line">    enforce: &apos;pre&apos;,</span><br><span class="line">    // include: [resolve(&apos;src&apos;), resolve(&apos;test&apos;)],</span><br><span class="line">    options: &#123;</span><br><span class="line">        formatter: require(&apos;eslint-friendly-formatter&apos;),</span><br><span class="line">        emitWarning: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>.eslintrc.js中添加plugin:vue/essential，这是使得eslint作用于vue</p>
+<p>这里用到了eslint-plugin-vue、eslint-friendly-formatter等各种依赖，也需要安装一下。还有：eslint-config-standard、eslint-friendly-formatter、eslint-plugin-import、eslint-plugin-node、eslint-plugin-promise、eslint-plugin-standard</p>
+<p>至此，在运行打包程序时，应该会弹出eslint的提示。</p>
+<h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3><p>使用VSCode作为编辑器，安装vetur插件，vetur不单可以做格式化，并且还有intellisense，以及将eslint发现的错误显示在VSCode中。</p>
+<p>vetur的格式化使用的是prettier，可以通过VSCode市场安装之。</p>
+<p>vetur的格式化配置使用的是VSCode的vetur.format.defaultFormatter.xxx配置项，配置为prettier的时候，可以使用prettier做format</p>
+<p>prettier的format配置，放在.prettierrc.js文件中，具体配置schme在<a href="http://json.schemastore.org/prettierrc" target="_blank" rel="noopener">这儿</a></p>
+<p>也可以使prettier按照eslint的配置进行格式化，这里需要修改VSCode的配置”prettier.eslintIntegration”: true。至此，可以对js文件进行格式化，但是却对vue文件无法按照eslint格式化，简单的方式，是把prettier的规范改的和eslint一样，比如singleQuote: true，但这是打补丁。</p>
+<p>而后，对比<a href="https://github.com/octref/veturpack" target="_blank" rel="noopener">vetur官方示例</a>，发现，把eslint的extends中的standart换成eslint:recommended后，就能够按照eslint对vue文件进行format了，一头雾水。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://jeange1003.github.io/2018/03/03/eslint-and-format-for-vue/" data-id="cjebfh5r300063xpxpw51wuu3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-ios-add-to-homescreen" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/02/24/ios-add-to-homescreen/" class="article-date">
@@ -103,7 +156,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/02/24/ios-add-to-homescreen/" data-id="cje1gryeu0007ldpxbdfnwo4s" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/02/24/ios-add-to-homescreen/" data-id="cjebfh5r600083xpx5ybz0g1d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -139,7 +192,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/gznb-component-lib-retrospect/" data-id="cje1gryeq0004ldpxgk2128f0" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/01/16/gznb-component-lib-retrospect/" data-id="cjebfh5r100043xpxtz5oeji1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -202,7 +255,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/open-picture/" data-id="cje1gryes0006ldpxjc6wmg3d" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/01/16/open-picture/" data-id="cjebfh5r200053xpxg56o5jo1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,7 +294,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/use-axios-instead-of-vue-resource/" data-id="cje1gryer0005ldpx6zxy5pl1" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/01/16/use-axios-instead-of-vue-resource/" data-id="cjebfh5r400073xpx07b8oi42" class="article-share-link">Share</a>
       
       
     </footer>
@@ -328,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/15/event-capture-and-bubble/" data-id="cje1gryef0001ldpxm593w3rp" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/01/15/event-capture-and-bubble/" data-id="cjebfh5r000033xpx78il18ap" class="article-share-link">Share</a>
       
       
     </footer>
@@ -417,7 +470,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/03/works-in-gznb/" data-id="cje1gryej0003ldpxmejk65ao" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2018/01/03/works-in-gznb/" data-id="cjebfh5qy00023xpxq6hjp12g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -453,7 +506,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2017/12/28/my-to-do-list/" data-id="cje1gryeh0002ldpxjosxi7ui" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2017/12/28/my-to-do-list/" data-id="cjebfh5qs00003xpx96q4vmsm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -490,7 +543,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2017/12/28/my-first-page/" data-id="cje1gryec0000ldpxjhi3c13a" class="article-share-link">Share</a>
+      <a data-url="http://jeange1003.github.io/2017/12/28/my-first-page/" data-id="cjebfh5qw00013xpx62cglblw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -518,7 +571,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li></ul>
     </div>
   </div>
 
@@ -529,6 +582,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2018/03/03/eslint-and-format-for-vue/">Vue项目的代码检查以及格式化</a>
+          </li>
         
           <li>
             <a href="/2018/02/24/ios-add-to-homescreen/">iOS Safari的添加到主屏幕</a>
@@ -544,10 +601,6 @@
         
           <li>
             <a href="/2018/01/16/use-axios-instead-of-vue-resource/">使用Axios代替vue-resource</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/15/event-capture-and-bubble/">事件冒泡</a>
           </li>
         
       </ul>
