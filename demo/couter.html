@@ -1,0 +1,205 @@
+<html>
+  <body>
+    <div class="form">
+      <input
+        id="count-input"
+        placeholder="Number"
+        type="number"
+        max="10000"
+        value="1"
+      />
+      <button id="confirm">OK</button>
+    </div>
+    <div id="circle-list"></div>
+    <style>
+      .form {
+        display: flex;
+        margin-bottom: 20px;
+        position: fixed;
+        top: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      #count-input {
+        color: #2b8039;
+        font-size: 48px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        border: none;
+        outline: none;
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+      #count-input:hover {
+        border: none;
+      }
+      #confirm {
+        border: #4a5bf5;
+        background-color: #7f8bf1;
+        color: white;
+        width: 200px;
+        font-size: 30px;
+        border-radius: 20px;
+        outline: none;
+        cursor: pointer;
+        background-color: rgba(159, 8, 209, 0.5);
+      }
+      #circle-list {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        height: 100%;
+        width: 100%;
+        font-size: 100vw;
+        margin-top: 60px;
+      }
+      .circle {
+        width: 20%;
+        /* height: 50%; */
+        padding-bottom: 20%;
+        border-radius: 50%;
+        background-color: #eb2939;
+        /* margin: 0.01em; */
+      }
+      .circle-block {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: calc(50% - 8px);
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 2px;
+        margin: 2px;
+        border: 2px solid #315dee;
+        box-sizing: border-box;
+        border-radius: 10px;
+        /* font-size: 0.2em; */
+      }
+    </style>
+    <script>
+      var MAX_COUNT = 10000;
+      var CAPACITY = 10;
+      var MAX_DEPTH = Math.ceil(Math.log(MAX_COUNT) / Math.log(CAPACITY)) + 1;
+      class Node {
+        constructor(parent) {
+          this.element = document.createElement("div");
+          this.parent = parent;
+          if (this.isLeaf) {
+            this.element.classList.add("circle");
+          } else {
+            this.element.classList.add("circle-block");
+          }
+          if (this.parent) {
+            this.parent.element.appendChild(this.element);
+          }
+        }
+        static capacity = CAPACITY;
+        children = [];
+        element;
+        parent;
+        get isFull() {
+          if (this.isLeaf) {
+            return true;
+          }
+          if (this.children.length === 0) {
+            return false;
+          }
+          return (
+            this.children.length >= Node.capacity &&
+            this.children.every((child) => child.isFull)
+          );
+        }
+        get depth() {
+          if (this.parent === undefined) {
+            return 1;
+          }
+          return this.parent.depth + 1;
+        }
+        get isLeaf() {
+          return this.depth >= MAX_DEPTH;
+        }
+        addChild = (node) => {
+          if (this.isFull) {
+            throw new Error("已经满了");
+          }
+          this.children.push(node);
+        };
+        addDescendant = () => {
+          if (this.isFull) {
+            throw new Error("已经满了");
+          }
+          // 倒数第二级，直接添加子节点
+          if (this.depth === MAX_DEPTH - 1) {
+            this.children.push(new Node(this));
+            return;
+          }
+          // 中间路径节点，没有创建子节点
+          if (this.children.length === 0) {
+            this.children.push(new Node(this));
+          }
+          // 找一个非空节点，填加子节点
+          let i = 0;
+          let added = false;
+          for (; i < this.children.length; i++) {
+            const child = this.children[i];
+            if (!child.isFull) {
+              child.addDescendant();
+              added = true;
+              break;
+            }
+          }
+          // 如果全都是满的并且没有超过容量，新建一个节点
+          if (i < Node.capacity && !added) {
+            const child = new Node(this);
+            this.children.push(child);
+            child.addDescendant();
+          }
+        };
+      }
+    </script>
+    <script>
+      class Tree {
+        root = new Node();
+        max = MAX_COUNT;
+        constructor() {
+          const circleList = document.getElementById("circle-list");
+          this.root.element = circleList;
+        }
+        addNode = () => {
+          if (this.root.isFull) {
+            throw new Error("树已经满了");
+          }
+          this.root.addDescendant();
+        };
+      }
+    </script>
+    <script></script>
+    <script>
+      const countInput = document.getElementById("count-input");
+      const confirm = document.getElementById("confirm");
+      const circleList = document.getElementById("circle-list");
+      const renderCircleList = () => {
+        const countString = countInput.value;
+        if (countString === "" || isNaN(countString)) {
+          window.alert("要输入数字哦");
+          return;
+        }
+        let count = Number(countString);
+        if (count > 10000) {
+          window.alert("不能超过10000哦");
+          countInput.value = 10000;
+          count = 10000;
+        }
+        circleList.innerHTML = "";
+        const tree = new Tree();
+        for (let i = 0; i < count; i++) {
+          // const circle = document.createElement("div");
+          // circle.classList.add("circle");
+          // circleList.appendChild(circle);
+          tree.addNode();
+        }
+        console.log(tree);
+      };
+      countInput.addEventListener("input", renderCircleList);
+      confirm.addEventListener("click", renderCircleList);
+    </script>
+  </body>
+</html>
