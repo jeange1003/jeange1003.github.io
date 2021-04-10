@@ -108,6 +108,9 @@
           this.children.every((child) => child.isFull)
         );
       }
+      get isEmpty() {
+        return this.children.length === 0
+      }
       get depth() {
         if (this.parent === undefined) {
           return 1;
@@ -118,7 +121,12 @@
         return this.depth >= MAX_DEPTH;
       }
       get count() {
-        return this.children.reduce((total, child) => total + child.count, 0)
+        return this.children.reduce((total, child) => {
+          if(child.isLeaf) {
+            return total + 1
+          }
+          return total + child.count
+        }, 0)
       }
       addChild = (node) => {
         if (this.isFull) {
@@ -157,8 +165,24 @@
           child.addDescendant();
         }
       };
-      removeDescendant = () =>{
+      removeDescendant = () => {
         // TODO
+        // if (this.isEmpty) {
+        //   // throw new Error('已经空了')
+        // }
+        if (this.isLeaf) {
+          this.destructor()
+          return 
+        }
+        const child = this.children[this.children.length - 1]
+
+        child.removeDescendant()
+        if (child.isEmpty) {
+          this.children.pop()
+        }
+      }
+      destructor = () => {
+        this.element.remove()
       }
     }
   </script>
@@ -177,7 +201,7 @@
         this.root.addDescendant();
       };
       removeNode = () => {
-        if(this.root.count === 0) {
+        if (this.root.count === 0) {
           throw new Error('树已经空了')
         }
         this.root.removeDescendant()
@@ -189,6 +213,7 @@
     const countInput = document.getElementById("count-input");
     const confirm = document.getElementById("confirm");
     const circleList = document.getElementById("circle-list");
+    const tree = new Tree();
     const renderCircleList = () => {
       const countString = countInput.value;
       if (countString === "" || isNaN(countString)) {
@@ -201,20 +226,20 @@
         countInput.value = 10000;
         count = 10000;
       }
-      circleList.innerHTML = "";
-      const tree = new Tree();
+      // circleList.innerHTML = "";
+      
       let i = tree.root.count
       if (i < count) {
         for (; i < count; i++) {
           tree.addNode();
         }
       }
-      if(i > count) {
+      if (i > count) {
         for (; i > count; i--) {
           // const circle = document.createElement("div");
           // circle.classList.add("circle");
           // circleList.appendChild(circle);
-          tree.addNode();
+          tree.removeNode();
         }
       }
       console.log(tree);
