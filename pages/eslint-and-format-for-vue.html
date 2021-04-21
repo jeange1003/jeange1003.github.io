@@ -1,23 +1,23 @@
-<div class="article-entry" itemprop="articleBody">
+<div  >
 
-    <h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h3>
+    <h3 id="代码检查"><a href="#代码检查"  title="代码检查"></a>代码检查</h3>
     <p>代码检查，英文为Lint，词典的解释为：软麻布；线头；棉绒。看的一头雾水。<a href="https://stackoverflow.com/questions/8503559/what-is-linting"
             target="_blank" rel="noopener">Stack Overflow</a>有比较合理的解释：Linting is the process of running a program that
         will analyse code for potential errors.</p>
     <p>Javascript的代码检查工具中，比较有名的是<a href="https://eslint.org/" target="_blank" rel="noopener">eslint</a>，是红宝书作者Nicholas
         C. Zakas创建的。这次就是使用Eslint来做代码检查。</p>
-    <h4 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h4>
+    <h4 id="安装与使用"><a href="#安装与使用"  title="安装与使用"></a>安装与使用</h4>
     <p><br>全局安装：<code>npm install eslint -g</code></p>
     <p>初始化：<code>eslint --init</code></p>
     <p>配置，创建文件：.eslintrc.js，内容如下：<br>
-    <figure class="highlight plain">
+    <figure >
         <table>
             <tr>
-                <td class="gutter">
-                    <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre>
+                <td >
+                    <pre><span >1</span><br><span >2</span><br><span >3</span><br></pre>
                 </td>
-                <td class="code">
-                    <pre><span class="line">module.exports = &#123;</span><br><span class="line">    &quot;extends&quot;: [&apos;plugin:vue/essential&apos;, &apos;standard&apos;]</span><br><span class="line">+&#125;;</span><br></pre>
+                <td >
+                    <pre><span >module.exports = &#123;</span><br><span >    &quot;extends&quot;: [&apos;plugin:vue/essential&apos;, &apos;standard&apos;]</span><br><span >+&#125;;</span><br></pre>
                 </td>
             </tr>
         </table>
@@ -27,14 +27,14 @@
     <p>因为代码是通过webpack打包生成的，对打包后的代码进行代码检查无意义，所以需要对原始代码检查，这里使用eslint-loader，这个loader是在打包过程中检查语法，并可以将代码问题输出到打包结果中，在网页中展示出来；同时也可以在打包过程中，将错误输出到console中。安装命令：<code>npm install eslint-loader</code>
     </p>
     <p>webpack配置：<br>
-    <figure class="highlight plain">
+    <figure >
         <table>
             <tr>
-                <td class="gutter">
-                    <pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre>
+                <td >
+                    <pre><span >1</span><br><span >2</span><br><span >3</span><br><span >4</span><br><span >5</span><br><span >6</span><br><span >7</span><br><span >8</span><br><span >9</span><br><span >10</span><br></pre>
                 </td>
-                <td class="code">
-                    <pre><span class="line">&#123;</span><br><span class="line">    test: /\.(js|vue)$/,</span><br><span class="line">    loader: &apos;eslint-loader&apos;,</span><br><span class="line">    enforce: &apos;pre&apos;,</span><br><span class="line">    // include: [resolve(&apos;src&apos;), resolve(&apos;test&apos;)],</span><br><span class="line">    options: &#123;</span><br><span class="line">        formatter: require(&apos;eslint-friendly-formatter&apos;),</span><br><span class="line">        emitWarning: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre>
+                <td >
+                    <pre><span >&#123;</span><br><span >    test: /\.(js|vue)$/,</span><br><span >    loader: &apos;eslint-loader&apos;,</span><br><span >    enforce: &apos;pre&apos;,</span><br><span >    // include: [resolve(&apos;src&apos;), resolve(&apos;test&apos;)],</span><br><span >    options: &#123;</span><br><span >        formatter: require(&apos;eslint-friendly-formatter&apos;),</span><br><span >        emitWarning: true</span><br><span >    &#125;</span><br><span >&#125;</span><br></pre>
                 </td>
             </tr>
         </table>
@@ -44,7 +44,7 @@
     <p>这里用到了eslint-plugin-vue、eslint-friendly-formatter等各种依赖，也需要安装一下。还有：eslint-config-standard、eslint-friendly-formatter、eslint-plugin-import、eslint-plugin-node、eslint-plugin-promise、eslint-plugin-standard
     </p>
     <p>至此，在运行打包程序时，应该会弹出eslint的提示。</p>
-    <h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3>
+    <h3 id="格式化"><a href="#格式化"  title="格式化"></a>格式化</h3>
     <p>使用VSCode作为编辑器，安装vetur插件，vetur不单可以做格式化，并且还有intellisense，以及将eslint发现的错误显示在VSCode中。</p>
     <p>vetur的格式化使用的是prettier，可以通过VSCode市场安装之。</p>
     <p>vetur的格式化配置使用的是VSCode的vetur.format.defaultFormatter.xxx配置项，配置为prettier的时候，可以使用prettier做format</p>

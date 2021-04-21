@@ -1,21 +1,27 @@
-<div class="article-entry" itemprop="articleBody">
-      
+<div >
+
   <p>假如一个页面名是index.aspx</p>
-<p>后台类名叫是Default</p>
-<p>网站运行时真正的页面处理程序的类是index_aspx，而不是定义的Default，index_aspx继承Default，可以通过@page的ClassName属性指定生成的类名，生成的类在ASP目录下，不知道这样做的意义是什么？</p>
-<p>index_aspx里多了3个私有变量</p>
-<p>大致看了下：</p>
-<ul>
-<li><p>__fileDependencies，所有包含的控件，包括控件的子控件。</p>
-</li>
-<li><p>__initialized，true</p>
-</li>
-<li><p>__PageInspector_SetTraceDataMethod，完全没看懂。</p>
-</li>
-</ul>
-<p>关于dll，bin目录下的dll只会包含Default类，</p>
-<p>在C:\Users{username}\AppData\Local\Temp\Temporary ASP.NET Files{websitename}\40ae3cea\ff859c90下的dll内会有index_aspx类（开发服务器下，IIS情况下还没看）</p>
-<p>还是没找到页面第一次加载时比较慢的原因。</p>
+  <p>后台类名叫是Default</p>
+  <p>
+    网站运行时真正的页面处理程序的类是index_aspx，而不是定义的Default，index_aspx继承Default，可以通过@page的ClassName属性指定生成的类名，生成的类在ASP目录下，不知道这样做的意义是什么？
+  </p>
+  <p>index_aspx里多了3个私有变量</p>
+  <p>大致看了下：</p>
+  <ul>
+    <li>
+      <p>__fileDependencies，所有包含的控件，包括控件的子控件。</p>
+    </li>
+    <li>
+      <p>__initialized，true</p>
+    </li>
+    <li>
+      <p>__PageInspector_SetTraceDataMethod，完全没看懂。</p>
+    </li>
+  </ul>
+  <p>关于dll，bin目录下的dll只会包含Default类，</p>
+  <p>在C:\Users{username}\AppData\Local\Temp\Temporary ASP.NET
+    Files{websitename}\40ae3cea\ff859c90下的dll内会有index_aspx类（开发服务器下，IIS情况下还没看）</p>
+  <p>还是没找到页面第一次加载时比较慢的原因。</p>
 
 
 </div>
