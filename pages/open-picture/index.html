@@ -1,0 +1,77 @@
+<div>
+  <header>
+    <h1> 加速图片的打开 </h1>
+  </header>
+  <div>
+    <h1></a>渐进式JPEG</h1>
+    <p>这种技术是改变了图片的扫描顺序。</p>
+    <p>传统图片扫描顺序是由上至下的顺序，称为Baseline JPEG，盗个图，效果如下：</p> <img src="./baseline.gif">
+    <p>而渐进式图片（Progressive JPEG）的加载是由模糊到清晰的顺序，再盗个图，效果如下：</p> <img src="./progressive.gif">
+    <p>这样，在网络较慢的情况下，能够让用户首先看到一个模糊的图片，知道图片的内容大概是什么。</p>
+    <p>photoshop支持将文件存储为渐进式图片，由于穷，所以使用google推荐的转换工具：<a href="http://jpegclub.org/jpegtran/" target="_blank"
+        rel="noopener">jpegtran</a></p>
+    <p>下载下来是一个直接可用的exe，配置下环境变量就可以直接使用了。</p>
+    <p>运行命令：</p>
+    <figure>
+      <table>
+        <tr>
+          <td>
+            <pre><span >1</span><br></pre>
+          </td>
+          <td>
+            <pre><span >jpegtran -progressive mario-baseline.jpg mario-progressive.jpg</span><br></pre>
+          </td>
+        </tr>
+      </table>
+    </figure>
+    <p>把图片贴上来</p> <img src="./mario-baseline.jpg"> <img src="./mario-progressive.jpg">
+    <p>设置网速为Slow 3G，可以看到效果：</p> <img src="./mario-demo.jpg">
+    <h1></a>两次加载图片</h1>
+    <p>这种方案首先显示一张小图，然后在大图加载完成后，显示大图。图的显示大小得固定，并且一致。</p>
+    <p>代码：</p>
+    <figure>
+      <table>
+        <tr>
+          <td>
+            <pre><span >34</span><br></pre>
+          </td>
+          <td>
+            <pre><span >script</span>&gt;</span></span><br></pre>
+          </td>
+        </tr>
+      </table>
+    </figure>
+    <p>这里，触发加载图片的是一个setTimeout，在实际应用中，可以是图片即将进入到浏览器可见区域时，或者是图片进入到浏览器可见区域一定时间后。</p>
+    <p>效果如下：</p> <img src="./2-pictures-progressive.gif">
+    <h1 title="Vue progressive image"></a>Vue progressive image</h1>
+    <p>上述第二种方法在Vue中已经有<a href="https://github.com/MatteoGabriele/vue-progressive-image" target="_blank"
+        rel="noopener">实现</a>了，贴一些代码片段：</p>
+    <figure>
+      <table>
+        <tr>
+          <td>
+            <pre><span >19</span><br></pre>
+          </td>
+          <td>
+            <pre><span >div</span>&gt;</span></span><br></pre>
+          </td>
+        </tr>
+      </table>
+    </figure>
+    <figure>
+      <table>
+        <tr>
+          <td>
+            <pre><span >14</span><br></pre>
+          </td>
+          <td>
+            <pre><span >&#125;</span><br></pre>
+          </td>
+        </tr>
+      </table>
+    </figure>
+    <p>可以看到，定义了placeholder和main image，分别作为小图和大图使用。</p>
+    <p>其中，有判断图片的宽高比，作者使用的main image的宽高比，对此我很不解，为什么不用placeholder的宽高比。</p>
+    <p>还有，这个组件不支持lazy loading，将来计划支持，所以目前似乎并没有什么卵用……</p>
+  </div>
+</div>

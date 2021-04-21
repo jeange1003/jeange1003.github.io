@@ -1,0 +1,102 @@
+<div>
+  <header>
+    <h1>
+      C#委托和事件
+    </h1>
+  </header>
+  <div>
+    <h2>区别：</h2>
+    <ul>
+      <li>委托可以直接被外部调用，而事件不可以。</li>
+      <li>委托可以用=，而事件不可以。</li>
+    </ul>
+    <h2>相同点：</h2>
+    <ul>
+      <li>委托和事件都可以用+=,-=来添加和删除方法。</li>
+      <li>委托和时间都可以有返回值，取最后一个方法的返回值。</li>
+    </ul>
+    <p>以下是测试代码：</p>
+    <pre><code><span >using</span> System;
+
+namespace ConsoleApplication27
+{
+class Program
+{
+    <span >string</span>[] args)
+    {
+        A a = <span >new</span> A();
+        a.init();
+        a.myDelegate(<span >//外部内部都可以调用</span>
+        a.invokeMydelegate(<span </span>);
+        <span >//a.myEvent = new myDelegate(f1);//编译出错，时间不能用=</span>
+        a.myEvent += <span >new</span> myDelegate(f1);
+        <span );//编译出错，事件不能在外部调用。</span>
+        a.fireEvent(<span </span>);
+        myDelegate d2 = <span >new</span> myDelegate(f2);
+        a.myEvent += d2;
+        a.fireEvent(<span </span>);
+        a.myEvent -= d2;
+        a.fireEvent(<span </span>);
+        a.myDelegate += <span >//委托和事件一样可以增删</span>
+        a.myDelegate(<span </span>);
+        <span </span>);
+        Console.WriteLine(<span </span> + i);
+        a.myEvent += <span >new</span> myDelegate(f3);
+        <span </span>);
+        Console.WriteLine(<span </span> + j);
+        a.myDelegate = <span >new</span> myDelegate(f1);
+        a.myDelegate(<span >//用=</span>
+        Console.Read();
+    }
+
+    <span >string</span> s)
+    {
+        Console.WriteLine(<span </span>);
+        <span >return</span> s.Length;
+    }
+    <span >string</span> s)
+    {
+        Console.WriteLine(<span </span>);
+        <span >return</span> s.Length;
+    }
+    <span >string</span> s)
+    {
+        Console.WriteLine(<span </span>);
+        <span >1</span>;
+    }
+}
+class A
+{
+    <span >public</span> myDelegate myDelegate;
+    <span >event</span> myDelegate myEvent;
+    <span >init</span>()
+    {
+        myDelegate = <span >new</span> myDelegate(output);
+    }
+    <span >string</span> s)
+    {
+        myDelegate(s);
+    }
+    <span >string</span> s)
+    {
+        <span >int</span> i = myEvent(s);
+        <span >return</span> i;
+    }
+    <span >string</span> s)
+    {
+        Console.WriteLine(s);
+        <span >return</span> s.Length;
+    }
+}
+<span >string</span> s);
+}
+</code></pre>
+
+
+  </div>
+  <footer>
+    <a data-url="http://jeange1003.github.io/2014/11/10/C-委托和事件/" data->Share</a>
+
+
+  </footer>
+</div>

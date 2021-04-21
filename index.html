@@ -1,646 +1,565 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
-  
-
-  
   <title>Jean&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
-<meta property="og:title" content="Jean&#39;s blog">
-<meta property="og:url" content="http://jeange1003.github.io/index.html">
-<meta property="og:site_name" content="Jean&#39;s blog">
-<meta property="og:locale" content="zh-CN">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Jean&#39;s blog">
-  
-    <link rel="alternate" href="/atom.xml" title="Jean&#39;s blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
+  <meta property="og:title" content="Jean&#39;s blog">
+  <meta property="og:url" content="http://jeange1003.github.io/index.html">
+  <meta property="og:site_name" content="Jean&#39;s blog">
+  <meta property="og:locale" content="zh-CN">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Jean&#39;s blog">
+  <link rel="alternate" href="/atom.xml" title="Jean&#39;s blog" type="application/atom+xml">
+  <link rel="icon" href="/favicon.png">
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Jean&#39;s blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://jeange1003.github.io"></form>
+  <div>
+    <div>
+      <header>
+        <div></div>
+        <div>
+          <div>
+            <h1> <a href="/">Jean&#39;s blog</a> </h1>
+          </div>
+          <div>
+            <nav> <a></a> <a>Home</a> <a>Archives</a> </nav>
+            <nav> <a></a> <a></a> </nav>
+            <div>
+              <form action="//google.com/search" method="get" accept-charset="UTF-8"></form>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div>
+        <section>
+          <article itemscope>
+            <div> <a href="/2018/03/03/eslint-and-format-for-vue/"> <time
+                  datetime="2018-03-03T12:24:59.000Z">2018-03-03</time></a> </div>
+            <div>
+              <header>
+                <h1> <a>Vue项目的代码检查以及格式化</a> </h1>
+              </header>
+              <div>
+                <h3>Stack Overflow</a>有比较合理的解释：Linting is the process of running a program that will analyse code for
+                  potential errors.</p>
+                  <p>Javascript的代码检查工具中，比较有名的是<a href="https://eslint.org/" target="_blank"
+                      rel="noopener">eslint</a>，是红宝书作者Nicholas C. Zakas创建的。这次就是使用Eslint来做代码检查。</p>
+                  <h4></a>安装与使用</h4>
+                  <p><br>全局安装：<code>npm install eslint -g</code></p>
+                  <p>初始化：<code>eslint --init</code></p>
+                  <p>配置，创建文件：.eslintrc.js，内容如下：<br>
+                  <figure>+&#125;;</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>这里使用standard，是一套已经约定好的规范。</p>
+                  <p>
+                    因为代码是通过webpack打包生成的，对打包后的代码进行代码检查无意义，所以需要对原始代码检查，这里使用eslint-loader，这个loader是在打包过程中检查语法，并可以将代码问题输出到打包结果中，在网页中展示出来；同时也可以在打包过程中，将错误输出到console中。安装命令：<code>npm install eslint-loader</code>
+                  </p>
+                  <p>webpack配置：<br>
+                  <figure>&#125;</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>.eslintrc.js中添加plugin:vue/essential，这是使得eslint作用于vue</p>
+                  <p>
+                    这里用到了eslint-plugin-vue、eslint-friendly-formatter等各种依赖，也需要安装一下。还有：eslint-config-standard、eslint-friendly-formatter、eslint-plugin-import、eslint-plugin-node、eslint-plugin-promise、eslint-plugin-standard
+                  </p>
+                  <p>至此，在运行打包程序时，应该会弹出eslint的提示。</p>
+                  <h3></a>格式化</h3>
+                  <p>使用VSCode作为编辑器，安装vetur插件，vetur不单可以做格式化，并且还有intellisense，以及将eslint发现的错误显示在VSCode中。</p>
+                  <p>vetur的格式化使用的是prettier，可以通过VSCode市场安装之。</p>
+                  <p>vetur的格式化配置使用的是VSCode的vetur.format.defaultFormatter.xxx配置项，配置为prettier的时候，可以使用prettier做format</p>
+                  <p>prettier的format配置，放在.prettierrc.js文件中，具体配置schme在<a href="http://json.schemastore.org/prettierrc"
+                      target="_blank" rel="noopener">这儿</a></p>
+                  <p>也可以使prettier按照eslint的配置进行格式化，这里需要修改VSCode的配置”prettier.eslintIntegration”:
+                    true。至此，可以对js文件进行格式化，但是却对vue文件无法按照eslint格式化，简单的方式，是把prettier的规范改的和eslint一样，比如singleQuote:
+                    true，但这是打补丁。</p>
+                  <p>而后，对比<a href="https://github.com/octref/veturpack" target="_blank"
+                      rel="noopener">vetur官方示例</a>，发现，把eslint的extends中的standart换成eslint:recommended后，就能够按照eslint对vue文件进行format了，一头雾水。
+                  </p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/03/03/eslint-and-format-for-vue/" data->Share</a>
+              </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/02/24/ios-add-to-homescreen/"> <time
+                  datetime="2018-02-24T05:56:15.000Z">2018-02-24</time></a> </div>
+            <div>
+              <header>
+                <h1> <a>iOS Safari的添加到主屏幕</a> </h1>
+              </header>
+              <div>
+                <p>使用ios safari的添加到主屏幕，这个网页就被当做web app使用了，<a
+                    href="https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html#//apple_ref/doc/uid/TP40002051-CH3-SW6"
+                    target="_blank" rel="noopener">官方文档</a>。</p>
+                <p>和使用Safari打开网页有如下区别：</p>
+                <ol>
+                  <li>顶部的地址栏和底部的按钮栏都消失了</li>
+                  <li>没有了手势控制前进后退</li>
+                  <li>顶部状态栏可以有black和black translucent两种状态可以选择</li>
+                </ol>
+                <p>通过meta控制一些app相关的属性</p>
+                <ol>
+                  <li>apple-mobile-web-app-capable：控制是否作为web app使用</li>
+                  <li>apple-mobile-web-app-title：图标标题，默认使用<code>&lt;title/&gt;</code></li>
+                  <li>apple-touch-icon：显示在主屏幕上app的图标</li>
+                  <li>apple-touch-startup-image：launch image，经测试，iOS 10无效，似乎是bug或者deprecated<a
+                      href="https://forums.developer.apple.com/thread/23924" target="_blank"
+                      rel="noopener">thread</a>，无官方回复</li>
+                  <li>apple-mobile-web-app-status-bar-style：控制顶部状态栏</li>
+                </ol>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/02/24/ios-add-to-homescreen/" data->Share</a>
+              </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/01/16/gznb-component-lib-retrospect/"> <time
+                  datetime="2018-01-16T11:15:05.000Z">2018-01-16</time></a> </div>
+            <div>
+              <header>
+                <h1> <a>gznb-component-lib-retrospect</a> </h1>
+              </header>
+              <div> </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/01/16/gznb-component-lib-retrospect/"
+                  data->Share</a> </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/01/16/open-picture/"> <time datetime="2018-01-16T01:14:06.000Z">2018-01-16</time></a>
+            </div>
+            <div>
+              <header>
+                <h1> <a>加速图片的打开</a> </h1>
+              </header>
+              <div>
+                <h1></a>渐进式JPEG</h1>
+                <p>这种技术是改变了图片的扫描顺序。</p>
+                <p>传统图片扫描顺序是由上至下的顺序，称为Baseline JPEG，盗个图，效果如下：</p><img src="/2018/01/16/open-picture/baseline.gif">
+                <p>而渐进式图片（Progressive JPEG）的加载是由模糊到清晰的顺序，再盗个图，效果如下：</p><img
+                  src="/2018/01/16/open-picture/progressive.gif">
+                <p>这样，在网络较慢的情况下，能够让用户首先看到一个模糊的图片，知道图片的内容大概是什么。</p>
+                <p>photoshop支持将文件存储为渐进式图片，由于穷，所以使用google推荐的转换工具：<a href="http://jpegclub.org/jpegtran/" target="_blank"
+                    rel="noopener">jpegtran</a></p>
+                <p>下载下来是一个直接可用的exe，配置下环境变量就可以直接使用了。</p>
+                <p>运行命令：</p>
+                <figure>jpegtran -progressive mario-baseline.jpg mario-progressive.jpg</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                <p>把图片贴上来</p><img src="/2018/01/16/open-picture/mario-baseline.jpg"><img
+                  src="/2018/01/16/open-picture/mario-progressive.jpg">
+                <p>设置网速为Slow 3G，可以看到效果：</p><img src="/2018/01/16/open-picture/mario-demo.jpg">
+                <h1></a>两次加载图片</h1>
+                <p>这种方案首先显示一张小图，然后在大图加载完成后，显示大图。图的显示大小得固定，并且一致。</p>
+                <p>代码：</p>
+                <figure>script</span>&gt;</span></span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                <p>这里，触发加载图片的是一个setTimeout，在实际应用中，可以是图片即将进入到浏览器可见区域时，或者是图片进入到浏览器可见区域一定时间后。</p>
+                <p>效果如下：</p><img src="/2018/01/16/open-picture/2-pictures-progressive.gif">
+                <h1>实现</a>了，贴一些代码片段：</p>
+                  <figure>div</span>&gt;</span></span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  <figure>&#125;</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  <p>可以看到，定义了placeholder和main image，分别作为小图和大图使用。</p>
+                  <p>其中，有判断图片的宽高比，作者使用的main image的宽高比，对此我很不解，为什么不用placeholder的宽高比。</p>
+                  <p>还有，这个组件不支持lazy loading，将来计划支持，所以目前似乎并没有什么卵用……</p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/01/16/open-picture/" data->Share</a> </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/01/16/use-axios-instead-of-vue-resource/"> <time
+                  datetime="2018-01-16T00:29:08.000Z">2018-01-16</time></a> </div>
+            <div>
+              <header>
+                <h1> <a>使用Axios代替vue-resource</a> </h1>
+              </header>
+              <div>
+                <p>vue-resource是官方维护的，但是已经不是官方推荐的。</p>
+                <p>按照尤大的<a href="https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4" target="_blank"
+                    rel="noopener">说法</a>，异步请求不是Vue核心内容，并且现有的工具已经非常好了，官方没有必要再去维护一套了。</p>
+                <p>简单对比了一下axios和vue-resource的区别，主要是axios支持运行在node环境下，也就是可以支持vue ssr。</p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/01/16/use-axios-instead-of-vue-resource/"
+                  data->Share</a> </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/01/15/event-capture-and-bubble/"> <time
+                  datetime="2018-01-15T12:44:03.000Z">2018-01-15</time></a> </div>
+            <div>
+              <header>
+                <h1> <a>事件冒泡</a> </h1>
+              </header>
+              <div>
+                <h1></a>事件冒泡是什么？</h1>
+                <p>浏览器的DOM的结构是树形的，但是这个树中的父节点与子节点可能同时显示在同一块区域，那么当用户点击了这块重复区域之后，这个事件经由DOM下方的子元素而传到父元素，这就是事件冒泡。</p>
+                <p>例子：<br>
+                <figure>body</span>&gt;</span></span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <p>定义了子父两个元素，点击子元素后，Console输出：<br>
+                <figure>click parent</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <p>以上是最简单的事件冒泡的例子。</p>
+                <p>完整的事件的传播顺序是：</p>
+                <p>事件捕获（CAPTURING_PHASE）–&gt;事件到达目标（AT_TARGET）–&gt;事件冒泡（BUBBLING_PHASE）</p>
+                <p>结合例子，事件的传播顺序是：</p>
+                <ol>
+                  <li>
+                    <p>捕获阶段：</p>
+                    <p> 1.1 body</p>
+                    <p> 1.2 #parent</p>
+                  </li>
+                  <li>
+                    <p>目标阶段：#child</p>
+                  </li>
+                  <li>
+                    <p>冒泡阶段：</p>
+                    <p> 3.1 #parent</p>
+                    <p> 3.2 body</p>
+                  </li>
+                </ol>
+                <p>其中，body作为#parent的父元素，也会接收到事件，事件可以传播的最外层的元素是window。所以，window和body中间的html、document也会收到事件。</p>
+                <h1></a>useCapture</h1>
+                <p>到这里，有2个疑问：</p>
+                <ol>
+                  <li>既然事件捕获先于事件冒泡发生，为什么先执行了#child的事件响应函数，而不是#parent的？</li>
+                  <li>既然一个元素会先后经历事件捕获和事件冒泡，为什么日志里只打印了一遍结果，也就是事件响应函数只执行了一遍？</li>
+                </ol>
+                <p>这两个问题都可以归结于addEventListener这个函数的用法，看一下这个函数的接口定义：<br>
+                <figure>addEventListener(type, listener[, useCapture]);</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <p>
+                  可以看到，第三个参数是useCapture，这个参数指定事件响应函数是否在捕获阶段执行，如果是，则不会在冒泡阶段再执行了，反之亦然。所以，上述例子中，#child比#parent先执行是因为我们把事件响应函数绑定在冒泡阶段了。
+                </p>
+                <p>修改代码，尝试把事件响应函数绑定在事件捕获阶段：<br>
+                <figure>body</span>&gt;</span></span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <p>输出：<br>
+                <figure>click child</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <p>可以看到，#parent的事件响应函数先于#child执行。</p>
+                <p>
+                  需要注意的是，在给#child绑定响应函数的时候，没有给useCapture赋值true，是因为，在这个例子中，#child元素已经是叶子节点了，也就是的事件响应函数会执行于目标阶段，是后于捕获阶段，先于冒泡阶段的。
+                </p>
+                <h1>stopPropagation</a>()可以阻止事件继续捕获与冒泡。</p>
+                  <p>修改上述例子：<br>
+                  <figure>body</span>&gt;</span></span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>在#child的事件响应函数中调用e.stopPropagation()，阻止了事件进一步向#parent传播。输出的结果：<br>
+                  <figure>click child</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>再修改一下代码，把e.stopPropagation()放到捕获阶段，代码如下：<br>
+                  <figure>body</span>&gt;</span></span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>输出如下：<br>
+                  <figure>click parent</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                  </figure>
+                  </p>
+                  <p>印证了事件在捕获阶段被阻止了。</p>
+                  <h1>body</span>&gt;</span></span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                    </figure>
+                    </p>
+                    <p>输出：<br>
+                    <figure>here is child again</span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                    </figure>
+                    </p>
+                    <p>#parent的事件响应函数被阻止了，但是第二个事件响应函数却没有被阻止。要阻止第二个事件响应函数，就要使用：stopImmediatePropagation了，修改代码如下：<br>
+                    <figure>body</span>&gt;</span></span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                    </figure>
+                    </p>
+                    <p>输出如下：<br>
+                    <figure>here is child</span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                    </figure>
+                    </p>
+                    <p>可以看到，#child的相同事件响应函数与#parent的事件响应函数都被阻止了。</p>
+                    <p>
+                      需要注意的是，相同元素的相同事件的事件响应函数的执行顺序取决于其定义的顺序，所以，如果在第二个事件响应函数中调用stopImmediatePropagation，并不会影响第一个事件响应函数的执行。
+                    </p>
+                    <p>修改代码如下：<br>
+                    <figure>body</span>&gt;</span></span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                    </figure>
+                    </p>
+                    <p>输出如下：<br>
+                    <figure>here is child again</span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                    </figure>
+                    </p>
+                    <p>另外，preventDefault并不会阻止事件的进一步传播，之后另写一篇文章，关于这个方法的。</p>
+                    <p>附上MDN的定义：</p>
+                    <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/stopPropagation" target="_blank"
+                        rel="noopener">stopPropagation</a><br>：阻止捕获和冒泡阶段中当前事件的进一步传播。</p>
+                    <p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/preventDefault" target="_blank"
+                        rel="noopener">preventDefault</a><br>：如果事件可取消，则取消该事件，而<strong>不停止</strong>事件的进一步传播。</p>
+                    <h1>body</span>&gt;</span></span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                      </figure>
+                      </p>
+                      <p>输出：<br>
+                      <figure>4</span><br></pre>
+                        </td>
+                        </tr>
+                        </table>
+                      </figure>
+                      </p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/01/15/event-capture-and-bubble/" data->Share</a>
+              </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2018/01/03/works-in-gznb/"> <time datetime="2018-01-03T02:48:36.000Z">2018-01-03</time></a>
+            </div>
+            <div>
+              <header>
+                <h1> <a>2017年在gznb的技术工作回顾</a> </h1>
+              </header>
+              <div>
+                <h1></a>确定框架：Vue</h1>
+                <p>从前端部门成立开始，基本上就准备以Vue为主导了。</p>
+                <p>项目的代码结构大体上上和Vue CLI生成的差不多，以下是gz第一个项目，<a href="https://www.gznb.com/villagemap/index.html?v=20171124"
+                    target="_blank" rel="noopener">服务站地图</a>的代码结构：<br>
+                <figure> └─js</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                </figure>
+                </p>
+                <ul>
+                  <li>这个时候的项目还只是生成静态文件，部署的角度来说比较简单。业务也比较简单，只是一个页面，没有切换，没有状态管理。</li>
+                  <li>基本的一些配置还是有的，压缩js，单独提取css文件，提取公用模块、manifest、hot reload、eslint检查等。</li>
+                </ul>
+                <h1> ...</span><br></pre>
+                  </td>
+                  </tr>
+                  </table>
+                  </figure>
+                  </p>
+                  <ul>
+                    <li>从这个项目开始，变得复杂了一些，涉及到多个页面了，多个页面之间也有一些共用数据，所以引入了vuex和vue-router。</li>
+                    <li>
+                      多了一层service，这层目前只是做调用后端API层，没有包含业务逻辑，对于这层，我觉得在有一些多余，取数据以及非界面的业务逻辑完全可以写在vuex中，getter，mutation，action，module已经分的非常细了。
+                    </li>
+                    <li>使用了element-ui组件库，饿了么团队非常赞，基本上涵盖了所有所需的组件了。</li>
+                    <li>
+                      注意到有mock和test文件夹，这里使用chai做单元测试，数据呢，基于swagger文档自动生成。但由于项目时间原因，只写了一点。之后的项目也没有做单元测试，从现在来看，不做单元测试也许是正确的，业务没有稳定，一个大系统说砍就砍，很是无奈。
+                    </li>
+                    <li>
+                      还是生成的静态文件，页面文件仅一个index.html，部署到express站点，对于所有url的页面请求都返回这个index.html。当程序在浏览器内运行时，由前端程序解析url匹配路由。对服务器来说，毫无压力（<del>本来就是个后台系统</del>）。
+                    </li>
+                  </ul>
+                  <h1>├─public</span><br></pre>
+                    </td>
+                    </tr>
+                    </table>
+                    </figure>
+                    </p>
+                    <p>这个项目的ssr使用的是官方的CLI生成的结构，两个entry：server和client的，在服务端这块基本没有什么改动，开发主要还是在于业务逻辑。</p>
+                    <h1></a>一次事故</h1>
+                    <p>
+                      SSR（ssr版本2.1)项目做完后，一直运行于一台2U4G的服务器上，在一次业务部门不打任何招呼的促销活动时，内存溢出了，随之CPU持续100%。在客户端体现为，长时间的白屏。我们的前端boss直接把服务器加到32U32G，才勉强能够撑住。
+                    </p>
+                    <p>
+                      其实在之前，我们已经发现了随着访问量增高，会出现内存会持续飙升，CPU占用也是指数级地升高。需要经过较长时间，内存才得以慢慢释放。Dump下内存文件后，能看到占用大部分内存的是一堆重复的对象，怀疑是组件多层嵌套，引用关系复杂后，其中引起了内存泄漏，但是最终还是没能定位到这些重复的对象是从哪儿来的。
+                    </p>
+                    <p>随后就是一波性能测试：发现，CPU、内存、网络都有较高占用。</p>
+                    <ul>
+                      <li>CPU：由于Vue的Render是基于Virtual
+                        DOM的，是CPU密集型计算，对于Node来说不是强项。不过还好，我们写的是app，目前只有首页一个入口，那么简单了，加一层缓存就好了。</li>
+                      <li>内存：随着渲染需求的减少，内存的占用也减少了。常年维持在几十m至100多m之间。</li>
+                      <li>网络：经过代码review发现，这方面的优化很少，只有文件拆分（但也拆的不够细），uglify，于是加上了浏览器缓存、gzip。另外还有cdn、按页面code
+                        split在后续的改动中也逐渐做了</li>
+                    </ul>
+                    <p>优化完成后，单核qps从4，上升到了200+。</p>
+                    <p>另外，据说Vue SSR 2.4有了很大的性能提升，然而，由于这次促销活动事故影响很大，老大们已经彻底否定了Node的性能，让我们逐渐转为静态页的方式，之后，也就没什么机会折腾SSR了。</p>
+                    <h1>└─store</span><br></pre>
+                      </td>
+                      </tr>
+                      </table>
+                      </figure>
+                      </p>
+                      <ul>
+                        <li>store文件夹中少了index，nuxt会把这些模块做汇总。</li>
+                        <li>也没有了路由定义，直接根据pages文件夹下的结构决定路由。</li>
+                        <li>编译的配置也由nuxt封装好了。</li>
+                        <li>服务端程序也被封装进去了，如果需要增加中间件，在nuxt.config中提供了接口（官方文档没给出，翻代码找到的接口）</li>
+                      </ul>
+                      <h1></a>CI</h1>
+                      <p>
+                        发布过程一直是一个痛点，手动拷贝文件到多台服务器，还要考虑cdn缓存与文件版本，一不小心可能就让cdn缓存了错误的文件，又得改文件版本，最可怕的几次是发布到半夜1点才发布完成。CI这方面我也花了不少时间，主要有几个问题：
+                      </p>
+                      <ol>
+                        <li>各个环境的发布命令不统一。我们有dev、test1、test2、test3、hotfix、gqc、pre、prd等环境，每次编译都需要执行一遍环境对应的命令，比如npm run
+                          build:test1，npm run
+                          build:prd，这导致CI的脚本维护成本比较大，在发布操作的时候也容易出错，所以做了个统一，引入zookeeper做配置管理，统一发布编译命令为:npm run build。</li>
+                        <li>
+                          cdn的回源服务器是一台独立的资源服务器，每次发布的时候都要把静态资源拷贝到资源服务器，费时费力，并且如果稍有不慎，搞错了发布顺序，就让cdn缓存了旧版本的文件。解决方法：修改cdn回源为web服务器，修改文件名为contenthash。这样，省去了发布资源服务器的步骤。加了conetenthash后，一点出现文件版本不对，就可以直接显示404了。
+                        </li>
+                        <li>各个系统的编辑命令不统一，由于app、pc、admin的代码不同包括启动server的脚本、webpack配置，导致编译命令都不一样，所以这块也做了统一。</li>
+                        <li>发布包过大，一开始的一次发布需要20分钟+，然后经过不断的优化，从包含源代码的发布，到只发布dist，然后再做了一次删除不必要依赖。最后发布控制在1min以内。</li>
+                      </ol>
+                      <h1></a>turbo link</h1>
+                      <p>
+                        为什么会想要使用turbolinks？因为在第一次app发布后，被吐槽说app的交互不好。于是领导提出了使用turbolinks，这个优化交互体验的库。<br>turbolinks应用在vueapp中有几个问题：
+                      </p>
+                      <ul>
+                        <li>问题1：turbolink切换页面不会共享内部变量，意味着vuex在切换页面后无法同步过去。</li>
+                        <li>问题2：turbolink需要服务端直接返回带内容的页面，起初我们的ssr做的并不好，没有完全带内容，无法直接实现这个要求。另外，这增加了服务端渲染的压力。</li>
+                        <li>问题3：turbolink页面回退需要直接显示之前异步加载的内容，同时要保持页面位置，在turbolink取数据的生命周期上，和vue的生命周期有冲突。</li>
+                      </ul>
+                      <p>解决方案：</p>
+                      <ul>
+                        <li>问题1：有考虑通过原生接口保存数据，和localstorage保存数据，最终使用了localstorage。</li>
+                        <li>问题2：直接改为静态页+c#服务端渲染</li>
+                        <li>
+                          问题3：说是解决了，然而我没有了解解决方案。<br>然而之后的实践结果是，turbolink的效果固然能满足需求，但是改动量异常地大，包括框架代码和业务代码，知道业务结束，这个方案都没有落地。
+                        </li>
+                      </ul>
+                      <h1></a>nuxt generate + nginx</h1>
+                      <p>nuxt有一个非常好的地方就是，生成静态页很方便，调用nuxt
+                        generate就可以根据路由生成静态页，这直接应用在了我们后期使用静态页+Nginx的方案上。<br>Nginx对于静态页的处理性能比Express要好上许多，所以在后期官网重构项目上，我们使用了这个方案。
+                      </p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2018/01/03/works-in-gznb/" data->Share</a> </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2017/12/28/my-to-do-list/"> <time datetime="2017-12-28T08:14:14.000Z">2017-12-28</time></a>
+            </div>
+            <div>
+              <header>
+                <h1> <a>my-to-do-list</a> </h1>
+              </header>
+              <div> </div>
+              <footer> <a data-url="http://jeange1003.github.io/2017/12/28/my-to-do-list/" data->Share</a> </footer>
+            </div>
+          </article>
+          <article itemscope>
+            <div> <a href="/2017/12/28/my-first-page/"> <time datetime="2017-12-28T02:25:21.000Z">2017-12-28</time></a>
+            </div>
+            <div>
+              <header>
+                <h1> <a>my first page</a> </h1>
+              </header>
+              <div>
+                <p>之前的hexo源码找不到了，还有从jekyll迁移过来的，挺乱的，反正内容不多，直接删了老内容，重新开始写。</p>
+              </div>
+              <footer> <a data-url="http://jeange1003.github.io/2017/12/28/my-first-page/" data->Share</a> </footer>
+            </div>
+          </article>
+        </section>
+        <aside>
+          <div>
+            <h3>归档</h3>
+            <div>
+              <ul>十二月 2017</a></li>
+              </ul>
+            </div>
+          </div>
+          <div>
+            <h3>最新文章</h3>
+            <div>
+              <ul>
+                <li> <a href="/2018/03/03/eslint-and-format-for-vue/">Vue项目的代码检查以及格式化</a> </li>
+                <li> <a href="/2018/02/24/ios-add-to-homescreen/">iOS Safari的添加到主屏幕</a> </li>
+                <li> <a href="/2018/01/16/gznb-component-lib-retrospect/">gznb-component-lib-retrospect</a> </li>
+                <li> <a href="/2018/01/16/open-picture/">加速图片的打开</a> </li>
+                <li> <a href="/2018/01/16/use-axios-instead-of-vue-resource/">使用Axios代替vue-resource</a> </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
       </div>
+      <footer>
+        <div>
+          <div> &copy; 2018 Jean Ge<br> Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> </div>
+        </div>
+      </footer>
     </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-eslint-and-format-for-vue" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/03/03/eslint-and-format-for-vue/" class="article-date">
-  <time datetime="2018-03-03T12:24:59.000Z" itemprop="datePublished">2018-03-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/03/eslint-and-format-for-vue/">Vue项目的代码检查以及格式化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="代码检查"><a href="#代码检查" class="headerlink" title="代码检查"></a>代码检查</h3><p>代码检查，英文为Lint，词典的解释为：软麻布；线头；棉绒。看的一头雾水。<a href="https://stackoverflow.com/questions/8503559/what-is-linting" target="_blank" rel="noopener">Stack Overflow</a>有比较合理的解释：Linting is the process of running a program that will analyse code for potential errors.</p>
-<p>Javascript的代码检查工具中，比较有名的是<a href="https://eslint.org/" target="_blank" rel="noopener">eslint</a>，是红宝书作者Nicholas C. Zakas创建的。这次就是使用Eslint来做代码检查。</p>
-<h4 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h4><p><br>全局安装：<code>npm install eslint -g</code></p>
-<p>初始化：<code>eslint --init</code></p>
-<p>配置，创建文件：.eslintrc.js，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    &quot;extends&quot;: [&apos;plugin:vue/essential&apos;, &apos;standard&apos;]</span><br><span class="line">+&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>这里使用standard，是一套已经约定好的规范。</p>
-<p>因为代码是通过webpack打包生成的，对打包后的代码进行代码检查无意义，所以需要对原始代码检查，这里使用eslint-loader，这个loader是在打包过程中检查语法，并可以将代码问题输出到打包结果中，在网页中展示出来；同时也可以在打包过程中，将错误输出到console中。安装命令：<code>npm install eslint-loader</code></p>
-<p>webpack配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    test: /\.(js|vue)$/,</span><br><span class="line">    loader: &apos;eslint-loader&apos;,</span><br><span class="line">    enforce: &apos;pre&apos;,</span><br><span class="line">    // include: [resolve(&apos;src&apos;), resolve(&apos;test&apos;)],</span><br><span class="line">    options: &#123;</span><br><span class="line">        formatter: require(&apos;eslint-friendly-formatter&apos;),</span><br><span class="line">        emitWarning: true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>.eslintrc.js中添加plugin:vue/essential，这是使得eslint作用于vue</p>
-<p>这里用到了eslint-plugin-vue、eslint-friendly-formatter等各种依赖，也需要安装一下。还有：eslint-config-standard、eslint-friendly-formatter、eslint-plugin-import、eslint-plugin-node、eslint-plugin-promise、eslint-plugin-standard</p>
-<p>至此，在运行打包程序时，应该会弹出eslint的提示。</p>
-<h3 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h3><p>使用VSCode作为编辑器，安装vetur插件，vetur不单可以做格式化，并且还有intellisense，以及将eslint发现的错误显示在VSCode中。</p>
-<p>vetur的格式化使用的是prettier，可以通过VSCode市场安装之。</p>
-<p>vetur的格式化配置使用的是VSCode的vetur.format.defaultFormatter.xxx配置项，配置为prettier的时候，可以使用prettier做format</p>
-<p>prettier的format配置，放在.prettierrc.js文件中，具体配置schme在<a href="http://json.schemastore.org/prettierrc" target="_blank" rel="noopener">这儿</a></p>
-<p>也可以使prettier按照eslint的配置进行格式化，这里需要修改VSCode的配置”prettier.eslintIntegration”: true。至此，可以对js文件进行格式化，但是却对vue文件无法按照eslint格式化，简单的方式，是把prettier的规范改的和eslint一样，比如singleQuote: true，但这是打补丁。</p>
-<p>而后，对比<a href="https://github.com/octref/veturpack" target="_blank" rel="noopener">vetur官方示例</a>，发现，把eslint的extends中的standart换成eslint:recommended后，就能够按照eslint对vue文件进行format了，一头雾水。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/03/03/eslint-and-format-for-vue/" data-id="cjebfh5r300063xpxpw51wuu3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ios-add-to-homescreen" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/02/24/ios-add-to-homescreen/" class="article-date">
-  <time datetime="2018-02-24T05:56:15.000Z" itemprop="datePublished">2018-02-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/24/ios-add-to-homescreen/">iOS Safari的添加到主屏幕</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用ios safari的添加到主屏幕，这个网页就被当做web app使用了，<a href="https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html#//apple_ref/doc/uid/TP40002051-CH3-SW6" target="_blank" rel="noopener">官方文档</a>。</p>
-<p>和使用Safari打开网页有如下区别：</p>
-<ol>
-<li>顶部的地址栏和底部的按钮栏都消失了</li>
-<li>没有了手势控制前进后退</li>
-<li>顶部状态栏可以有black和black translucent两种状态可以选择</li>
-</ol>
-<p>通过meta控制一些app相关的属性</p>
-<ol>
-<li>apple-mobile-web-app-capable：控制是否作为web app使用</li>
-<li>apple-mobile-web-app-title：图标标题，默认使用<code>&lt;title/&gt;</code></li>
-<li>apple-touch-icon：显示在主屏幕上app的图标</li>
-<li>apple-touch-startup-image：launch image，经测试，iOS 10无效，似乎是bug或者deprecated<a href="https://forums.developer.apple.com/thread/23924" target="_blank" rel="noopener">thread</a>，无官方回复</li>
-<li>apple-mobile-web-app-status-bar-style：控制顶部状态栏</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/02/24/ios-add-to-homescreen/" data-id="cjebfh5r600083xpx5ybz0g1d" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-gznb-component-lib-retrospect" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/16/gznb-component-lib-retrospect/" class="article-date">
-  <time datetime="2018-01-16T11:15:05.000Z" itemprop="datePublished">2018-01-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/gznb-component-lib-retrospect/">gznb-component-lib-retrospect</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/gznb-component-lib-retrospect/" data-id="cjebfh5r100043xpxtz5oeji1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-open-picture" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/16/open-picture/" class="article-date">
-  <time datetime="2018-01-16T01:14:06.000Z" itemprop="datePublished">2018-01-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/open-picture/">加速图片的打开</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="渐进式JPEG"><a href="#渐进式JPEG" class="headerlink" title="渐进式JPEG"></a>渐进式JPEG</h1><p>这种技术是改变了图片的扫描顺序。</p>
-<p>传统图片扫描顺序是由上至下的顺序，称为Baseline JPEG，盗个图，效果如下：</p>
-<img src="/2018/01/16/open-picture/baseline.gif">
-<p>而渐进式图片（Progressive JPEG）的加载是由模糊到清晰的顺序，再盗个图，效果如下：</p>
-<img src="/2018/01/16/open-picture/progressive.gif">
-<p>这样，在网络较慢的情况下，能够让用户首先看到一个模糊的图片，知道图片的内容大概是什么。</p>
-<p>photoshop支持将文件存储为渐进式图片，由于穷，所以使用google推荐的转换工具：<a href="http://jpegclub.org/jpegtran/" target="_blank" rel="noopener">jpegtran</a></p>
-<p>下载下来是一个直接可用的exe，配置下环境变量就可以直接使用了。</p>
-<p>运行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jpegtran -progressive mario-baseline.jpg mario-progressive.jpg</span><br></pre></td></tr></table></figure>
-<p>把图片贴上来</p>
-<img src="/2018/01/16/open-picture/mario-baseline.jpg">
-<img src="/2018/01/16/open-picture/mario-progressive.jpg">
-<p>设置网速为Slow 3G，可以看到效果：</p>
-<img src="/2018/01/16/open-picture/mario-demo.jpg">
-<h1 id="两次加载图片"><a href="#两次加载图片" class="headerlink" title="两次加载图片"></a>两次加载图片</h1><p>这种方案首先显示一张小图，然后在大图加载完成后，显示大图。图的显示大小得固定，并且一致。</p>
-<p>代码：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    #container &#123;</span></span><br><span class="line"><span class="undefined">        width: 300px;</span></span><br><span class="line"><span class="undefined">        height: 300px;</span></span><br><span class="line"><span class="undefined">        position: relative;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    img &#123;</span></span><br><span class="line"><span class="undefined">        position: absolute;</span></span><br><span class="line"><span class="undefined">        width: 100%;</span></span><br><span class="line"><span class="undefined">        opacity: 0;</span></span><br><span class="line"><span class="undefined">        transition: opacity 1s;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">    img.loaded &#123;</span></span><br><span class="line"><span class="undefined">        opacity: 1;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"container"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"smallImg"</span> <span class="attr">class</span>=<span class="string">"loaded"</span> <span class="attr">src</span>=<span class="string">"mario-small.jpg"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    window.onload = () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">        const container = document.querySelector('#container')</span></span><br><span class="line"><span class="undefined">        setTimeout(() =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            let largeImg = new Image()</span></span><br><span class="line"><span class="undefined">            largeImg.src = 'mario-big.jpg'</span></span><br><span class="line"><span class="undefined">            largeImg.onload = () =&gt; &#123;</span></span><br><span class="line"><span class="undefined">                largeImg.classList.add('loaded')</span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="undefined">            container.appendChild(largeImg)</span></span><br><span class="line"><span class="undefined">        &#125;, 500);</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这里，触发加载图片的是一个setTimeout，在实际应用中，可以是图片即将进入到浏览器可见区域时，或者是图片进入到浏览器可见区域一定时间后。</p>
-<p>效果如下：</p>
-<img src="/2018/01/16/open-picture/2-pictures-progressive.gif">
-<h1 id="Vue-progressive-image"><a href="#Vue-progressive-image" class="headerlink" title="Vue progressive image"></a>Vue progressive image</h1><p>上述第二种方法在Vue中已经有<a href="https://github.com/MatteoGabriele/vue-progressive-image" target="_blank" rel="noopener">实现</a>了，贴一些代码片段：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">"image"</span> <span class="attr">class</span>=<span class="string">"progressive-image"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">canvas</span> <span class="attr">v-if</span>=<span class="string">"!shouldImageRender"</span> <span class="attr">width</span>=<span class="string">"1"</span> <span class="attr">height</span>=<span class="string">"1"</span> <span class="attr">class</span>=<span class="string">"canvas"</span> <span class="attr">ref</span>=<span class="string">"canvas"</span>&gt;</span><span class="tag">&lt;/<span class="name">canvas</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"progressive-image-wrapper"</span> <span class="attr">:style</span>=<span class="string">"wrapperStyle"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">transition</span></span></span><br><span class="line"><span class="tag">        <span class="attr">...</span></span></span><br><span class="line">        &lt;img</span><br><span class="line">          class="progressive-image-main"</span><br><span class="line">          ...</span><br><span class="line">        /&gt;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">transition</span></span></span><br><span class="line"><span class="tag">        <span class="attr">...</span></span></span><br><span class="line">        &lt;div</span><br><span class="line">          class="progressive-image-placeholder"</span><br><span class="line">          ...</span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">transition</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">image.onload = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">this</span>.isPollingKilled &amp;&amp; !<span class="keyword">this</span>.aspectRatio) &#123;</span><br><span class="line">        <span class="keyword">this</span>.defineAspectRatio(image)</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">this</span>.$nextTick(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">this</span>.isRendered = <span class="literal">true</span></span><br><span class="line">        <span class="keyword">this</span>.placeholderImage = <span class="literal">null</span></span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;)</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，定义了placeholder和main image，分别作为小图和大图使用。</p>
-<p>其中，有判断图片的宽高比，作者使用的main image的宽高比，对此我很不解，为什么不用placeholder的宽高比。</p>
-<p>还有，这个组件不支持lazy loading，将来计划支持，所以目前似乎并没有什么卵用……</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/open-picture/" data-id="cjebfh5r200053xpxg56o5jo1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-use-axios-instead-of-vue-resource" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/16/use-axios-instead-of-vue-resource/" class="article-date">
-  <time datetime="2018-01-16T00:29:08.000Z" itemprop="datePublished">2018-01-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/16/use-axios-instead-of-vue-resource/">使用Axios代替vue-resource</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>vue-resource是官方维护的，但是已经不是官方推荐的。</p>
-<p>按照尤大的<a href="https://medium.com/the-vue-point/retiring-vue-resource-871a82880af4" target="_blank" rel="noopener">说法</a>，异步请求不是Vue核心内容，并且现有的工具已经非常好了，官方没有必要再去维护一套了。</p>
-<p>简单对比了一下axios和vue-resource的区别，主要是axios支持运行在node环境下，也就是可以支持vue ssr。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/16/use-axios-instead-of-vue-resource/" data-id="cjebfh5r400073xpx07b8oi42" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-event-capture-and-bubble" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/15/event-capture-and-bubble/" class="article-date">
-  <time datetime="2018-01-15T12:44:03.000Z" itemprop="datePublished">2018-01-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/15/event-capture-and-bubble/">事件冒泡</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="事件冒泡是什么？"><a href="#事件冒泡是什么？" class="headerlink" title="事件冒泡是什么？"></a>事件冒泡是什么？</h1><p>浏览器的DOM的结构是树形的，但是这个树中的父节点与子节点可能同时显示在同一块区域，那么当用户点击了这块重复区域之后，这个事件经由DOM下方的子元素而传到父元素，这就是事件冒泡。</p>
-<p>例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click child')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>定义了子父两个元素，点击子元素后，Console输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">click child</span><br><span class="line">click parent</span><br></pre></td></tr></table></figure></p>
-<p>以上是最简单的事件冒泡的例子。</p>
-<p>完整的事件的传播顺序是：</p>
-<p>事件捕获（CAPTURING_PHASE）–&gt;事件到达目标（AT_TARGET）–&gt;事件冒泡（BUBBLING_PHASE）</p>
-<p>结合例子，事件的传播顺序是：</p>
-<ol>
-<li><p>捕获阶段：</p>
-<p> 1.1 body</p>
-<p> 1.2 #parent</p>
-</li>
-<li><p>目标阶段：#child</p>
-</li>
-<li><p>冒泡阶段：</p>
-<p> 3.1 #parent</p>
-<p> 3.2 body</p>
-</li>
-</ol>
-<p>其中，body作为#parent的父元素，也会接收到事件，事件可以传播的最外层的元素是window。所以，window和body中间的html、document也会收到事件。</p>
-<h1 id="useCapture"><a href="#useCapture" class="headerlink" title="useCapture"></a>useCapture</h1><p>到这里，有2个疑问：</p>
-<ol>
-<li>既然事件捕获先于事件冒泡发生，为什么先执行了#child的事件响应函数，而不是#parent的？</li>
-<li>既然一个元素会先后经历事件捕获和事件冒泡，为什么日志里只打印了一遍结果，也就是事件响应函数只执行了一遍？</li>
-</ol>
-<p>这两个问题都可以归结于addEventListener这个函数的用法，看一下这个函数的接口定义：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">addEventListener(type, listener[, useCapture]);</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，第三个参数是useCapture，这个参数指定事件响应函数是否在捕获阶段执行，如果是，则不会在冒泡阶段再执行了，反之亦然。所以，上述例子中，#child比#parent先执行是因为我们把事件响应函数绑定在冒泡阶段了。</p>
-<p>修改代码，尝试把事件响应函数绑定在事件捕获阶段：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;, true) //绑定在事件捕获阶段</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click child')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">click parent</span><br><span class="line">click child</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，#parent的事件响应函数先于#child执行。</p>
-<p>需要注意的是，在给#child绑定响应函数的时候，没有给useCapture赋值true，是因为，在这个例子中，#child元素已经是叶子节点了，也就是的事件响应函数会执行于目标阶段，是后于捕获阶段，先于冒泡阶段的。</p>
-<h1 id="事件的捕获、冒泡是可以阻止的"><a href="#事件的捕获、冒泡是可以阻止的" class="headerlink" title="事件的捕获、冒泡是可以阻止的"></a>事件的捕获、冒泡是可以阻止的</h1><p>使用event.<a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation" target="_blank" rel="noopener">stopPropagation</a>()可以阻止事件继续捕获与冒泡。</p>
-<p>修改上述例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click child')</span></span><br><span class="line"><span class="undefined">            e.stopPropagation() //这里组织事件继续冒泡</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>在#child的事件响应函数中调用e.stopPropagation()，阻止了事件进一步向#parent传播。输出的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">click child</span><br></pre></td></tr></table></figure></p>
-<p>再修改一下代码，把e.stopPropagation()放到捕获阶段，代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">            e.stopPropagation()//在捕获阶段组织冒泡</span></span><br><span class="line"><span class="undefined">        &#125;, true)//在捕获阶段</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click child')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">click parent</span><br></pre></td></tr></table></figure></p>
-<p>印证了事件在捕获阶段被阻止了。</p>
-<h1 id="阻止事件的所有响应函数"><a href="#阻止事件的所有响应函数" class="headerlink" title="阻止事件的所有响应函数"></a>阻止事件的所有响应函数</h1><p>stopPropagation方法能够阻止元素的某个事件的冒泡，但是不能阻止这个元素下相同事件的不同事件响应函数。<br>再修改下上述例子：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child')</span></span><br><span class="line"><span class="undefined">            e.stopPropagation()</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child again')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">here is child</span><br><span class="line">here is child again</span><br></pre></td></tr></table></figure></p>
-<p>#parent的事件响应函数被阻止了，但是第二个事件响应函数却没有被阻止。要阻止第二个事件响应函数，就要使用：stopImmediatePropagation了，修改代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child')</span></span><br><span class="line"><span class="undefined">            e.stopImmediatePropagation() //阻止事件的其他相应函数</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child again')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">here is child</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，#child的相同事件响应函数与#parent的事件响应函数都被阻止了。</p>
-<p>需要注意的是，相同元素的相同事件的事件响应函数的执行顺序取决于其定义的顺序，所以，如果在第二个事件响应函数中调用stopImmediatePropagation，并不会影响第一个事件响应函数的执行。</p>
-<p>修改代码如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        div &#123;</span></span><br><span class="line"><span class="undefined">            border: 1px solid red</span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"parent"</span> <span class="attr">style</span>=<span class="string">"width:200px;height:200px"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">style</span>=<span class="string">"width:100px;height:100px"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#parent').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('click parent')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child')</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('#child').addEventListener('click', (e) =&gt; &#123;</span></span><br><span class="line"><span class="undefined">            console.log('here is child again')</span></span><br><span class="line"><span class="undefined">            e.stopImmediatePropagation() //不能阻止第一个事件响应函数</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">here is child</span><br><span class="line">here is child again</span><br></pre></td></tr></table></figure></p>
-<p>另外，preventDefault并不会阻止事件的进一步传播，之后另写一篇文章，关于这个方法的。</p>
-<p>附上MDN的定义：</p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/stopPropagation" target="_blank" rel="noopener">stopPropagation</a><br>：阻止捕获和冒泡阶段中当前事件的进一步传播。</p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Event/preventDefault" target="_blank" rel="noopener">preventDefault</a><br>：如果事件可取消，则取消该事件，而<strong>不停止</strong>事件的进一步传播。</p>
-<h1 id="事件冒泡的应用：事件委托"><a href="#事件冒泡的应用：事件委托" class="headerlink" title="事件冒泡的应用：事件委托"></a>事件冒泡的应用：事件委托</h1><p>当一个父元素下，有许多子元素的时候，比如，一个ul下有1000个li，如果想对所有li添加事件响应，那么可以为每一个li绑定响应函数，但这种做法会影响性能。这种情况下，可以利用时间冒泡原理，直接绑定响应函数到父元素ul上。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>1<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>2<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>3<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>4<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">        document.querySelector('ul').addEventListener('click',(e)=&gt;&#123;</span></span><br><span class="line"><span class="undefined">            console.log(e.target.innerHTML)</span></span><br><span class="line"><span class="undefined">        &#125;)</span></span><br><span class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/15/event-capture-and-bubble/" data-id="cjebfh5r000033xpx78il18ap" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-works-in-gznb" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/01/03/works-in-gznb/" class="article-date">
-  <time datetime="2018-01-03T02:48:36.000Z" itemprop="datePublished">2018-01-03</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/03/works-in-gznb/">2017年在gznb的技术工作回顾</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="确定框架：Vue"><a href="#确定框架：Vue" class="headerlink" title="确定框架：Vue"></a>确定框架：Vue</h1><p>从前端部门成立开始，基本上就准备以Vue为主导了。</p>
-<p>项目的代码结构大体上上和Vue CLI生成的差不多，以下是gz第一个项目，<a href="https://www.gznb.com/villagemap/index.html?v=20171124" target="_blank" rel="noopener">服务站地图</a>的代码结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">├─code //所有源代码文件都在这里了</span><br><span class="line">│  │  package.json</span><br><span class="line">│  │  README.md</span><br><span class="line">│  ├─app</span><br><span class="line">│  │  │  config.js //一些全局通用配置，比如州、县、村的字体、颜色、放大系数等</span><br><span class="line">│  │  │  index.js //入口文件，主要做等待资源加载</span><br><span class="line">│  │  │  init.js //主要文件，地图实例的初始化、获取数据、绘制broundary、watch视域的变化等</span><br><span class="line">│  │  │  page.jade //界面文件</span><br><span class="line">│  │  │  ...</span><br><span class="line">│  │  ├─data //门店地图数据</span><br><span class="line">│  │  │  │  ...</span><br><span class="line">│  │  ├─images</span><br><span class="line">│  │  │      ...</span><br><span class="line">│  │  └─map</span><br><span class="line">│  │      │  back_control.js</span><br><span class="line">│  │      ├─arealist //右侧panel组件</span><br><span class="line">│  │      │      component.jade</span><br><span class="line">│  │      │      component.js</span><br><span class="line">│  │      │      component.less</span><br><span class="line">│  │      │      component.vue</span><br><span class="line">│  │      └─starrymap //调用百度API绘制星星图，按照demo赶出来的，没有好好组织代码结构</span><br><span class="line">│  │              complex_custom_overlay.js</span><br><span class="line">│  │              star.js</span><br><span class="line">│  │              starry_map.js</span><br><span class="line">│  │</span><br><span class="line">│  ├─build</span><br><span class="line">│  │      ...</span><br><span class="line">│  │      dev.js //hot reload、按照webpack.dev.js编译</span><br><span class="line">│  │      production.js //按照webpack.production.js编译生成</span><br><span class="line">│  │      utils.js //对loader的一些处理</span><br><span class="line">│  │      webpack.base.js //webpack公用配置</span><br><span class="line">│  │      webpack.dev.js //webpack开发配置，sourcemap、热更新等</span><br><span class="line">│  │      webpack.prod.js //webpack产线配置，</span><br><span class="line">│  └─config // 业务相关配置，环境相关配置，基本没什么用</span><br><span class="line">│          biz.js</span><br><span class="line">│          entrance.js</span><br><span class="line">│          env.dev.js</span><br><span class="line">│          env.prod.js</span><br><span class="line">│          index.js</span><br><span class="line">│          shared_env.js</span><br><span class="line">└─website //生成的代码</span><br><span class="line">    └─villageMap</span><br><span class="line">        ├─css</span><br><span class="line">        └─js</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>这个时候的项目还只是生成静态文件，部署的角度来说比较简单。业务也比较简单，只是一个页面，没有切换，没有状态管理。</li>
-<li>基本的一些配置还是有的，压缩js，单独提取css文件，提取公用模块、manifest、hot reload、eslint检查等。</li>
-</ul>
-<h1 id="vuex、vue-router"><a href="#vuex、vue-router" class="headerlink" title="vuex、vue-router"></a>vuex、vue-router</h1><p>第二个项目是一个后台管理项目<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">├─app</span><br><span class="line">│  ├─common</span><br><span class="line">│  ├─components</span><br><span class="line">│  ├─directives</span><br><span class="line">│  ├─pages</span><br><span class="line">│  ├─services</span><br><span class="line">│  └─vuex</span><br><span class="line">│      ├─biz</span><br><span class="line">│      │  ├─breadcrumb</span><br><span class="line">│      │  │      actions.js</span><br><span class="line">│      │  │      getters.js</span><br><span class="line">│      │  │      store.js</span><br><span class="line">│      │  ├─logs</span><br><span class="line">│      │  ├─menus</span><br><span class="line">│      │  ├─roles</span><br><span class="line">│      │  ├─transaction</span><br><span class="line">│      │  ├─user</span><br><span class="line">│      │  └─users</span><br><span class="line">│      └─common</span><br><span class="line">├─build</span><br><span class="line">├─config</span><br><span class="line">├─mock</span><br><span class="line">│  ├─generate</span><br><span class="line">│  └─imgs</span><br><span class="line">└─test</span><br><span class="line">    └─unit</span><br><span class="line">        │  index.js</span><br><span class="line">        └─specs</span><br><span class="line">            │  login.vuex.spec.js</span><br><span class="line">            │  menu.vuex.spec.js</span><br><span class="line">            │  ...</span><br><span class="line">            └─transaction</span><br><span class="line">                    consumption.vuex.spec.js</span><br><span class="line">                    couponconsumption.vuex.spec.js</span><br><span class="line">                    ...</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>从这个项目开始，变得复杂了一些，涉及到多个页面了，多个页面之间也有一些共用数据，所以引入了vuex和vue-router。</li>
-<li>多了一层service，这层目前只是做调用后端API层，没有包含业务逻辑，对于这层，我觉得在有一些多余，取数据以及非界面的业务逻辑完全可以写在vuex中，getter，mutation，action，module已经分的非常细了。</li>
-<li>使用了element-ui组件库，饿了么团队非常赞，基本上涵盖了所有所需的组件了。</li>
-<li>注意到有mock和test文件夹，这里使用chai做单元测试，数据呢，基于swagger文档自动生成。但由于项目时间原因，只写了一点。之后的项目也没有做单元测试，从现在来看，不做单元测试也许是正确的，业务没有稳定，一个大系统说砍就砍，很是无奈。</li>
-<li>还是生成的静态文件，页面文件仅一个index.html，部署到express站点，对于所有url的页面请求都返回这个index.html。当程序在浏览器内运行时，由前端程序解析url匹配路由。对服务器来说，毫无压力（<del>本来就是个后台系统</del>）。</li>
-</ul>
-<h1 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h1><p>接下来就是2C的项目了，是个APP，经过商量，为了快速开发，客户端使用web+jsbridge的模式，而为了长期维护考虑，服务端使用ssr。native的代码就不贴了，没怎么接触过。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">├─app</span><br><span class="line">│  │  app.js</span><br><span class="line">│  │  App.vue</span><br><span class="line">│  │  client-entry.js </span><br><span class="line">│  │  gz-native.js //jsbridge</span><br><span class="line">│  │  index.template.htm</span><br><span class="line">│  │  server-entry.js</span><br><span class="line">│  ├─biz</span><br><span class="line">│  ├─components</span><br><span class="line">│  ├─directives</span><br><span class="line">│  ├─filters</span><br><span class="line">│  ├─router</span><br><span class="line">│  ├─service</span><br><span class="line">│  ├─styles</span><br><span class="line">│  ├─utilities</span><br><span class="line">│  ├─views</span><br><span class="line">│  └─vuex</span><br><span class="line">├─build</span><br><span class="line">│  │  mock-service.js</span><br><span class="line">│  │  server-cache.js</span><br><span class="line">│  │  server.base.js</span><br><span class="line">│  │  server.development.js</span><br><span class="line">│  │  server.start.js</span><br><span class="line">│  │  setup-dev-server.js</span><br><span class="line">│  │  webpack.base.config.js</span><br><span class="line">│  │  webpack.client.config.js</span><br><span class="line">│  │  webpack.server.config.js</span><br><span class="line">├─config</span><br><span class="line">├─design</span><br><span class="line">│  └─ApiDefinitions</span><br><span class="line">├─dist</span><br><span class="line">├─mock</span><br><span class="line">├─public</span><br></pre></td></tr></table></figure></p>
-<p>这个项目的ssr使用的是官方的CLI生成的结构，两个entry：server和client的，在服务端这块基本没有什么改动，开发主要还是在于业务逻辑。</p>
-<h1 id="一次事故"><a href="#一次事故" class="headerlink" title="一次事故"></a>一次事故</h1><p>SSR（ssr版本2.1)项目做完后，一直运行于一台2U4G的服务器上，在一次业务部门不打任何招呼的促销活动时，内存溢出了，随之CPU持续100%。在客户端体现为，长时间的白屏。我们的前端boss直接把服务器加到32U32G，才勉强能够撑住。</p>
-<p>其实在之前，我们已经发现了随着访问量增高，会出现内存会持续飙升，CPU占用也是指数级地升高。需要经过较长时间，内存才得以慢慢释放。Dump下内存文件后，能看到占用大部分内存的是一堆重复的对象，怀疑是组件多层嵌套，引用关系复杂后，其中引起了内存泄漏，但是最终还是没能定位到这些重复的对象是从哪儿来的。</p>
-<p>随后就是一波性能测试：发现，CPU、内存、网络都有较高占用。</p>
-<ul>
-<li>CPU：由于Vue的Render是基于Virtual DOM的，是CPU密集型计算，对于Node来说不是强项。不过还好，我们写的是app，目前只有首页一个入口，那么简单了，加一层缓存就好了。</li>
-<li>内存：随着渲染需求的减少，内存的占用也减少了。常年维持在几十m至100多m之间。</li>
-<li>网络：经过代码review发现，这方面的优化很少，只有文件拆分（但也拆的不够细），uglify，于是加上了浏览器缓存、gzip。另外还有cdn、按页面code split在后续的改动中也逐渐做了</li>
-</ul>
-<p>优化完成后，单核qps从4，上升到了200+。</p>
-<p>另外，据说Vue SSR 2.4有了很大的性能提升，然而，由于这次促销活动事故影响很大，老大们已经彻底否定了Node的性能，让我们逐渐转为静态页的方式，之后，也就没什么机会折腾SSR了。</p>
-<h1 id="nuxt"><a href="#nuxt" class="headerlink" title="nuxt"></a>nuxt</h1><p>万幸的是，在node被砍掉之前，我们已经开始了使用nuxt进行PC站的开发，nuxt对Vue SSR做了一层封装，极大地精简了项目代码结构，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">├─assets</span><br><span class="line">├─build</span><br><span class="line">├─components</span><br><span class="line">├─config</span><br><span class="line">├─dist</span><br><span class="line">├─layouts</span><br><span class="line">├─middleware</span><br><span class="line">├─pages</span><br><span class="line">├─plugins</span><br><span class="line">├─server</span><br><span class="line">├─static</span><br><span class="line">└─store</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>store文件夹中少了index，nuxt会把这些模块做汇总。</li>
-<li>也没有了路由定义，直接根据pages文件夹下的结构决定路由。</li>
-<li>编译的配置也由nuxt封装好了。</li>
-<li>服务端程序也被封装进去了，如果需要增加中间件，在nuxt.config中提供了接口（官方文档没给出，翻代码找到的接口）</li>
-</ul>
-<h1 id="CI"><a href="#CI" class="headerlink" title="CI"></a>CI</h1><p>发布过程一直是一个痛点，手动拷贝文件到多台服务器，还要考虑cdn缓存与文件版本，一不小心可能就让cdn缓存了错误的文件，又得改文件版本，最可怕的几次是发布到半夜1点才发布完成。CI这方面我也花了不少时间，主要有几个问题：</p>
-<ol>
-<li>各个环境的发布命令不统一。我们有dev、test1、test2、test3、hotfix、gqc、pre、prd等环境，每次编译都需要执行一遍环境对应的命令，比如npm run build:test1，npm run build:prd，这导致CI的脚本维护成本比较大，在发布操作的时候也容易出错，所以做了个统一，引入zookeeper做配置管理，统一发布编译命令为:npm run build。</li>
-<li>cdn的回源服务器是一台独立的资源服务器，每次发布的时候都要把静态资源拷贝到资源服务器，费时费力，并且如果稍有不慎，搞错了发布顺序，就让cdn缓存了旧版本的文件。解决方法：修改cdn回源为web服务器，修改文件名为contenthash。这样，省去了发布资源服务器的步骤。加了conetenthash后，一点出现文件版本不对，就可以直接显示404了。</li>
-<li>各个系统的编辑命令不统一，由于app、pc、admin的代码不同包括启动server的脚本、webpack配置，导致编译命令都不一样，所以这块也做了统一。</li>
-<li>发布包过大，一开始的一次发布需要20分钟+，然后经过不断的优化，从包含源代码的发布，到只发布dist，然后再做了一次删除不必要依赖。最后发布控制在1min以内。</li>
-</ol>
-<h1 id="turbo-link"><a href="#turbo-link" class="headerlink" title="turbo link"></a>turbo link</h1><p>为什么会想要使用turbolinks？因为在第一次app发布后，被吐槽说app的交互不好。于是领导提出了使用turbolinks，这个优化交互体验的库。<br>turbolinks应用在vueapp中有几个问题：</p>
-<ul>
-<li>问题1：turbolink切换页面不会共享内部变量，意味着vuex在切换页面后无法同步过去。</li>
-<li>问题2：turbolink需要服务端直接返回带内容的页面，起初我们的ssr做的并不好，没有完全带内容，无法直接实现这个要求。另外，这增加了服务端渲染的压力。</li>
-<li>问题3：turbolink页面回退需要直接显示之前异步加载的内容，同时要保持页面位置，在turbolink取数据的生命周期上，和vue的生命周期有冲突。</li>
-</ul>
-<p>解决方案：</p>
-<ul>
-<li>问题1：有考虑通过原生接口保存数据，和localstorage保存数据，最终使用了localstorage。</li>
-<li>问题2：直接改为静态页+c#服务端渲染</li>
-<li>问题3：说是解决了，然而我没有了解解决方案。<br>然而之后的实践结果是，turbolink的效果固然能满足需求，但是改动量异常地大，包括框架代码和业务代码，知道业务结束，这个方案都没有落地。</li>
-</ul>
-<h1 id="nuxt-generate-nginx"><a href="#nuxt-generate-nginx" class="headerlink" title="nuxt generate + nginx"></a>nuxt generate + nginx</h1><p>nuxt有一个非常好的地方就是，生成静态页很方便，调用nuxt generate就可以根据路由生成静态页，这直接应用在了我们后期使用静态页+Nginx的方案上。<br>Nginx对于静态页的处理性能比Express要好上许多，所以在后期官网重构项目上，我们使用了这个方案。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2018/01/03/works-in-gznb/" data-id="cjebfh5qy00023xpxq6hjp12g" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-my-to-do-list" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/28/my-to-do-list/" class="article-date">
-  <time datetime="2017-12-28T08:14:14.000Z" itemprop="datePublished">2017-12-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/28/my-to-do-list/">my-to-do-list</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2017/12/28/my-to-do-list/" data-id="cjebfh5qs00003xpx96q4vmsm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-my-first-page" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/12/28/my-first-page/" class="article-date">
-  <time datetime="2017-12-28T02:25:21.000Z" itemprop="datePublished">2017-12-28</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/28/my-first-page/">my first page</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>之前的hexo源码找不到了，还有从jekyll迁移过来的，挺乱的，反正内容不多，直接删了老内容，重新开始写。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://jeange1003.github.io/2017/12/28/my-first-page/" data-id="cjebfh5qw00013xpx62cglblw" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">二月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">一月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2018/03/03/eslint-and-format-for-vue/">Vue项目的代码检查以及格式化</a>
-          </li>
-        
-          <li>
-            <a href="/2018/02/24/ios-add-to-homescreen/">iOS Safari的添加到主屏幕</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/16/gznb-component-lib-retrospect/">gznb-component-lib-retrospect</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/16/open-picture/">加速图片的打开</a>
-          </li>
-        
-          <li>
-            <a href="/2018/01/16/use-axios-instead-of-vue-resource/">使用Axios代替vue-resource</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2018 Jean Ge<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
+    <nav> <a href="/">Home</a> <a href="/archives">Archives</a> </nav>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    <script src="/fancybox/jquery.fancybox.pack.js"></script>
+    <script src="/js/script.js"></script>
   </div>
 </body>
+
 </html>
