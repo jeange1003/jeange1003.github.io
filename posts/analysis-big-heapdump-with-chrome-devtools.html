@@ -1,0 +1,139 @@
+<html>
+
+<head>
+  <title>
+    用chrome-devtools解析一个巨大内存快照
+  </title>
+</head>
+
+<body>
+  <h1>用chrome-devtools解析一个巨大内存快照</h1>
+  <p>
+    在一次项目中，遇到了内存泄漏问题，需要对内存进行分析。
+  </p>
+  <p>
+    所开发的程序是VSCode插件，所以是一个Electron程序。Electron似乎是做了什么骚操作，使得llnode并不能解析，用v8
+    findjsobjects指令并不能看到任何对象。所以使用了heapdump。
+  </p>
+  <p>
+    在插件中引入heapdump。要注意，heapdump使用的v8 addon来dump内存的，而v8
+    addon的编译版本取决于开发环境的node版本，而electron自带了node运行环境，所以需要根据electron版本来编译heapdump。electron提供了<a
+      href="https://github.com/electron/electron-rebuild"
+      target="_blank">rebuild工具</a>供使用。另外，webpack打包的时候也需要把addon单独放在输出目录，通过<a
+      href="https://webpack.js.org/loaders/node-loader/" target="_blank">node-loader</a> 完成。
+  </p>
+  <p>
+    由于不能稳定重现，外加重现容易死机，导致最后能拿到手的只有一个4G的文件，悲催的是，这个文件放到devtools中解析报错。接下来就是强行啃这个工具（有折返尝试过llnode，但llnode自己实现了一套解析方法，和heapdump不同，所以就不记录了）。
+  </p>
+  <p>
+    首先是第一个错误：
+  </p>
+  <img src="./analysis-big-heapdump-with-chrome-devtools/string-length-error.png" />
+  <p>
+    <a href="https://github.com/ChromeDevTools/devtools-frontend/blob/805c1e9f351c42b9a0dbc07b328e9b441105aefe/front_end/entrypoints/heap_snapshot_worker/HeapSnapshotLoader.ts#L143"
+      target="_blank">
+      相关源码：
+    </a>
+  <pre>
+write(chunk: string): void {
+  this.#buffer += chunk;
+  if (!this.#dataCallback) {
+    return;
+  }
+  this.#dataCallback(this.#buffer);
+  this.#dataCallback = null;
+  this.#buffer = '';
+}
+    </pre>
+  这里的write方法作用：在解析内存文件时，分段将内存文件的内容写入到变量内。报错的原因：这里内存文件的内容超出了string的长度限制，这个长度是v8限制的。
+  </p>
+  <a href="https://chromium.googlesource.com/v8/v8.git/+/refs/heads/main/include/v8-primitive.h#125">相关源码：</a>
+  <pre>
+static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 28) - 16 : (1 << 29) - 24;
+  </pre>
+  <p>
+    可以看到，长度限制为2<sup>29</sup>-24。chromium社区关于这个限制的讨论有很多，但目前还是没有放开。
+  </p>
+  <p>能否尝试修改v8来突破这个限制呢？一番尝试以后，遇到以下问题</p>
+  <ul>
+    <li>v8编译时会跑需求测试，修改限制会使部分测试失效</li>
+    <li>chromium的编译需要花费巨长的时间，按小时计</li>
+    <li>对v8不熟悉，可能会引起其他错误</li>
+  </ul>
+  <p>
+    还是把视线拉回到devtools，发现devtools是可以单独开发的，<a
+      href="https://github.com/ChromeDevTools/devtools-frontend/blob/main/docs/workflows.md" target="_blank">
+      相关文档
+    </a>并不需要编译整个chromium，那么能否通过修改devtools来绕过这个限制呢？尝试自己实现一个string。另外，除了string的长度超过限制，devtools中还有一个Uint32Array也超过了限制。
+  </p>
+  <p>
+    经过梳理变量引用，发现之需要实现以下方法与属性即可
+  </p>
+  <p>
+    <b>
+      String
+    </b>
+  </p>
+  <p>方法</p>
+  <ul>
+    <li>clear</li>
+    <li>charCodeAt</li>
+    <li>slice</li>
+    <li>lastIndexOf</li>
+    <li>toJson</li>
+    <li>append</li>
+    <li>substring</li>
+  </ul>
+  <p>属性</p>
+  <ul>
+    <li>
+      length
+    </li>
+  </ul>
+  <p>
+    <b>
+      Uint32Array
+    </b>
+  </p>
+  <p>属性</p>
+  <ul>
+    <li>length</li>
+    <li>iterator</li>
+    <li>下标读写（使用proxy实现）</li>
+  </ul>
+  <p>
+    实现思路为：内部维护一个string数组或者Uint32Array数组，也就是二维数组，以达到扩容又不触及v8限制的目的。
+  </p>
+  <p>
+    其中的String.toJson方法可以借助json-bigint稍作修改来实现。
+  </p>
+  <p>将新的String与Uint32Array应用到devtools。开始尝试解析，遇到了新的问题，这回是内存分配失败：</p>
+  <img src="./analysis-big-heapdump-with-chrome-devtools/array-buffer-allocation-failed.png" />
+  <p>观察进程管理器，发现内存到1.4G左右就失败，所以是v8的限制。chromium有提供参数js-flag来将参数转发给v8，而v8提高内存限制的参数为max_old_space_size。所以执行命令
+  </p>
+  <pre>
+    ./Chromium --custom-devtools-front-end=file:////path/to/devtools-frontend --js-flags="--max_old_space_size=16192"
+  </pre>
+  <p>这样就将内存限制改为16GB了
+  </p>
+  <p>
+    再次运行内存分析，再次失败，错误仍旧是内存分配。
+  </p>
+  <p>
+    既然v8的内存限制已经解除了，这次可能是触及到了chromium的限制了，经过搜索发现一篇edge开发者的<a
+      href="https://textslashplain.com/2020/09/15/browser-memory-limits/">文章</a>，linux和windows有内存限制，但是mac没有，这不符合预期。幸运的是，在这名开发者的<a
+      href="https://webdbg.com/test/memory.aspx">内存测试工具</a>中，又找到了一个chromium的限制：<a
+      href="https://source.chromium.org/chromium/chromium/src/+/7a052054f35f5c976f2b72dc576092063f4950a3">单词分配内存不超过2G</a>（node没这个限制，所以在自定义String和Uint32Array中没有发现，另外，后来了解到ArrayBuffer的内存并不算是v8的）
+    之前给单个Uint32Array元素的长度限制为2<sup>32</sup>-1，也就是接近4G，单个Uint32是4字节，所以最高尝试了一次分配4G*4B=16GB的内存，超过了2G的限制。尝试修改单个Uint32Array元素的长度为2<sup>28</sup>-1。
+  </p>
+  <p>再次运行解析，又遇到了类似的错误：Map maximum size exceeded。</p>
+  <p>这次是Map类型的长度超<a
+      href="https://source.chromium.org/chromium/chromium/src/+/main:v8/src/runtime/runtime-collections.cc;l=33?q=CollectionGrowFailed&ss=chromium"
+      target="_blank">限制了</a>，有了之前的经验，这个问题也很快通过二维Map解决了。
+  </p>
+  <p>再次解析，经过漫长的等待后，终于解析成功~！</p>
+  <p>最后，附上自定义的String、Uint32Array、Map代码仓库<a href="https://github.com/jeange1003/analysis-big-heapdump-with-devtools"
+      target="_blank">链接</a></p>
+</body>
+
+</html>
