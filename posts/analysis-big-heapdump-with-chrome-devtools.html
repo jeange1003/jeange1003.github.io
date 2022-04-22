@@ -109,21 +109,20 @@ static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 2
   </p>
   <p>将新的String与Uint32Array应用到devtools。开始尝试解析，遇到了新的问题，这回是内存分配失败：</p>
   <img src="./analysis-big-heapdump-with-chrome-devtools/array-buffer-allocation-failed.png" />
-  <p>观察进程管理器，发现内存到1.4G左右就失败，所以是v8的限制。chromium有提供参数js-flag来将参数转发给v8，而v8提高内存限制的参数为max_old_space_size。所以执行命令
+  <p>观察进程管理器，发现内存到1.4G左右就失败，所以是v8的限制。chromium有提供参数js-flag来将参数转发给v8，而v8提高内存限制的参数为max_old_space_size。所以执行命令：
   </p>
   <pre>
     ./Chromium --custom-devtools-front-end=file:////path/to/devtools-frontend --js-flags="--max_old_space_size=16192"
   </pre>
-  <p>这样就将内存限制改为16GB了
-  </p>
-  <p>
-    再次运行内存分析，再次失败，错误仍旧是内存分配。
+  <p>这样就将内存限制改为16GB了。再次运行内存分析，再次失败，错误仍旧是内存分配。
   </p>
   <p>
     既然v8的内存限制已经解除了，这次可能是触及到了chromium的限制了，经过搜索发现一篇edge开发者的<a
-      href="https://textslashplain.com/2020/09/15/browser-memory-limits/">文章</a>，linux和windows有内存限制，但是mac没有，这不符合预期。幸运的是，在这名开发者的<a
-      href="https://webdbg.com/test/memory.aspx">内存测试工具</a>中，又找到了一个chromium的限制：<a
-      href="https://source.chromium.org/chromium/chromium/src/+/7a052054f35f5c976f2b72dc576092063f4950a3">单词分配内存不超过2G</a>（node没这个限制，所以在自定义String和Uint32Array中没有发现，另外，后来了解到ArrayBuffer的内存并不算是v8的）
+      href="https://textslashplain.com/2020/09/15/browser-memory-limits/"
+      target="_blank">文章</a>，linux和windows有内存限制，但是mac没有，这不符合预期。幸运的是，在这名开发者的<a href="https://webdbg.com/test/memory.aspx"
+      target="_blank">内存测试工具</a>中，又找到了一个chromium的限制：<a
+      href="https://source.chromium.org/chromium/chromium/src/+/7a052054f35f5c976f2b72dc576092063f4950a3"
+      target="_blank">单次分配内存不超过2G</a>（node没这个限制，所以在自定义String和Uint32Array中没有发现，另外，后来了解到ArrayBuffer的内存并不算是v8的）
     之前给单个Uint32Array元素的长度限制为2<sup>32</sup>-1，也就是接近4G，单个Uint32是4字节，所以最高尝试了一次分配4G*4B=16GB的内存，超过了2G的限制。尝试修改单个Uint32Array元素的长度为2<sup>28</sup>-1。
   </p>
   <p>再次运行解析，又遇到了类似的错误：Map maximum size exceeded。</p>
