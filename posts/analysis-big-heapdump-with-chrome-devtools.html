@@ -4,6 +4,12 @@
   <title>
     用chrome-devtools解析一个巨大内存快照
   </title>
+  <meta name="viewport" content="initial-scale=1">
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
 </head>
 
 <body>
@@ -32,8 +38,8 @@
   <p>
     <a href="https://github.com/ChromeDevTools/devtools-frontend/blob/805c1e9f351c42b9a0dbc07b328e9b441105aefe/front_end/entrypoints/heap_snapshot_worker/HeapSnapshotLoader.ts#L143"
       target="_blank">
-      相关源码：
-    </a>
+      相关源码
+    </a>：
   <pre>
 write(chunk: string): void {
   this.#buffer += chunk;
@@ -47,10 +53,10 @@ write(chunk: string): void {
     </pre>
   这里的write方法作用：在解析内存文件时，分段将内存文件的内容写入到变量内。报错的原因：这里内存文件的内容超出了string的长度限制，这个长度是v8限制的。
   </p>
-  <a href="https://chromium.googlesource.com/v8/v8.git/+/refs/heads/main/include/v8-primitive.h#125">相关源码：</a>
-  <pre>
+  <a href="https://chromium.googlesource.com/v8/v8.git/+/refs/heads/main/include/v8-primitive.h#125">相关源码</a>：
+  <code>
 static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 28) - 16 : (1 << 29) - 24;
-  </pre>
+</code>
   <p>
     可以看到，长度限制为2<sup>29</sup>-24。chromium社区关于这个限制的讨论有很多，但目前还是没有放开。
   </p>
@@ -111,9 +117,9 @@ static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 2
   <img src="./analysis-big-heapdump-with-chrome-devtools/array-buffer-allocation-failed.png" />
   <p>观察进程管理器，发现内存到1.4G左右就失败，所以是v8的限制。chromium有提供参数js-flag来将参数转发给v8，而v8提高内存限制的参数为max_old_space_size。所以执行命令：
   </p>
-  <pre>
+  <code>
     ./Chromium --custom-devtools-front-end=file:////path/to/devtools-frontend --js-flags="--max_old_space_size=16192"
-  </pre>
+</code>
   <p>这样就将内存限制改为16GB了。再次运行内存分析，再次失败，错误仍旧是内存分配。
   </p>
   <p>
