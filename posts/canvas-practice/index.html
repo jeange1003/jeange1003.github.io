@@ -1,28 +1,36 @@
-<div >
-
-
-	<header >
-
-
-		<h1  >
+<div>
+	<header>
+		<h1>
 			Canvas练习
 		</h1>
-
-
-	</header>
-
-	<div  >
-
 		<style>
+			img,
+			pre {
+				max-width: 100%;
+			}
+
 			h3 {
 				margin-top: 60px;
 				border-top: solid gray;
 				padding-top: 20px;
 			}
+
+			pre {
+				overflow-wrap: break-word;
+				background-color: rgba(222, 222, 222, 0.3);
+				padding: 20px;
+				border: solid 5px rgba(222, 222, 222, 0.5);
+				display: inline-block;
+			}
+
+			canvas {
+				border: solid 1px;
+				margin: 20px;
+				display: block;
+			}
 		</style>
-
-		<a href="http://jeange1988.github.io/2014/04/14/canvas-practice.html" target="_blank" rel="external">来源链接</a>
-
+	</header>
+	<div>
 		<h3>获取canvas的图片</h3>
 		<pre>
 var drawing = document.getElementById("drawing");
@@ -104,7 +112,7 @@ if(drawing.getContext){
   context.fillRect(10,10,50,50);
   context.clearRect(30,30,20,20);
 }
-</pre>
+		</pre>
 		<canvas id="rect-clear-drawing" width="200" height="200">
 			drawing
 		</canvas>
@@ -130,7 +138,7 @@ if(arcStrokeDrawing.getContext){
   context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
   context.stroke();
 }
-</pre>
+		</pre>
 		<canvas id="arc-stroke-drawing" width="200" height="200">
 			drawing
 		</canvas>
@@ -175,7 +183,6 @@ if(arcLineStrokeDrawing.getContext){
 					context.moveTo(100, 100);
 					context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
 					context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
-					//context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
 					context.lineTo(100, 100);
 					context.stroke();
 				}
@@ -185,116 +192,128 @@ if(arcLineStrokeDrawing.getContext){
 		<h3>通过旋转再多画几条直线</h3>
 		<pre>
 var drawing = document.getElementById("arc-multi-line-stroke-drawing");
-if(drawing.getContext){
-  var context = drawing.getContext("2d");
-  context.beginPath();
-  context.strokeStyle = "red";
-  context.moveTo(100, 100);
-  context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-  context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
-  //context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-  context.lineTo(100, 100);		
-  context.stroke();
-  
-  context.translate(100, 100);
-  context.rotate(Math.PI * 1 / 6);
-  for(var i = 1; i <= 1="" 7;="" i++){="" context.rotate(math.pi="" *="" 12);="" context.moveto(0,="" 0);="" context.lineto(-80,="" }="" context.stroke();="" <="" pre="">
-<canvas id="arc-multi-line-stroke-drawing" width="200" height="200">
-  drawing
-</canvas>
-<script type="text/javascript">
-	(function () {
-		var drawing = document.getElementById("arc-multi-line-stroke-drawing");
-		if (drawing.getContext) {
-			var context = drawing.getContext("2d");
-			context.beginPath();
-			context.strokeStyle = "red";
-			context.moveTo(100, 100);
-			context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-			context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
-			//context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-			context.lineTo(100, 100);
-			context.stroke();
+if (drawing.getContext) {
+	var context = drawing.getContext("2d");
+	context.beginPath();
+	context.strokeStyle = "red";
+	context.moveTo(100, 100);
+	context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
+	context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
+	context.lineTo(100, 100);
+	context.stroke();
 
-			context.translate(100, 100);
-			context.rotate(Math.PI * 1 / 6);
-			for (var i = 1; i <= 7; i++) {
-				context.rotate(Math.PI * 1 / 12);
-				context.moveTo(0, 0);
-				context.lineTo(-80, 0);
-			}
-			context.stroke();
-		}
-	})();
-</script>
+	context.translate(100, 100);
+	context.rotate(Math.PI * 1 / 6);
+	for (var i = 1; i <= 7; i++) {
+		context.rotate(Math.PI * 1 / 12);
+		context.moveTo(0, 0);
+		context.lineTo(-80, 0);
+	}
+	context.stroke();
+}
+</pre>
+		<canvas id="arc-multi-line-stroke-drawing" width="200" height="200">
+			drawing
+		</canvas>
+		<script type="text/javascript">
+			(function () {
+				var drawing = document.getElementById("arc-multi-line-stroke-drawing");
+				if (drawing.getContext) {
+					var context = drawing.getContext("2d");
+					context.beginPath();
+					context.strokeStyle = "red";
+					context.moveTo(100, 100);
+					context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
+					context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
+					context.lineTo(100, 100);
+					context.stroke();
 
-<h3>拷贝后旋转缩小</h3>
-<pre>
+					context.translate(100, 100);
+					context.rotate(Math.PI * 1 / 6);
+					for (var i = 1; i <= 7; i++) {
+						context.rotate(Math.PI * 1 / 12);
+						context.moveTo(0, 0);
+						context.lineTo(-80, 0);
+					}
+					context.stroke();
+				}
+			})();
+		</script>
+
+		<h3>拷贝后旋转缩小</h3>
+		<pre>
 var drawing = document.getElementById("copy-fan-drawing");
-if(drawing.getContext){
-  var context = drawing.getContext("2d");
-  context.beginPath();
-  context.strokeStyle = "red";
-  context.moveTo(100, 100);
-  context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-  context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
-  //context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-  context.lineTo(100, 100);		
-  context.stroke();
-  
-  context.translate(100, 100);
-  context.rotate(Math.PI * 1 / 6);
-  for(var i = 1; i <= 1="" 3="" 7;="" i++){="" context.rotate(math.pi="" *="" 12);="" context.moveto(0,="" 0);="" context.lineto(-80,="" }="" context.stroke();="" var="" imguri="drawing.toDataURL("image/jpg");" image="document.createElement("img");" image.src="imgURI;" context.scale(0.3,="" 0.3);="" context.translate(-100,="" -100);="" context.drawimage(image,="" 0,="" <="" pre="">
-<canvas id="copy-fan-drawing" width="200" height="200">
-  drawing
-</canvas>
-<script type="text/javascript">
-	(function () {
-		var drawing = document.getElementById("copy-fan-drawing");
-		if (drawing.getContext) {
-			var context = drawing.getContext("2d");
-			context.beginPath();
-			context.strokeStyle = "red";
-			context.moveTo(100, 100);
-			context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-			context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
-			//context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
-			context.lineTo(100, 100);
-			context.stroke();
+if (drawing.getContext) {
+	var context = drawing.getContext("2d");
+	context.beginPath();
+	context.strokeStyle = "red";
+	context.moveTo(100, 100);
+	context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
+	context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
+	context.lineTo(100, 100);
+	context.stroke();
 
-			context.translate(100, 100);
-			context.rotate(Math.PI * 1 / 6);
-			for (var i = 1; i <= 7; i++) {
-				context.rotate(Math.PI * 1 / 12);
-				context.moveTo(0, 0);
-				context.lineTo(-80, 0);
-			}
-			context.stroke();
+	context.translate(100, 100);
+	context.rotate(Math.PI * 1 / 6);
+	for (var i = 1; i <= 7; i++) {
+		context.rotate(Math.PI * 1 / 12);
+		context.moveTo(0, 0);
+		context.lineTo(-80, 0);
+	}
+	context.stroke();
 
-			var imgURI = drawing.toDataURL("image/jpg");
-			var image = document.createElement("img");
-			image.src = imgURI;
+	var imgURI = drawing.toDataURL("image/jpg");
+	var image = document.createElement("img");
+	image.src = imgURI;
 
-			context.rotate(Math.PI * 3 / 12);
-			context.scale(0.3, 0.3);
-			context.translate(-100, -100);
+	context.rotate(Math.PI * 3 / 12);
+	context.scale(0.3, 0.3);
+	context.translate(-100, -100);
 
-			context.drawImage(image, 0, 0);
+	context.drawImage(image, 0, 0);
 
-		}
-	})();
-</script>
-<p>未完待续，还有文本、图像、阴影、渐变</p>
+}
+	</pre>
+		<canvas id="copy-fan-drawing" width="200" height="200">
+			drawing
+		</canvas>
+		<script type="text/javascript">
+			(function () {
+				var drawing = document.getElementById("copy-fan-drawing");
+				if (drawing.getContext) {
+					var context = drawing.getContext("2d");
+					context.beginPath();
+					context.strokeStyle = "red";
+					context.moveTo(100, 100);
+					context.lineTo(100 - 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
+					context.arc(100, 100, 80, Math.PI * 7 / 6, Math.PI * 11 / 6, false);
+					//context.moveTo(100 + 80 * Math.cos(Math.PI / 6), 100 - 80 * Math.sin(Math.PI / 6));
+					context.lineTo(100, 100);
+					context.stroke();
 
-</=></pre>
-		</=>
-		</pre>
+					context.translate(100, 100);
+					context.rotate(Math.PI * 1 / 6);
+					for (var i = 1; i <= 7; i++) {
+						context.rotate(Math.PI * 1 / 12);
+						context.moveTo(0, 0);
+						context.lineTo(-80, 0);
+					}
+					context.stroke();
 
+					var imgURI = drawing.toDataURL("image/jpg");
+					var image = document.createElement("img");
+					image.src = imgURI;
+
+					context.rotate(Math.PI * 3 / 12);
+					context.scale(0.3, 0.3);
+					context.translate(-100, -100);
+
+					context.drawImage(image, 0, 0);
+
+				}
+			})();
+		</script>
+		<p>未完待续，还有文本、图像、阴影、渐变</p>
+		<p>2014.4.14</p>
 	</div>
-	<footer >
-		<a data-url="http://jeange1003.github.io/2014/11/10/canvas-practice/" data-id="rkhfilldogkluozy"
-			>Share</a>
-
-
-	</footer>
 </div>

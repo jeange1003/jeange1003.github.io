@@ -34,7 +34,7 @@
   <p>
     首先是第一个错误：
   </p>
-  <img src="./analysis-big-heapdump-with-chrome-devtools/string-length-error.png" />
+  <img src="./string-length-error.png" />
   <p>
     <a href="https://github.com/ChromeDevTools/devtools-frontend/blob/805c1e9f351c42b9a0dbc07b328e9b441105aefe/front_end/entrypoints/heap_snapshot_worker/HeapSnapshotLoader.ts#L143"
       target="_blank">
@@ -114,7 +114,7 @@ static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 2
     其中的String.toJson方法可以借助json-bigint稍作修改来实现。
   </p>
   <p>将新的String与Uint32Array应用到devtools。开始尝试解析，遇到了新的问题，这回是内存分配失败：</p>
-  <img src="./analysis-big-heapdump-with-chrome-devtools/array-buffer-allocation-failed.png" />
+  <img src="./array-buffer-allocation-failed.png" />
   <p>观察进程管理器，发现内存到1.4G左右就失败，所以是v8的限制。chromium有提供参数js-flag来将参数转发给v8，而v8提高内存限制的参数为max_old_space_size。所以执行命令：
   </p>
   <code>
@@ -139,6 +139,7 @@ static constexpr int kMaxLength = internal::kApiSystemPointerSize == 4 ? (1 << 2
   <p>再次解析，经过漫长的等待后，终于解析成功~！</p>
   <p>最后，附上自定义的String、Uint32Array、Map代码仓库<a href="https://github.com/jeange1003/analysis-big-heapdump-with-devtools"
       target="_blank">链接</a></p>
+  <p>2022.4.22</p>
 </body>
 
 </html>
