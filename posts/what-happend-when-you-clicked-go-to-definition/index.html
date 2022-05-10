@@ -5,18 +5,197 @@
   <meta charset='utf-8'>
   <title>当你点击Go to Definition时，发生了什么？</title>
   <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <style>
+    img {
+      max-width: 100%;
+    }
+  </style>
 </head>
 
 <body>
   <h1>当你点击Go to Definition时，发生了什么？</h1>
-  <h2>tsserver</h2>
+  <h2>1. Go to Definition</h2>
   <p>
     Visual Studio Code中有一项对开发非常有用的功能：Go to
     Definition，可以跳转到变量或者函数的定义。对于Java等强类型语言来说，这是一个IDE基本的功能。而对于前端，之前主要使用的是弱类型语言Javascript，受限于语言特性，Go to
     Definition并不能很好地实现。近年来，前端逐渐在从Javascript转向Typescript，这项功能就显得尤为有用了。
   </p>
+  <p>那么，Visual Studio Code 是如何实现这个功能的呢？最近在做VSCode插件，有用到相关api，正好了解了一下相关实现。</p>
   <img src="./go-to-definition.jpg" />
-  <h2>ts extension 中的 provider</h2>
+  <h2>简述</h2>
+  <p>
+    先用简单描述一下整个过程：VSCode启动时，会启动一个<a
+      href="https://github.com/typescript-language-server/typescript-language-server">Typescript
+      Language Server</a>的进程，我们简称为tsserver进程，所有的语言解析逻辑都在这里了。VSCode主进程通过和这个tsserver进程通信，获得解析代码的能力，对于Go to
+    Definition这个功能来说，获得的就是Definition的代码位置。有了代码位置，再辅以自己的文档切换与滚动，就实现了整个功能。
+  </p>
+  <p>接下来对上面的过程一一详述</p>
+  <h2>2. Typescript Language Server</h2>
+
+  <p>
+    VSCode可以支持许多语言的开发，这里的支持是指Go to Definition，Find Reference等处理代码的功能。这些支持都离不开<a
+      href="https://microsoft.github.io/language-server-protocol/">language server
+      protocol</a>，简称LSP。这是微软这个IDE大厂提出的一个协议，用来使任意IDE可以支持任意语言。
+    传统的IDE通过在IDE内部实现对语言的解析，才能有Go to
+    Definition等功能。而对于各IDE或者编辑器厂商或者作者来说，都需要自己实现一遍这些语言解析。程序员的天性是避免重复，为了解决这个问题，LSP被提出了。LSP协议包含客户端与服务端两端，IDE或者编辑器只需要实现LSP客户端，按照LSP协议去调用LSP服务端即可。而LSP服务端就由各个语言开发者提供，每个语言只需要提供一份服务端即可，所有IDE或者编辑器都可以按照相同的LSP协议来调用服务端。
+  </p>
+  <p>VSCode的图很好的解释了这个关系：</p>
+  <img src="lsp-languages-editors.png" />
+  <h2>3. typescript-language-features</h2>
+  <p>
+    Typescript和VSCode都是由微软主导开发的，对LSP的支持自然是非常积极的。在Typescript中已经实现了<a
+      href="https://github.com/microsoft/TypeScript/tree/main/src/tsserver">Language
+      Server</a>。而VSCode自带了一个插件<a
+      href="https://github.com/microsoft/vscode/tree/main/extensions/typescript-language-features">typescript-language-features</a>，来调用tsserver。
+  </p>
+  <p>
+    接下来我们看看VSCode是如何调用tsserver的。
+  </p>
+  <h3>3.1 启动Typescript Language Server</h3>
+  <p>
+    typescript-language-features插件（下面简称ts插件）内包含了一个<a
+      href="https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/typescriptServiceClient.ts#L95">TypeScriptServiceClient类</a>，这就是LSP的客户端了。这个客户端不仅包含了与服务端通信，还负责启动客户端。我们看下启动服务的代码：
+    TODO: 如何启动tsserver进程，如何通信
+  </p>
+  <pre>
+    private startService(resendModels: boolean = false): ServerState.State {
+      ...
+      const handle = this.typescriptServerSpawner.<b>spawn</b>(...),
+      });
+      ...
+    }
+  </pre>
+  <p>
+    可以看到，这里调用了typescriptServerSpawner的spawn方法来启动tsserver进程，我们继续往里看spawn的定义。
+  </p>
+  <pre>
+    public spawn(
+      version: TypeScriptVersion,
+      capabilities: ClientCapabilities,
+      configuration: TypeScriptServiceConfiguration,
+      ...
+    ): ITypeScriptServer {
+      ...
+      const serverType = this.getCompositeServerType(version, capabilities, configuration);
+      ...
+  
+      switch (serverType) {
+        case CompositeServerType.SeparateSyntax:
+        case CompositeServerType.DynamicSeparateSyntax:
+          {
+            const enableDynamicRouting = !shouldUseSeparateDiagnosticsServer && serverType === CompositeServerType.DynamicSeparateSyntax;
+            primaryServer = new SyntaxRoutingTsServer({
+              syntax: <b>this.spawnTsServer</b>(<b>TsServerProcessKind.Syntax</b>, ...),
+              semantic: <b>this.spawnTsServer</b>(<b>TsServerProcessKind.Semantic</b>, ...),
+            }, delegate, enableDynamicRouting);
+            break;
+          }
+        case CompositeServerType.Single:
+          {
+            primaryServer = <b>this.spawnTsServer</b>(<b>TsServerProcessKind.Main</b>, ...);
+            break;
+          }
+        case CompositeServerType.SyntaxOnly:
+          {
+            primaryServer = <b>this.spawnTsServer</b>(<b>TsServerProcessKind.Syntax</b>, ...);
+            break;
+          }
+      }
+      ...
+      return primaryServer;
+    }
+  </pre>
+  <p>
+    这里有许多server类型，其中Syntax是仅语法解析，Main，Semantic都是包含语法和语义的解析。简单说一下语法和语义的区别，语法分析一般针对单条语句，而语义分析会包含上下文，举例来说，<i>var a = 1
+      b =
+      2</i> 我们知道是错误的，这就是通过语法分析解析出来的。而const a = 1; a.split('.')是错误的，number类型没有split方法，这是通过语义分析得出的。
+  </p>
+  <p>
+    然后我们继续深入看一下spawnTsServer
+  </p>
+  <pre>
+    private spawnTsServer(...): ITypeScriptServer {
+      ...
+      const process = this._factory.<b>fork</b>(version, args, kind, configuration, this._versionManager);
+      ...
+  
+      return new ProcessBasedTsServer(
+        ...
+        process!,
+        ...);
+    }
+  </pre>
+  <p>
+    可以看到，这里fork了process，并且传给ProcessBasedTsServer构造函数，先看下是如何fork的。VSCode是可以运行在browser和electron上的，所以这里的fork有两个实现，分别在<a
+      href="https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/tsServer/serverProcess.browser.ts">WorkerServerProcess</a>和<a
+      href="https://github.com/microsoft/vscode/blob/main/extensions/typescript-language-features/src/tsServer/serverProcess.electron.ts">ElectronServiceProcessFactory</a>内。浏览器通过Worker启动，而electron通过child_process启动。我们以electron为例继续往下看。
+  </p>
+  <pre>
+    export class ElectronServiceProcessFactory implements TsServerProcessFactory {
+      fork(...): TsServerProcess {
+        let tsServerPath = version.tsServerPath;
+        ...
+        const useIpc = version.apiVersion?.gte(API.v460);
+        ...
+        const childProcess = <b>child_process.fork</b>(tsServerPath, runtimeArgs, {
+          ...
+          stdio: useIpc ? ['pipe', 'pipe', 'pipe', 'ipc'] : undefined,
+        });
+        return useIpc ? new IpcChildServerProcess(childProcess) : new StdioChildServerProcess(childProcess);
+      }
+    }
+  </pre>
+  <p>
+    这里就是调用Node.js基础库child_process来fork子进程了。从最后一行可以看出，这里支持两种进程通信方法IPC和STDIO，使用哪一种取决于TypeScript的版本。IpcChildServerProcess和StdioChildServerProcess分别实现了不同的通信方式，代码如下：
+  </p>
+  <pre>
+    class IpcChildServerProcess extends Disposable implements TsServerProcess {
+      ...
+      write(serverRequest: Proto.Request): void {
+        this._process.send(serverRequest);
+      }
+      onData(handler: (data: Proto.Response) => void): void {
+        this._process.on('message', handler);
+      }
+      onExit(handler: (code: number | null, signal: string | null) => void): void {
+        this._process.on('exit', handler);
+      }
+      onError(handler: (err: Error) => void): void {
+        this._process.on('error', handler);
+      }
+      ...
+    }
+    
+    class StdioChildServerProcess extends Disposable implements TsServerProcess {
+      ...
+      write(serverRequest: Proto.Request): void {
+        this._process.stdin!.write(JSON.stringify(serverRequest) + '\r\n', 'utf8');
+      }
+      onData(handler: (data: Proto.Response) => void): void {
+        this._reader.onData(handler);
+      }
+      onExit(handler: (code: number | null, signal: string | null) => void): void {
+        this._process.on('exit', handler);
+      }
+      onError(handler: (err: Error) => void): void {
+        this._process.on('error', handler);
+        ...
+      }
+      ...
+    }
+  </pre>
+  <p>至此，TypeScript Language Server启动了，接下来我们看下如何调用server的</p>
+  <h3>3.2 与Typescript Language Server通信</h3>
+  <p>
+    TODO: 通信的内容，以go to definition为例
+  </p>
+  <h2>4. ts extension 中的 provider</h2>
+  <p>
+    TODO: provider接口介绍
+  </p>
+  <p>
+    TODO: 结合go to definition介绍provider
+  </p>
 </body>
 
 </html>
