@@ -1,0 +1,150 @@
+<html>
+
+<head>
+  <title>浏览器 API —— File System Access</title>
+</head>
+
+<body>
+  <h1>浏览器 API —— File System Access</h1>
+  <h2>简介</h2>
+  <p>浏览器的 File System Access 接口中定义了读取文件，写入文件，操作文件与文件夹的方法。大大拓展了 Web 应用的能力。为了安全考虑，所有读取与写入文件的操作都需要用户点击选择或者确认授权才能执行。</p>
+  <p>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/window/showOpenFilePicker">MDN 参考文档</a>
+  </p>
+  <h2>例子</h2>
+  <h3>选择文件</h3>
+  <p>
+    调用 window.showOpenFilePicker()，浏览器会弹出文件选择窗口，选择文件后，在方法的 Promise 回调中会返回文件的句柄。
+  </p>
+  <p><b>代码：</b></p>
+  <pre>
+async function pickFile() {
+  const fileHandler = await window.showOpenFilePicker()
+  let log = ''
+  log += '选取了文件：'
+  fileHandler.forEach(handler => {
+    log += handler.name + '\r\n'
+  })
+  const pickFileLogElement = document.getElementById('pickFileLog')
+  pickFileLogElement.innerText = log
+}
+	</pre>
+  <p><b>效果：</b></p>
+  <button onclick="pickFile()">选择文件</button>
+  <p id="pickFileLog"></p>
+  <h3>选取多个文件</h3>
+  <p>
+    showOpenFilePicker 函数接收的参数中，传入 multiple: true, 即可在选择文件弹窗中选择多个文件。
+  </p>
+  <b>代码：</b>
+  <pre>
+async function pickMultipleFile() {
+  const pickerOpts = {
+    multiple: true
+  };
+  const fileHandler = await window.showOpenFilePicker(pickerOpts)
+  let log = ''
+  log += '选取了文件：\r\n'
+  fileHandler.forEach(handler => {
+    log += handler.name + '\r\n'
+  })
+  const pickMultipleFileLogElement = document.getElementById('pickMultipleFileLog')
+  pickMultipleFileLogElement.innerText = log
+}
+	</pre>
+  <p><b>效果</b></p>
+  <button onclick="pickMultipleFile()">选取多个文件</button>
+  <p id="pickMultipleFileLog"></p>
+  <h3>选取特定后缀的文件</h3>
+  <p>
+    在 showOpenFilePicker 函数的参数中传入：
+  <pre>
+types: [
+  {
+    description: 'Images',
+    accept: {
+      'image/*': ['.png', '.gif', '.jpeg', '.jpg']
+    }
+  },
+],
+	</pre>
+  可限定要选择的文件类型。其中 description 在 mac chrome 上似乎没有作用。
+  </p>
+  <p><b>代码：</b></p>
+  <pre>
+async function pickSpecificTypeFile() {
+  const pickerOpts = {
+    types: [
+      {
+        description: 'Images',
+        accept: {
+          'image/*': ['.png', '.gif', '.jpeg', '.jpg']
+        }
+      },
+    ],
+    // excludeAcceptAllOption: true,
+    multiple: false
+  };
+  const fileHandler = await window.showOpenFilePicker(pickerOpts)
+  let log = ''
+  log += '选取了文件：\r\n'
+  fileHandler.forEach(handler => {
+    log += handler.name + '\r\n'
+  })
+  const pickSpecificTypeFileLogElement = document.getElementById('pickSpecificTypeFileLog')
+  pickSpecificTypeFileLogElement.innerText = log
+}
+  </pre>
+  <p><b>效果：</b></p>
+  <button onclick="pickSpecificTypeFile()">选择图片文件</button>
+  <p id="pickSpecificTypeFileLog"></p>
+  <p>
+    showOpenFilePicker 有一个很绕的参数： excludeAcceptAllOption。
+    看下 MDN 描述：
+  <blockquote>
+    A boolean value that defaults to false. By default the picker should include an option to not apply any file type
+    filters (instigated with the type option below). Setting this option to true means that option is not available.
+  </blockquote>
+  意为，showOpenFilePicker 默认是可以选取所有类型的文件的，但如果设置了 excludeAcceptAllOption: true，那么就必须传入参数来限定文件类型，否则会报错：
+  <samp>
+    Uncaught (in promise) TypeError: Failed to execute 'showOpenFilePicker' on 'Window': Need at least one accepted type
+  </samp>
+  </p>
+  <h3>读取文件内容</h3>
+  <p>
+    showOpenFilePicker() 函数所返回的 FileSystemFileHandle 对象包含 getFile() 方法，此方法可以获得文件的 File 对象。File 继承了 Blob，也就是可以使用 Blob.text() 方法来获取文件内容
+  </p>
+  <p><b>代码：</b></p>
+  <pre>
+async function pickTextFileAndReadIt() {
+  const pickerOpts = {
+    types: [
+      {
+        description: 'Text',
+        accept: {
+          'text/*': ['.txt']
+        }
+      },
+    ]
+  };
+  const [fileHandler] = await window.showOpenFilePicker(pickerOpts)
+  let log = ''
+  log += '文件内容：\r\n'
+  const file = await fileHandler.getFile()
+  const fileContent = await file.text()
+  log += fileContent
+  const pickTextFileAndReadItLogElement = document.getElementById('pickTextFileAndReadItLog')
+  pickTextFileAndReadItLogElement.innerText = log
+}
+  </pre>
+  <p><b>效果：</b></p>
+  <button onclick="pickTextFileAndReadIt()">选择文本文件</button>
+  <p id="pickTextFileAndReadItLog"></p>
+  <h3>保存文件</h3>
+  <h3>选择文件夹</h3>
+  <h3>创建文件夹</h3>
+
+  <script src="main.js"></script>
+</body>
+
+</html>
