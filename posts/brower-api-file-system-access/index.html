@@ -184,6 +184,14 @@ async function saveToWritableFile() {
   <textarea id="writableFileContent"></textarea>
   <button onclick="saveToWritableFile()">修改并保存</button>
   <p id="saveToWritableFileLog"></p>
+  <p><b>showOpenFilePicker</b></p>
+  <p>
+    除了通过 showOpenFilePicker 获取 FileSystemWritableFileStream 来写入文件。还可以调用 showSaveFilePicker() 来保存文件。通过这种方式获取的 FileSystemFileHandle，调用 createWritable 并不需要弹窗提示用户获取权限。
+  </p>
+  <p><b>效果：</b></p>
+  <textarea id="saveFileContent"></textarea>
+  <button onclick="saveFile()">保存文件</button>
+  <p id="saveFileLog"></p>
   <h3>选择文件夹</h3>
   <h3>创建文件夹</h3>
   <script src="main.js"></script>

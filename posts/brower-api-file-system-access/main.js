@@ -95,3 +95,16 @@ async function saveToWritableFile() {
   const logEl = document.getElementById('saveToWritableFileLog')
   logEl.innerText = '写入成功，打开文件看看吧'
 }
+
+async function saveFile() {
+  const fileHandles = await window.showSaveFilePicker({
+    suggestedName: 'a.txt'
+  })
+  const writable = await fileHandles.createWritable()
+  const saveFileContentEl = document.getElementById('saveFileContent')
+  const content = saveFileContentEl.value
+  await writable.write(content)
+  await writable.close()
+  const logEl = docuemnt.getElementById('saveFileLog')
+  logEl.value = '保存成功，打开文件看看吧'
+}
