@@ -66,3 +66,32 @@ async function pickTextFileAndReadIt() {
   const pickTextFileAndReadItLogElement = document.getElementById('pickTextFileAndReadItLog')
   pickTextFileAndReadItLogElement.innerText = log
 }
+
+let writableFileHandler
+async function pickFileAndCreateWritable() {
+  const pickerOpts = {
+    types: [
+      {
+        description: 'Text',
+        accept: {
+          'text/plain': ['.txt']
+        }
+      },
+    ]
+  };
+  const fileHandlers = await window.showOpenFilePicker(pickerOpts)
+  writableFileHandler = fileHandlers[0]
+  const writableFile = await writableFileHandler.getFile()
+  const fileContent = await writableFile.text()
+  const writableFileContentElement = document.getElementById('writableFileContent')
+  writableFileContentElement.value = fileContent
+}
+
+async function saveToWritableFile() {
+  const writable = await writableFileHandler.createWritable()
+  const newContent = document.getElementById('writableFileContent').value
+  await writable.write(newContent)
+  await writable.close()
+  const logEl = document.getElementById('saveToWritableFileLog')
+  logEl.innerText = '写入成功，打开文件看看吧'
+}

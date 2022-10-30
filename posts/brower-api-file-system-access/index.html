@@ -141,9 +141,51 @@ async function pickTextFileAndReadIt() {
   <button onclick="pickTextFileAndReadIt()">选择文本文件</button>
   <p id="pickTextFileAndReadItLog"></p>
   <h3>保存文件</h3>
+  <p>
+    showOpenFilePicker() 函数所返回的 FileSystemFileHandle 对象包含 createWritable() 方法，此方法会返回 FileSystemWritableFileStream 对象，此对象包含 write() 方法，用以写入数据。
+  </p>
+  <p>
+    调用 createWritable() 方法会提示用户获取授权。
+  </p>
+  <p><b>代码：</b></p>
+  <pre>
+let writableFileHandler
+async function pickFileAndCreateWritable() {
+  const pickerOpts = {
+    types: [
+      {
+        description: 'Text',
+        accept: {
+          'text/plain': ['.txt']
+        }
+      },
+    ]
+  };
+  const fileHandlers = await window.showOpenFilePicker(pickerOpts)
+  writableFileHandler = fileHandlers[0]
+  const writableFile = await writableFileHandler.getFile()
+  const fileContent = await writableFile.text()
+  const writableFileContentElement = document.getElementById('writableFileContent')
+  writableFileContentElement.value = fileContent
+}
+
+async function saveToWritableFile() {
+  const writable = await writableFileHandler.createWritable()
+  const newContent = document.getElementById('writableFileContent').value
+  await writable.write(newContent)
+  await writable.close()
+  const logEl = document.getElementById('saveToWritableFileLog')
+  logEl.innerText = '写入成功，打开文件看看吧'
+}
+  </pre>
+  <p><b>效果：</b></p>
+  <button onclick="pickFileAndCreateWritable()">选择文件</button>
+  <p>文件内容如下：</p>
+  <textarea id="writableFileContent"></textarea>
+  <button onclick="saveToWritableFile()">修改并保存</button>
+  <p id="saveToWritableFileLog"></p>
   <h3>选择文件夹</h3>
   <h3>创建文件夹</h3>
-
   <script src="main.js"></script>
 </body>
 
