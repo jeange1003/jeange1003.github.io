@@ -108,3 +108,33 @@ async function saveFile() {
   const logEl = docuemnt.getElementById('saveFileLog')
   logEl.value = '保存成功，打开文件看看吧'
 }
+
+async function pickDirectory() {
+  const directoryHandle = await window.showDirectoryPicker()
+  const entries = await directoryHandle.entries()
+  let log = ''
+  for await (let entry of entries) {
+    log += `name: ${entry[0]}, type: ${entry[1].kind} \r\n`
+  }
+  const logEl = document.getElementById('pickDirectoryLog')
+  logEl.innerText = log
+}
+
+let directoryToCreateSubdirectoryHandle
+async function pickDirectoryToCreateSubdirectory() {
+  directoryToCreateSubdirectoryHandle = await window.showDirectoryPicker()
+  document.getElementById('pickDirectoryToCreateSubdirectoryLog').innerText = '选择成功，请输入要创建的文件夹名称，然后点击创建按钮'
+}
+
+async function createDirectory() {
+  const name = document.getElementById('directoryNameToCreate').value
+  const logEl = document.getElementById('createDirectoryLog')
+  if (name === '') {
+    logEl.innerText = '输入的名字不能为空'
+    return
+  } else {
+    logEl.innerText = ''
+  }
+  await directoryToCreateSubdirectoryHandle.getDirectoryHandle(name, { create: true })
+  logEl.innerText = '文件夹创建成功，去看看吧'
+}

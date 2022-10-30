@@ -186,14 +186,44 @@ async function saveToWritableFile() {
   <p id="saveToWritableFileLog"></p>
   <p><b>showOpenFilePicker</b></p>
   <p>
-    除了通过 showOpenFilePicker 获取 FileSystemWritableFileStream 来写入文件。还可以调用 showSaveFilePicker() 来保存文件。通过这种方式获取的 FileSystemFileHandle，调用 createWritable 并不需要弹窗提示用户获取权限。
+    除了通过 showOpenFilePicker 获取 FileSystemWritableFileStream 来写入文件。还可以调用 showSaveFilePicker() 来保存文件。通过这种方式获取的 FileSystemFileHandle，调用其 createWritable 并不需要弹窗提示用户获取权限。
   </p>
   <p><b>效果：</b></p>
   <textarea id="saveFileContent"></textarea>
   <button onclick="saveFile()">保存文件</button>
   <p id="saveFileLog"></p>
   <h3>选择文件夹</h3>
+  <p>showDirectoryPicker() 可以弹窗选择文件夹</p>
+  <p><b>代码：</b></p>
+  <pre>
+async function pickDirectory() {
+  const directoryHandle = await window.showDirectoryPicker()
+  const entries = await directoryHandle.entries()
+  let log = ''
+  for await (let entry of entries) {
+    log += `name: ${entry[0]}, type: ${entry[1].kind} \r\n`
+  }
+  const logEl = document.getElementById('pickDirectoryLog')
+  logEl.innerText = log
+}
+  </pre>
+  <button onclick="pickDirectory()">选择文件夹</button>
+  <p id="pickDirectoryLog"></p>
   <h3>创建文件夹</h3>
+  <p>
+    对于文件夹，不存在类似 showSaveFilePicker() 方法用以直接创建文件夹。需要在选择了一个文件夹后，调用 FileSystemDirectoryHandle 的 getDirectoryHandle 方法，并且需要传入参数 create: true。在创建成功的文件夹中，可以继续做编辑文件夹与文件的操作。
+  </p>
+  <p><b>代码：</b></p>
+  <pre>
+
+  </pre>
+  <p><b>效果：</b></p>
+  <button onclick="pickDirectoryToCreateSubdirectory()">选择文件夹</button>
+  <p id="pickDirectoryToCreateSubdirectoryLog"></p>
+  <label>要创建的文件夹名称：</label><input id="directoryNameToCreate" />
+  <button onclick="createDirectory()">创建</button>
+  <p id="createDirectoryLog"></p>
+  <p>2022-10-30</p>
   <script src="main.js"></script>
 </body>
 
