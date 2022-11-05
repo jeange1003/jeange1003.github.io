@@ -1,0 +1,119 @@
+<html>
+
+<head>
+  <title>SVG - viewBox 和 preserveAspectRatio</title>
+  <script src="page1.js" type="text/javascript"></script>
+  <style>
+    svg {
+      border: 1px solid gray;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>SVG - viewBox 和 preserveAspectRatio</h1>
+  <h2>简介</h2>
+  <p>
+    svg图形用svg元素标识，需要给svg元素设置xmlns="http://www.w3.org/2000/svg"的属性。xmlns属性是用以区分不同的xml定义的，没有xmlns属性，那么从定义上来讲，无法区分这是xml的一个元素，还是其他xml方言的一个元素。但是在浏览器实测下来，不设置xmlns元素也能被解析，可能chrome做了约定？
+  </p>
+  <p>
+    至于为什么不用DOCTYPE？xml并没有定义DOCTYPE的含义。xmlns可以是任何string，并不是一定需要用URL，这里使用URL是因为一般URL是唯一的，所以也不需要xmlns的值能够链接到哪儿
+  </p>
+  <p>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course">参考</a>
+  </p>
+  <h2>例子</h2>
+  <h3>先画两个图形</h3>
+  <p><b>代码：</b></p>
+  <pre id="code1"></pre>
+  <p><b>效果</b></p>
+  <svg id="demo1">
+    <rect width="50" height="50" fill="red" />
+    <circle cx="125" cy="25" r="25" fill="green" />
+  </svg>
+  <script type="text/javascript">
+    outputHtml({ domId: 'demo1', loggerId: 'code1' })
+  </script>
+  <p><b>画布与viewBox的尺寸</b></p>
+  <p>
+    svg元素的属性width和height用以表示svg画布的宽高，而viewBox则代表能看到的区域。并且会将viewBox能看到的区域缩放到width和height的宽高。比如，width="200"
+    height="200"，代表这个画布是200像素*200像素大小，viewBox="0 0 100 100"代表将这块画布的坐标(0,0)到(100,100)的区域填充到整个画布，也就是左上1/4的的图像被放到到整个画布。
+  </p>
+  <pre id="code2"></pre>
+  <svg id="demo2" width="200" height="200" viewBox="0 0 100 100">
+    <rect width="50" height="50" fill="red" />
+    <circle cx="125" cy="25" r="25" fill="green" />
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <p>如果viewBox的比例和svg的宽高并不一致呢，下面实现一个这样的例子，为了更观察，svg的宽高设置为150，内部设置9个宽高50的图形。不同按钮设置不同的viewBox</p>
+  <svg id="demo3" width="150" height="150">
+    <!-- 第一行 -->
+    <rect width="50" height="50" fill="red" />
+    <circle cx="75" cy="25" r="25" fill="green" />
+    <rect x="100" y="0" width="50" height="50" fill="blue" />
+    <!-- 第二行  -->
+    <circle cx="25" cy="75" r="25" fill="orange" />
+    <rect x="50" y="50" width="50" height="50" fill="yellow" />
+    <circle cx="125" cy="75" r="25" fill="brown" />
+    <!-- 第三行 -->
+    <rect x="0" y="100" width="50" height="50" fill="purple" />
+    <circle cx="75" cy="125" r="25" fill="cyan" />
+    <rect x="100" y="100" width="50" height="50" fill="pink" />
+  </svg>
+  <br />
+  <label>x:</label><input id="demo3ScaleX" type="range" min="0" max="150" value="0" /><span id="demo3ValueX">0</span>
+  <br />
+  <label>y:</label><input id="demo3ScaleY" type="range" min="0" max="150" value="0" /><span id="demo3ValueY">0</span>
+  <br />
+  <label>width:</label><input id="demo3ScaleWidth" type="range" min="50" max="150" value="150" /><span
+    id="demo3ValueWidth">150</span>
+  <br />
+  <label>height:</label><input id="demo3ScaleHeight" type="range" min="50" max="150" value="150" /><span
+    id="demo3ValueHeight">150</span>
+  <script type="text/javascript">
+    initDemo3Scale()
+  </script>
+  <div id="preserveAspectRatioSettingContainer" style="display: none;">
+    <label>x:</label>
+    <input type="radio" name="preserveAspectRatioX" value="xMin" /><label>Min</label>
+    <input type="radio" name="preserveAspectRatioX" value="xMid" checked /><label>Mid</label>
+    <input type="radio" name="preserveAspectRatioX" value="xMax" /><label>Max</label>
+    <br />
+    <label>y:</label>
+    <input type="radio" name="preserveAspectRatioY" value="YMin" /><label>Min</label>
+    <input type="radio" name="preserveAspectRatioY" value="YMid" checked /><label>Mid</label>
+    <input type="radio" name="preserveAspectRatioY" value="YMax" /><label>Max</label>
+    <br />
+    <label>meet or slice:</label>
+    <input type="radio" name="preserveAspectRatioMeetSlice" value="meet" checked /><label>meet</label>
+    <input type="radio" name="preserveAspectRatioMeetSlice" value="slice" /><label>slice</label>
+  </div>
+  <script>
+    initPreserveAspectRatioSetting()
+  </script>
+  <p>可以看到，当viewBox，也就是x,y,width,height为0,0,50,50时，最左上角的图形撑满了画布。当值为0,0,100,100时，左上4个图形撑满了画布。</p>
+  <p>
+    再调节为0,0,50,100时，左上和左中的两个图形在垂直撑满，水平居中，可以认为是，长度长的方向撑满画布，长度短的方向居中。注意这里的长是指宽高比相对于画布的宽高比。比如，假设画布的宽高是10:100，而viewBox的宽高是2:10中，那么这个时候宽是长的，高是短的。
+  </p>
+  <p>那么可以设定为长度短的方向撑满画布，长度长的方向截取吗？或者长度短的不是居中，而是居左或者居右吗？</p>
+  <p>答案是可以通过设置preserveAspectRatio来实现上述表现</p>
+  <button onclick="openPreserveAspectRatioSetting()">点此打开preserveAspectRatio设置</button>
+  <p>
+    还是设置viewBox为0,0,50,100，默认是xMidYMid meet。将x改为xMin，发现第1，4个图形贴最左边了，再将x改为xMax，1，4图形贴最右边了。
+  </p>
+  <p>怎么改y的设置都不会有变化，因为y是长方向，不需要进行调整。</p>
+  <p>把viewBox为0,0,100,50再把xy反过来设置也是有一样的效果，YMin贴最上面，yMax贴最下面</p>
+  <p>上面的情况是长边适配，调整短边的位置，也就是meet的含义，那么相应的，slice是指适应短边，裁剪长边，再试一下:</p>
+  <p>设置viewBox为0,0,50,100，preserveAspectRatio设置为xMidYMin slice。发现图形1占满了整个画布，为什么呢？viewBox的x为0，width为50，slice适配了x方向，也就是x方向的0~50占满整个画布，对应的，viewBox的y方向需要做裁剪，那么y方向的100高度被裁剪为50高度，正好是第一个图形的宽高。</p>
+  <p>再调整y为YMid，显示了下半个第一个图形和上半个第四个图形，也就是裁剪了viewBox的y方向的头尾</p>
+  <p>再调整y为YMax，显示了第四个图形</p>
+  <p>至此，viewBox和preserveAspectRatio的属性含义及其关系以及全部梳理了。 </p>
+  <!-- preserveAspectRatio -->
+  <!-- <svg width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="red" />
+    <circle cx="150" cy="100" r="80" fill="green" />
+    <text x="150" y="125" font-size="60" text-anchor="middle" fill="white">SVG</text>
+  </svg> -->
+</body>
+
+</html>
