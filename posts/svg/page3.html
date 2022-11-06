@@ -1,0 +1,65 @@
+<html>
+<header>
+  <script src="page3.js"></script>
+  <script src="utils.js"></script>
+</header>
+
+<body>
+  <h1>SVG - Path</h1>
+  <h1>命令</h1>
+  <p>path元素的绘图，通过设置一系列命令来完成，这些命令包含移动，划线等。</p>
+  <h2>移动</h2>
+  <p>移动的命令是M x y或者m dx dy，其中M是指移动到绝对坐标，m移动相对坐标。</p>
+  <h2>画直线</h2>
+  <p>光有移动还无法画出任何图形。</p>
+  <p>L，l命令用来画线，一样的，大写命令绝对坐标，小写命令相对坐标。</p>
+  <pre id="code1"></pre>
+  <svg id="demo1" width="100" height="100">
+    <path d="M 40 10 L 60 30" stroke="#ff3300" />
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <p>除了L命令，还有H(h)，V(v)命令，用来画水平和垂直线。由于只往一个方向画线，所以只有一个坐标参数</p>
+  <pre id="code2"></pre>
+  <svg id="demo2" width="100" height="100">
+    <path d="M10 10 H 30 V 30 H 10" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <p>Z命令可以连接最后一个点和第一个点，不需要任何参数。在上面一个例子最后加一个Z命令。</p>
+  <pre id="code3"></pre>
+  <svg id="demo3" width="100" height="100">
+    <path d="M10 10 H 30 V 30 H 10 Z" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo3', loggerId: 'code3' })</script>
+  <h2>画曲线</h2>
+  <h3>贝塞尔曲线</h3>
+  <p>贝塞尔曲线的命令是C,S,Q,T。</p>
+  <p>首先是C(c)，对应的参数分别是两个控制点的坐标和下一个点坐标x1 y1 x2 y2 x y</p>
+  <pre id="code4"></pre>
+  <svg id="demo4" width="100" height="100">
+    <path d="M 10 20 C 40 20 60 55 65 20" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo4', loggerId: 'code4' })</script>
+  <p>S，跟在C或者S后面，定义下一个点的坐标和其控制点的坐标</p>
+  <pre id="code5"></pre>
+  <svg id="demo5" width="100" height="100">
+    <path d="M 10 20 C 40 20 60 55 65 20 S 85 50 95 20 " stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo5', loggerId: 'code5' })</script>
+  <p>Q，下一个控制点和上一个点的控制点为同一点，参数为这个控制点的坐标和下个点的坐标，Q x1 y2 x y</p>
+  <pre id="code6"></pre>
+  <svg id="demo6" width="100" height="100">
+    <path d="M 10 20 Q 30 50 50 20" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo6', loggerId: 'code6' })</script>
+  <p>
+    T，仅指定下一个点。仅能跟在Q和T后面，控制点根据上一个点的控制点推算出来，应该是上一个控制点到上一个点的延长线与上一个点与当前点连线中点垂直线的交点。
+    比如下例，第一个点的x坐标(10)与第二个点的x坐标(50)相距40，那么再往右40画第三个点x:90，可以看到画出了两个等距的弧线。
+  </p>
+  <pre id="code6"></pre>
+  <svg id="demo6" width="100" height="100">
+    <path d="M 10 20 Q 30 50 50 20 T 90 20" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <h3>弧线</h3>
+</body>
+
+</html>
