@@ -1,0 +1,53 @@
+<html>
+<header>
+  <title>
+    SVG - 各种图形
+  </title>
+  <script src="page2.js"></script>
+  <script src="utils.js"></script>
+</header>
+
+<body>
+  <h1>SVG - 各种图形</h1>
+  <p>矩形，设置左上角坐标、宽高即可</p>
+  <pre id="code1"></pre>
+  <svg width="100" height="50" id="demo1">
+    <rect x="1" y="1" width="98" height="48" stroke="#ff3300" fill="transparent"></rect>
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <p>圆形，设置圆形、半径</p>
+  <pre id="code2"></pre>
+  <svg width="100" height="100" id="demo2">
+    <circle cx="50" cy="50" r="48" stroke="#ff3300" fill="transparent"></circle>
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <p>椭圆形，设置圆形，两个方向的半径</p>
+  <pre id="code3"></pre>
+  <svg width="100" height="100" id="demo3">
+    <ellipse cx="50" cy="50" rx="40" ry="20" stroke="#ff3300" fill="transparent"></ellipse>
+  </svg>
+  <script>outputHtml({ domId: 'demo3', loggerId: 'code3' })</script>
+  <p>线，设置起止两点的坐标</p>
+  <pre id="code4"></pre>
+  <svg width="100" height="100" id="demo4">
+    <line x1="10" y1="10" x2="50" y2="40" stroke="#ff3300" />
+  </svg>
+  <script>outputHtml({ domId: 'demo4', loggerId: 'code4' })</script>
+  <p>折线，其中的points是x1, y1, x2, y2, x3, y3...</p>
+  <pre id="code5"></pre>
+  <svg width="100" height="100" id="demo5">
+    <polyline points="0 50 10 20 30 23 80 50" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo5', loggerId: 'code5' })</script>
+  <p>多边形，和折线的区别在于它会自动连接首尾的点</p>
+  <pre id="code6"></pre>
+  <svg width="100" height="100" id="demo6">
+    <polygon points="0 50 10 20 30 23 80 50" stroke="#ff3300" fill="transparent" />
+  </svg>
+  <script>outputHtml({ domId: 'demo6', loggerId: 'code6' })</script>
+  <p>以上是基础的图形，svg还支持一个path元素，这是最为灵活的元素，下一页介绍</p>
+  <br/>
+  <a href="page1.html">上一页</a><a href="page3.html">下一页</a>
+</body>
+
+</html>
