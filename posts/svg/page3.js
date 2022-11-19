@@ -2,8 +2,6 @@ const drawPath = (parameters) => {
   const pathElement = document.getElementById('demo7Path')
   const grayPathElement = document.getElementById('demo7GrayPath')
   const { fromX, fromY, rx, ry, rotation, isLargeArc, sweep, toX, toY } = parameters
-  console.log('fromX, fromY, rx, ry, rotation, isLargeArc, sweep, toX, toY', fromX, fromY, rx, ry, rotation, isLargeArc, sweep, toX, toY)
-  console.log('pathElement', pathElement)
   pathElement.setAttribute('d', `M ${fromX} ${fromY} A ${rx} ${ry} ${rotation} ${isLargeArc} ${sweep} ${toX} ${toY}`)
   grayPathElement.setAttribute('d', `M ${fromX} ${fromY} A ${rx} ${ry} ${rotation} ${isLargeArc ? 0 : 1} ${sweep ? 0 : 1} ${toX} ${toY}`)
 }
@@ -46,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
       } else if (target.type === 'checkbox') {
         parameters[target.name] = target.checked ? 1 : 0
       }
-      console.log('parameters', parameters)
       drawPath(parameters)
     })
   })
@@ -56,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let draggingToPoint = false
   const mouseMoveHandler = (e) => {
     const { offsetX: x, offsetY: y } = e
-    console.log('x', x, 'y', y, 'draggingFromPoint', draggingFromPoint)
     if (draggingFromPoint) {
       parameters.fromX = x
       parameters.fromY = y
@@ -68,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     drawPoints(parameters.fromX, parameters.fromY, parameters.toX, parameters.toY)
   }
 
-  svgEl.addEventListener('mousedown', (e) => {
+  const checkDragging = (e) => {
     const { offsetX: x, offsetY: y } = e
     draggingFromPoint = inPoint(x, y, parameters.fromX, parameters.fromY, 3)
     if (draggingFromPoint) {
@@ -76,12 +72,23 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       draggingToPoint = inPoint(x, y, parameters.toX, parameters.toY, 3)
     }
+  }
+
+  svgEl.addEventListener('mousedown', (e) => {
+    checkDragging(e)
     svgEl.addEventListener('mousemove', mouseMoveHandler)
     document.addEventListener('mouseup', () => {
       svgEl.removeEventListener('mousemove', mouseMoveHandler)
     })
   })
-
+  svgEl.addEventListener('touchstart', e => {
+    console.log('touchstart',e)
+    checkDragging(e)
+    svgEl.addEventListener('touchmove', mouseMoveHandler)
+    document.addEventListener('touchend', () => {
+      svgEl.removeEventListener('touchmove', mouseMoveHandler)
+    })
+  })
 
 
 })

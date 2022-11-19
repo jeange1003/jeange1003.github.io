@@ -1,10 +1,16 @@
 <html>
 <header>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
   <script src="page3.js"></script>
   <script src="utils.js"></script>
   <style>
-    #demo7FromPoint, #demo7ToPoint{
+    #demo7FromPoint,
+    #demo7ToPoint {
       cursor: pointer;
+    }
+    pre {
+      overflow-x: scroll;
     }
   </style>
 </header>
@@ -78,11 +84,11 @@
   <svg id="demo7" width="400" height="200">
     <path id="demo7Path" stroke="red" fill="transparent"></path>
     <path id="demo7GrayPath" stroke="gray" fill="transparent"></path>
-    <circle id="demo7FromPoint" cx="10" cy="50" r="3" stroke="transparent" fill="red"  />
-    <circle id="demo7ToPoint" cx="80" cy="50" r="3" stroke="transparent" fill="red"  />
+    <circle id="demo7FromPoint" cx="10" cy="50" r="3" stroke="transparent" fill="red" />
+    <circle id="demo7ToPoint" cx="80" cy="50" r="3" stroke="transparent" fill="red" />
   </svg>
   <div>
-    <label>x半径:</label><input id="demo7Rx" type="range" max="200" name="rx" value="20"/>
+    <label>x半径:</label><input id="demo7Rx" type="range" max="200" name="rx" value="20" />
     <label>y半径:</label><input id="demo7Ry" type="range" max="200" name="ry" value="30" />
     <label>旋转角度</label><input id="demo7Rotation" type="range" min="0" max="360" name="rotation" value="0" />
     <label>是否为长弧</label><input id="demo7IsLargeArc" type="checkbox" name="isLargeArc" />

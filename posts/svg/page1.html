@@ -2,8 +2,15 @@
 
 <head>
   <title>SVG - viewBox 和 preserveAspectRatio</title>
-  <script src="page1.js" ></script>
-  <script src="utils.js" ></script>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <style>
+    pre {
+      overflow-x: scroll;
+    }
+  </style>
+  <script src="page1.js"></script>
+  <script src="utils.js"></script>
   <style>
     svg {
       border: 1px solid gray;
@@ -105,11 +112,13 @@
   <p>怎么改y的设置都不会有变化，因为y是长方向，不需要进行调整。</p>
   <p>把viewBox为0,0,100,50再把xy反过来设置也是有一样的效果，YMin贴最上面，yMax贴最下面</p>
   <p>上面的情况是长边适配，调整短边的位置，也就是meet的含义，那么相应的，slice是指适应短边，裁剪长边，再试一下:</p>
-  <p>设置viewBox为0,0,50,100，preserveAspectRatio设置为xMidYMin slice。发现图形1占满了整个画布，为什么呢？viewBox的x为0，width为50，slice适配了x方向，也就是x方向的0~50占满整个画布，对应的，viewBox的y方向需要做裁剪，那么y方向的100高度被裁剪为50高度，正好是第一个图形的宽高。</p>
+  <p>设置viewBox为0,0,50,100，preserveAspectRatio设置为xMidYMin
+    slice。发现图形1占满了整个画布，为什么呢？viewBox的x为0，width为50，slice适配了x方向，也就是x方向的0~50占满整个画布，对应的，viewBox的y方向需要做裁剪，那么y方向的100高度被裁剪为50高度，正好是第一个图形的宽高。
+  </p>
   <p>再调整y为YMid，显示了下半个第一个图形和上半个第四个图形，也就是裁剪了viewBox的y方向的头尾</p>
   <p>再调整y为YMax，显示了第四个图形</p>
   <p>至此，viewBox和preserveAspectRatio的属性含义及其关系以及全部梳理了。 </p>
-  <br/>
+  <br />
   <a href="page2.html">下一页</a>
 </body>
 
