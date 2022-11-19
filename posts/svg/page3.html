@@ -2,6 +2,11 @@
 <header>
   <script src="page3.js"></script>
   <script src="utils.js"></script>
+  <style>
+    #demo7FromPoint, #demo7ToPoint{
+      cursor: pointer;
+    }
+  </style>
 </header>
 
 <body>
@@ -60,6 +65,32 @@
     <path d="M 10 20 Q 30 50 50 20 T 90 20" stroke="#ff3300" fill="transparent" />
   </svg>
   <h3>弧线</h3>
+  <p>弧线有7个参数。为什么有这么多参数？一个一个来。</p>
+  <p>首先，要画一条弧线，要确定两个点，也就是起止点，其中起点为path的上一个点，那么需要提供一个终点坐标的参数，这里就是2个参数</p>
+  <p>其次，还有椭圆在两个方向上的半径，又两个参数</p>
+  <p>然后，不是所有椭圆都是x,y轴对称的，所以还有一个旋转角度</p>
+  <p>在确定了上述参数后，如果x,y半径不相等，可以画出2个椭圆符合要求，分别是中心点在起止点连线的上方和下方的，那么这里需要一个参数指定是上方还是下房。</p>
+  <p>而每个椭圆都可以被起止点切割为两条弧线，所以又有一个参数指定是长弧还是短弧</p>
+  <p>至此，就有了7个参数。</p>
+  <p>画弧线的命令是A(a)，以A为例，参数为rx(x方向半径)ry(y方向半径)x-axis-rotation(旋转角度，顺时针为正方向)large-arc-flag (是否为长弧)sweep-flag(是否是截线上方的弧线)
+    x(终点x坐标) y(终点y坐标)。命令格式：<code>A rx ry x-axis-rotation large-arc-flag sweep-flag x y</code></p>
+  <p>下面是调试demo</p>
+  <svg id="demo7" width="400" height="200">
+    <path id="demo7Path" stroke="red" fill="transparent"></path>
+    <path id="demo7GrayPath" stroke="gray" fill="transparent"></path>
+    <circle id="demo7FromPoint" cx="10" cy="50" r="3" stroke="transparent" fill="red"  />
+    <circle id="demo7ToPoint" cx="80" cy="50" r="3" stroke="transparent" fill="red"  />
+  </svg>
+  <div>
+    <label>x半径:</label><input id="demo7Rx" type="range" max="200" name="rx" value="20"/>
+    <label>y半径:</label><input id="demo7Ry" type="range" max="200" name="ry" value="30" />
+    <label>旋转角度</label><input id="demo7Rotation" type="range" min="0" max="360" name="rotation" value="0" />
+    <label>是否为长弧</label><input id="demo7IsLargeArc" type="checkbox" name="isLargeArc" />
+    <label>是否为上半边</label><input id="demo7Sweep" type="checkbox" name="sweep" />
+    <!-- <label>x坐标</label><input id="demo7X" type="range" name="x" value="80" />
+    <label>y坐标</label><input id="demo7Y" type="range" name="y" value="50" /> -->
+  </div>
+
 </body>
 
 </html>
