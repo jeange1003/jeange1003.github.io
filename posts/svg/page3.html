@@ -1,23 +1,22 @@
 <html>
-<header>
+<head>
+  <title>SVG - Path</title>
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
   <script src="page3.js"></script>
   <script src="utils.js"></script>
+  <link rel="stylesheet" href="common.css" />
   <style>
     #demo7FromPoint,
     #demo7ToPoint {
       cursor: pointer;
     }
-    pre {
-      overflow-x: scroll;
-    }
   </style>
-</header>
+</head>
 
 <body>
   <h1>SVG - Path</h1>
-  <h1>命令</h1>
+  <h2>命令</h2>
   <p>path元素的绘图，通过设置一系列命令来完成，这些命令包含移动，划线等。</p>
   <h2>移动</h2>
   <p>移动的命令是M x y或者m dx dy，其中M是指移动到绝对坐标，m移动相对坐标。</p>
@@ -88,15 +87,15 @@
     <circle id="demo7ToPoint" cx="80" cy="50" r="3" stroke="transparent" fill="red" />
   </svg>
   <div>
-    <label>x半径:</label><input id="demo7Rx" type="range" max="200" name="rx" value="20" />
-    <label>y半径:</label><input id="demo7Ry" type="range" max="200" name="ry" value="30" />
-    <label>旋转角度</label><input id="demo7Rotation" type="range" min="0" max="360" name="rotation" value="0" />
-    <label>是否为长弧</label><input id="demo7IsLargeArc" type="checkbox" name="isLargeArc" />
+    <label>x半径:</label><input id="demo7Rx" type="range" max="200" name="rx" value="20" /><br/>
+    <label>y半径:</label><input id="demo7Ry" type="range" max="200" name="ry" value="30" /><br/>
+    <label>旋转角度</label><input id="demo7Rotation" type="range" min="0" max="360" name="rotation" value="0" /><br/>
+    <label>是否为长弧</label><input id="demo7IsLargeArc" type="checkbox" name="isLargeArc" /><br/>
     <label>是否为上半边</label><input id="demo7Sweep" type="checkbox" name="sweep" />
-    <!-- <label>x坐标</label><input id="demo7X" type="range" name="x" value="80" />
-    <label>y坐标</label><input id="demo7Y" type="range" name="y" value="50" /> -->
   </div>
-
+  <div class="paging">
+    <a href="page2.html">上一页</a><a href="page4.html">下一页</a>
+  </div>
 </body>
 
 </html>
