@@ -1,10 +1,9 @@
 <html>
+
 <head>
   <title>SVG - Fill and Stroke</title>
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-  <script src="page4.js"></script>
-  <script src="utils.js"></script>
   <link rel="stylesheet" href="common.css" />
   <style>
     #demo7FromPoint,
@@ -12,10 +11,50 @@
       cursor: pointer;
     }
   </style>
+  <script src="utils.js"></script>
 </head>
 
 <body>
   <h1>SVG - Fill and Stroke</h1>
+  <h2>Fill</h2>
+  <p>通过fill属性设置填充色</p>
+  <pre id="code1">
+  </pre>
+  <input id="fillColorPicker" type="color" />
+  <svg id="demo1" width="100%" height="150">
+    <rect id="rectForFill" x="10" y="10" width="300" height="100" fill="red"></rect>
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <h2>Stroke</h2>
+  <p>color: 颜色</p>
+  <p>width: 线的宽度</p>
+  <p>linecap: 线的首尾的样式，butt，square，round，其中square和butt都是方的，区别是butt贴着长度，squal会顺着线方向扩展一半线宽度，可以在这两种类型下设置width查看到效果。round就是圆角
+  </p>
+  <p>linejoin: 线的折角的样式，miter，round，bevel。miter: 尖角，round: 圆角，bevel: 削平</p>
+  <p>dasharray: 虚线。两个数字参数，第一个表示填充的长度，第二个表示空白的长度。如果linecap是square或者round，填充的长度也受width影响。</p>
+  <pre id="code2"></pre>
+  <label>Color:</label><input id="strokeColorPicker" type="color" value="red" /><br />
+  <label>Width:</label><input id="strokeWidth" type="range" value="4" /><br />
+  <label>LineCap:</label>
+  <input type="radio" name="linecap" value="butt" id="butt" checked /><label for="butt">butt</label>
+  <input type="radio" name="linecap" value="square" id="square" /><label for="square">square</label>
+  <input type="radio" name="linecap" value="round" id="round" /><label for="round">round</label>
+  <br />
+  <label>LineJoin:</label>
+  <input type="radio" name="linejoin" value="miter" id="miter" checked /><label for="miter">miter</label>
+  <input type="radio" name="linejoin" value="round" id="round" /><label for="round">round</label>
+  <input type="radio" name="linejoin" value="bevel" id="bevel" /><label for="bevel">bevel</label>
+  <br />
+  <label>DashArray:</label>
+  <input type="range" id="dasharray-filled" value="5" max="10" />
+  <input type="range" id="dasharray-unfilled" value="5" max="10" />
+  <br />
+  <svg id="demo2" width="300" height="100">
+    <polyline id="demo2Polyline" points="10 30 20 5 40 60 80 10 150 80 240 10" fill="none" stroke="red" stroke-width="4"
+      stroke-linecap="miter" stroke-linejoin="miter" stroke-dasharray="5,5"></polyline>
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <script src="page4.js"></script>
 </body>
 
 </html>
