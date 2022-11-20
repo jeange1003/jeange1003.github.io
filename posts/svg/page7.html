@@ -22,10 +22,14 @@
     </defs>
     <rect fill="url(#Pattern1)" stroke="black" width="200" height="200" />
   </svg>
-  <p>有两个属性patternContentUnits和patternUnits</p>
+
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+
+  <p>有两个属性patternContentUnits和patternUnits。解释太长了，直接看demo。</p>
+  <p>都是百分比坐标：</p>
+  <pre id="code2"></pre>
   <svg id="demo2" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- 都是百分比坐标 -->
       <pattern id="Pattern2" x="0" y="0" width=".25" height=".25">
         <rect x="0" y="0" width="50" height="50" fill="red" />
         <rect x="0" y="0" width="25" height="25" fill="blue" />
@@ -34,9 +38,11 @@
     </defs>
     <rect fill="url(#Pattern2)" stroke="black" width="300" height="300" />
   </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <p>pattern是百分比坐标，内部的元素是“像素”坐标：</p>
+  <pre id="code3"></pre>
   <svg id="demo3" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- pattern是百分比坐标，内部的元素是“像素”坐标 -->
       <pattern id="Pattern3" x="0" y="0" width=".25" height=".25" patternContentUnits="objectBoundingBox">
         <rect x="0" y="0" width="0.2" height="0.2" fill="red" />
         <rect x="0" y="0" width="0.1" height="0.1" fill="blue" />
@@ -45,9 +51,11 @@
     </defs>
     <rect fill="url(#Pattern3)" stroke="black" width="300" height="300" />
   </svg>
+  <script>outputHtml({ domId: 'demo3', loggerId: 'code3' })</script>
+  <p>都是“像素”坐标：</p>
+  <pre id="code4"></pre>
   <svg id="demo4" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- 都是“像素”坐标 -->
       <pattern id="Pattern4" x="0" y="0" width="75" height="75" patternUnits="userSpaceOnUse">
         <rect x="10" y="10" width="40" height="40" fill="red" />
         <rect x="10" y="10" width="20" height="20" fill="blue" />
@@ -56,9 +64,11 @@
     </defs>
     <rect fill="url(#Pattern4)" stroke="black" width="300" height="300" />
   </svg>
+  <script>outputHtml({ domId: 'demo4', loggerId: 'code4' })</script>
+  <p>pattern是“像素”坐标，内部元素是“百分比坐标”：</p>
+  <pre id="code5"></pre>
   <svg id="demo5" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <!-- pattern是“像素”坐标，内部元素是“百分比坐标” -->
       <pattern id="Pattern5" x="0" y="0" width="75" height="75" patternUnits="userSpaceOnUse"
         patternContentUnits="objectBoundingBox">
         <rect x="0.1" y="0.1" width="0.25" height="0.25" fill="red" />
@@ -68,8 +78,7 @@
     </defs>
     <rect fill="url(#Pattern5)" stroke="black" width="300" height="300" />
   </svg>
-  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
-
+  <script>outputHtml({ domId: 'demo5', loggerId: 'code5' })</script>
   <div class="paging">
     <a href="page6.html">上一页</a><a href="page8.html">下一页</a>
   </div>
