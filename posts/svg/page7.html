@@ -1,0 +1,79 @@
+<html>
+
+<head>
+  <title>SVG - Pattern</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <script src="utils.js"></script>
+</head>
+
+<body>
+  <h1>SVG - Pattern</h1>
+  <p>可以重复一段图片，类似css的background</p>
+  <pre id="code1"></pre>
+  <svg id="demo1" width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <pattern id="Pattern1" x="0" y="0" width=".25" height=".25">
+        <rect x="0" y="0" width="50" height="50" fill="red" />
+        <rect x="0" y="0" width="25" height="25" fill="blue" />
+        <circle cx="25" cy="25" r="20" fill="yellow" fill-opacity="0.5" />
+      </pattern>
+    </defs>
+    <rect fill="url(#Pattern1)" stroke="black" width="200" height="200" />
+  </svg>
+  <p>有两个属性patternContentUnits和patternUnits</p>
+  <svg id="demo2" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- 都是百分比坐标 -->
+      <pattern id="Pattern2" x="0" y="0" width=".25" height=".25">
+        <rect x="0" y="0" width="50" height="50" fill="red" />
+        <rect x="0" y="0" width="25" height="25" fill="blue" />
+        <circle cx="25" cy="25" r="20" fill="yellow" fill-opacity="0.5" />
+      </pattern>
+    </defs>
+    <rect fill="url(#Pattern2)" stroke="black" width="300" height="300" />
+  </svg>
+  <svg id="demo3" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- pattern是百分比坐标，内部的元素是“像素”坐标 -->
+      <pattern id="Pattern3" x="0" y="0" width=".25" height=".25" patternContentUnits="objectBoundingBox">
+        <rect x="0" y="0" width="0.2" height="0.2" fill="red" />
+        <rect x="0" y="0" width="0.1" height="0.1" fill="blue" />
+        <circle cx="0.1" cy="0.1" r="0.1" fill="yellow" fill-opacity="0.5" />
+      </pattern>
+    </defs>
+    <rect fill="url(#Pattern3)" stroke="black" width="300" height="300" />
+  </svg>
+  <svg id="demo4" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- 都是“像素”坐标 -->
+      <pattern id="Pattern4" x="0" y="0" width="75" height="75" patternUnits="userSpaceOnUse">
+        <rect x="10" y="10" width="40" height="40" fill="red" />
+        <rect x="10" y="10" width="20" height="20" fill="blue" />
+        <circle cx="30" cy="30" r="10" fill="yellow" fill-opacity="0.5" />
+      </pattern>
+    </defs>
+    <rect fill="url(#Pattern4)" stroke="black" width="300" height="300" />
+  </svg>
+  <svg id="demo5" width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- pattern是“像素”坐标，内部元素是“百分比坐标” -->
+      <pattern id="Pattern5" x="0" y="0" width="75" height="75" patternUnits="userSpaceOnUse"
+        patternContentUnits="objectBoundingBox">
+        <rect x="0.1" y="0.1" width="0.25" height="0.25" fill="red" />
+        <rect x="0.1" y="0.1" width="0.1" height="0.1" fill="blue" />
+        <circle cx="0.175" cy="0.175" r="0.05" fill="yellow" fill-opacity="0.5" />
+      </pattern>
+    </defs>
+    <rect fill="url(#Pattern5)" stroke="black" width="300" height="300" />
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+
+  <div class="paging">
+    <a href="page6.html">上一页</a><a href="page8.html">下一页</a>
+  </div>
+  <script src="page7.js"></script>
+</body>
+
+</html>
