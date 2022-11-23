@@ -1,10 +1,3 @@
-// const demo4Params = {
-//   cx: 0.5,
-//   cy: 0.5,
-//   fx: 0.25,
-//   fy: 0.25,
-//   r: 0.5
-// };
 const demo4Gradient = document.getElementById('demo4Gradient')
 const drawDemo4 = () => {
 

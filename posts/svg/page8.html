@@ -1,0 +1,36 @@
+<html>
+
+<head>
+  <title>SVG - Text</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <script src="utils.js"></script>
+</head>
+
+<body>
+  <h1>SVG - Text</h1>
+  <p>
+    可以直接写text，设置颜色，字体
+  </p>
+  <pre id="code1"></pre>
+  <svg id="demo1" width="300" height="150">
+    <text x="10" y="20">这是一段平平无奇的文字</text>
+    <text x="10" y="50" font-weight="bold" fill="red">这是一段红红火火的文字</text>
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <p>相对于HTML原生文字，不同的一点，svg text可以设置文字的路径</p>
+  <pre id="code2"></pre>
+  <svg id="demo2" width="300" height="150">
+    <path id="demo2Path" d="M 10 20 Q 50 70 70 40 T 150 90" fill="none"/>
+    <text x="10" y="20">
+      <textPath xlink:href="#demo2Path">这是一段弯曲的文字</textPath>
+    </text>
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <div class="paging">
+    <a href="page7.html">上一页</a><a href="page9.html">下一页</a>
+  </div>
+</body>
+
+</html>
