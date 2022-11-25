@@ -1,0 +1,37 @@
+<html>
+
+<head>
+  <title>SVG - g 元素</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <script src="utils.js"></script>
+</head>
+
+<body>
+  <h1>SVG - g 元素</h1>
+  <p>
+    g是group的简写。它内部可以包含其他元素，对它设置的部分属性会应用到子元素中。当然，也会被子元素相同属性覆盖。
+  </p>
+  <pre id="code1"></pre>
+  <svg id="demo1" width="300" height="150">
+    <g fill="red">
+      <rect x="0" y="0" width="10" height="10" />
+    </g>
+    <g fill="red">
+      <rect x="20" y="0" width="10" height="10" fill="blue" />
+    </g>
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <p>g也是可以应用变换</p>
+  <pre id="code2"></pre>
+  <svg id="demo2" width="300" height="150" >
+    <g fill="red" transform="translate(50,50) rotate(45)">
+      <rect x="0" y="0" width="10" height="10" />
+      <rect x="20" y="0" width="10" height="10" fill="blue" />
+    </g>
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+</body>
+
+</html>

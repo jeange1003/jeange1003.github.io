@@ -1,0 +1,54 @@
+<html>
+
+<head>
+  <title>SVG - Transformation</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <script src="utils.js"></script>
+</head>
+
+<body>
+  <h1>SVG - Text</h1>
+  <p>
+    位移
+  </p>
+  <pre id="code1"></pre>
+  <svg id="demo1" width="300" height="150">
+    <rect x="20" y="20" width="10" height="10" fill="red" />
+    <rect x="20" y="20" width="10" height="10" fill="blue" transform="translate(50,50)" />
+  </svg>
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <p>
+    旋转，相对于元素0，0坐标旋转，而不是(x,y)
+  </p>
+  <pre id="code2"></pre>
+  <svg id="demo2" width="300" height="150">
+    <rect x="20" y="20" width="10" height="10" fill="red" />
+    <rect x="20" y="20" width="10" height="10" fill="blue" transform="rotate(45)" />
+  </svg>
+  <script>outputHtml({ domId: 'demo2', loggerId: 'code2' })</script>
+  <p>
+    可以先设置translate，在设置rotate，按顺序应用变换
+  </p>
+  <pre id="code3"></pre>
+  <svg id="demo3" width="300" height="150">
+    <rect x="20" y="20" width="10" height="10" fill="red" />
+    <rect x="0" y="0" width="10" height="10" fill="blue" transform="translate(50,50) rotate(45)" />
+  </svg>
+  <script>outputHtml({ domId: 'demo3', loggerId: 'code3' })</script>
+  <p>
+    缩放
+  </p>
+  <pre id="code4"></pre>
+  <svg id="demo4" width="300" height="150">
+    <rect x="20" y="20" width="10" height="10" fill="red" />
+    <rect x="20" y="20" width="10" height="10" fill="blue" transform="scale(0.5, 3)" />
+  </svg>
+  <script>outputHtml({ domId: 'demo4', loggerId: 'code4' })</script>
+  <div class="paging">
+    <a href="page8.html">上一页</a><a href="page10.html">下一页</a>
+  </div>
+</body>
+
+</html>
