@@ -1,0 +1,53 @@
+<html>
+
+<head>
+  <title>Web Component</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <style>
+    .paging {
+      justify-content: flex-end;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Web Component</h1>
+  <p>先来一个简单Demo。定义一个类，继承了HTMLElement，在构造函数中，设置一些内容。最后调用customElements.define定义Web Component。</p>
+  <pre>
+class HelloWorld extends HTMLElement {
+  constructor() {
+    super();
+    const newP = document.createElement('p')
+    newP.innerText = 'hello world'
+    this.appendChild(newP)
+  }
+}
+customElements.define("hello-world", HelloWorld);    
+  </pre>
+  <p>效果如下，可以看到hello-world元素内有一个p元素，文本是hello-world</p>
+  <hello-world></hello-world>
+  <p>Web Component生命周期中包含4个回调connectedCallback, disconnectedCallback, adoptedCallback,
+    attributeChangedCallback。分别为插入document、移出document，待确认，属性变化</p>
+  <p>
+    监听元素属性的变化，需要在class中提供静态属性observedAttributes get
+  </p>
+  <pre>static get observedAttributes() { return [...attributeNames]; }</pre>
+  <p>下面是Demo:</p>
+  <button id="demo2Add">Add</button>
+  <button id="demo2Remove">Remove</button>
+  <button id="demo2Update">Update</button>
+  <br />
+  <div id="demo2">
+    <lifecyle-callback-test id="lifecyleCallbackTestElement"></lifecyle-callback-test>
+  </div>
+  <div class="paging">
+    <a href="page2.html">下一页</a>
+  </div>
+
+  <script src="./page1.js"></script>
+
+</body>
+
+</html>
