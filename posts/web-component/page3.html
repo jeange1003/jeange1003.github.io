@@ -15,6 +15,7 @@
     <div>
       <slot name="slot1">不支持Slot时展示的内容</slot>
       <slot name="slot2">不支持Slot时展示的内容</slot>
+      <slot>这是默认的slot</slot>
     </div>
   </template>
   <p>上Demo</p>
@@ -40,7 +41,8 @@ customElements.define('with-slot', WithSlot)
     <with-slot>
       <div slot="slot2" style="width: 150px; height: 26px; background-color: lightcoral; margin-bottom: 40px;">In 2lot2</div>
       <p slot="slot1">这是插入slot1中的内容</p>
-      <p>这是其他内容，不会展示</p>
+      <p>这是插入到默认slot的内容</p>
+      <p>这是插入到默认slot的内容2</p>
     </with-slot>
   </div>
   
