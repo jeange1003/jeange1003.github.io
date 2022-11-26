@@ -1,3 +1,5 @@
+import '../../web-components/html-source.js'
+
 const toggleSourceButton = document.getElementById('toggleSourceButton')
 const htmlSource = document.getElementById('htmlSource')
 
