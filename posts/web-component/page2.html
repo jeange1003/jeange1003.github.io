@@ -6,11 +6,6 @@
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
   <link rel="stylesheet" href="common.css" />
   <script src="utils.js"></script>
-  <style>
-    .paging {
-      justify-content: flex-end;
-    }
-  </style>
 </head>
 
 <body>
@@ -57,7 +52,7 @@ customElements.define('encapsulated-component', EncapsulatedComponent)
   <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
   <p>组件内有一个id=rect的div，组件外部也有同id的div，但两者的样式没有相互影响</p>
   <div class="paging">
-    <a href="page2.html">下一页</a>
+    <a href="page1.html">上一页</a> <a href="page3.html">下一页</a>
   </div>
 
   <script src="./page2.js"></script>

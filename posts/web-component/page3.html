@@ -1,0 +1,57 @@
+<html>
+
+<head>
+  <title>Web Component -- Slots</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <script src="utils.js"></script>
+</head>
+
+<body>
+  <h1>Web Component -- Slots</h1>
+  <p>使用有些原生元素时，如果内部传入一些子元素，会展示子元素出来。Web Component是一个封装的过的元素，默认不会展示传入的子元素，而是提供了slot元素用来展示</p>
+  <template id="template1">
+    <div>
+      <slot name="slot1">不支持Slot时展示的内容</slot>
+      <slot name="slot2">不支持Slot时展示的内容</slot>
+    </div>
+  </template>
+  <p>上Demo</p>
+  <p>这里用template来定义html，而不是操作DOM，看起来更直观一些</p>
+  <pre id="templateCode1"></pre>
+  <p>将template插入shadow DOM</p>
+  <pre>
+class WithSlot extends HTMLElement {
+  constructor() {
+    super()
+    this.shadow = this.attachShadow({ mode: 'open' })
+    const template = document.getElementById('template1')
+    this.shadow.appendChild(template.content)
+  }
+}
+
+customElements.define('with-slot', WithSlot)
+  </pre>
+  <p>调用Web Component</p>
+  <pre id="code1"></pre>
+  <p>效果：</p>
+  <div id="demo1">
+    <with-slot>
+      <div slot="slot2" style="width: 150px; height: 26px; background-color: lightcoral; margin-bottom: 40px;">In 2lot2</div>
+      <p slot="slot1">这是插入slot1中的内容</p>
+      <p>这是其他内容，不会展示</p>
+    </with-slot>
+  </div>
+  
+  <script>outputHtml({ domId: 'demo1', loggerId: 'code1' })</script>
+  <script>outputHtml({ domId: 'template1', loggerId: 'templateCode1' })</script>
+  <div class="paging">
+    <a href="page2.html">上一页</a> <a href="page4.html">下一页</a>
+  </div>
+
+  <script src="./page3.js"></script>
+
+</body>
+
+</html>
