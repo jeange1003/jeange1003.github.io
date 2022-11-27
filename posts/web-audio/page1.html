@@ -1,7 +1,9 @@
 <html>
 
 <head>
-
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
 </head>
 
 <body>
@@ -53,6 +55,158 @@ const bufferSource = audioContext.createBufferSource();
 bufferSource.buffer = audioBuffer
 bufferSource.connect(audioContext.destination)
 bufferSource.start();
+  </pre>
+  <p>有了以上的基础准备，就可以模拟音高，这里模拟一个八度的音高，以下是各个音高及其对音的声音频率</p>
+  <table>
+    <thead>
+      <tr>
+        <th>唱名</th>
+        <th>do</th>
+        <th>re</th>
+        <th>mi</th>
+        <th>fa</th>
+        <th>so</th>
+        <th>la</th>
+        <th>si</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>频率(hz)</td>
+        <td>261.6</td>
+        <td>293.6</td>
+        <td>329.6</td>
+        <td>349.2</td>
+        <td>392</td>
+        <td>440</td>
+        <td>493.8</td>
+    </tbody>
+  </table>
+  <p>在代码中定义好这些的频率</p>
+  <pre>
+const doFrequency = 261.6
+const reFrequency = 293.6
+const miFrequency = 329.6
+const faFrequency = 349.2
+const soFrequency = 392
+const laFrequency = 440
+const siFrequency = 493.8
+  </pre>
+  <p>
+    下面是生成声音数据的算法，非常简单，根据频率计算出波长。遍历每一帧，根据帧所在波的序号的奇偶性，设置采样值
+  </p>
+  <pre>
+const playTone = (frequancy) => {
+  if (!audioContext) {
+    audioContext = new AudioContext()
+  }
+  const waveLength = audioContext.sampleRate / frequancy
+  const halfWaveLength = waveLength / 2
+  const frameCount = audioContext.sampleRate * 0.3
+  const audioBuffer = new AudioBuffer({
+    numberOfChannels: 1,
+    length: frameCount,
+    sampleRate: audioContext.sampleRate
+  })
+  const channelData = audioBuffer.getChannelData(0)
+  <b>
+  for (let i = 0; i < frameCount; i++) {
+    const isPositive = (i / halfWaveLength) % 2 < 1
+    channelData[i] = isPositive ? 1 : -1
+  }
+  </b>
+  const bufferSource = audioContext.createBufferSource();
+  bufferSource.buffer = audioBuffer
+  bufferSource.connect(audioContext.destination)
+  bufferSource.start();
+}
+  </pre>
+  <button id="playDoButton">Play Do</button>
+  <button id="playReButton">Play Re</button>
+  <button id="playMiButton">Play Mi</button>
+  <button id="playFaButton">Play Fa</button>
+  <button id="playSoButton">Play So</button>
+  <button id="playLaButton">Play La</button>
+  <button id="playSiButton">Play Si</button>
+  <p>至此，已经能模拟各个音高了，那么弹一首曲子应该也很合理，下面播放一首小星星</p>
+  <button id="playMelodyButton">播放小星星</button>
+  <p>代码：</p>
+  <pre>
+const pitches = [doFrequency, reFrequency, miFrequency, faFrequency, soFrequency, laFrequency, siFrequency]
+const twinkleTwinkleLittleStar = [1, 1, 5, 5, 6, 6, 5, 4, 4, 3, 3, 2, 2, 1, 5, 5, 4, 4, 3, 3, 2, 5, 5, 4, 4, 3, 3, 2, 1, 1, 5, 5, 6, 6, 5, 4, 4, 3, 3, 2, 2, 1]
+const playMelodyButton = document.getElementById('playMelodyButton')
+const playDelay = (frequancy, delay) => {
+  return new Promise((resolve) => {
+    playTone(frequancy)
+    setTimeout(() => {
+      resolve()
+    }, delay)
+  })
+}
+playMelodyButton.addEventListener('click', async () => {
+  for (let i = 0; i < twinkleTwinkleLittleStar.length; i++) {
+    await playDelay(pitches[twinkleTwinkleLittleStar[i]], 500)
+  }
+})
+    
+  </pre>
+  <p>
+    可以听出来，节奏很平，所有音的间隔都是一样的，做一下优化：
+  </p>
+  <button id="playWithRhythmButton">播放带有节奏的</button>
+  <p>代码</p>
+  <pre>
+const quaterNote = 1 / 4
+const halfNote = 1 / 2
+const twinkleTwinkleLittleStarWithDuration = [{
+  pitch: 1,
+  <b>duration: quaterNote</b>
+},
+...
+{
+  pitch: 5,
+  <b>duration: halfNote</b>
+},
+...
+]
+const playPitchDuration = (frequancy, <b>duration</b>) => {
+  if (!audioContext) {
+    audioContext = new AudioContext()
+  }
+  const waveLength = audioContext.sampleRate / frequancy
+  const halfWaveLength = waveLength / 2
+  const frameCount = audioContext.sampleRate * <b>duration / 1000</b> 
+  const audioBuffer = new AudioBuffer({
+    numberOfChannels: 1,
+    length: frameCount,
+    sampleRate: audioContext.sampleRate
+  })
+  const channelData = audioBuffer.getChannelData(0)
+  for (let i = 0; i < frameCount; i++) {
+    const isPositive = (i / halfWaveLength) % 2 < 1
+    channelData[i] = isPositive ? 1 : -1
+  }
+  const bufferSource = audioContext.createBufferSource();
+  bufferSource.buffer = audioBuffer
+  bufferSource.connect(audioContext.destination)
+  bufferSource.start();
+}
+
+const playWithRhythmButton = document.getElementById('playWithRhythmButton')
+const playDurationDelay = (frequancy, duration) => {
+  return new Promise((resolve) => {
+    playPitchDuration(frequancy, <b>duration</b>)
+    setTimeout(() => {
+      resolve()
+    }, duration + 100)
+  })
+}
+playWithRhythmButton.addEventListener('click', async () => {
+  for (let i = 0; i < twinkleTwinkleLittleStarWithDuration.length; i++) {
+    const item = twinkleTwinkleLittleStarWithDuration[i]
+    await playDurationDelay(pitches[item.pitch], <b>item.duration * 1000</b>)
+  }
+})
   </pre>
   <gj-pagination next="page2.html"></gj-pagination>
   <script src="./page1.js" type="module"></script>
