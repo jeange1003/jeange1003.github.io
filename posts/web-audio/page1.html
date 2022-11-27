@@ -1,0 +1,61 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+  <p>先来玩一玩播放自定义的声音</p>
+  <p>
+    首先创建一个AudioContext对象，所有web audio的处理都在AudioContext对象中。
+  </p>
+  <p>
+    AudioContext对象几个属性和函数:
+  </p>
+  <ul>
+    <li>
+      sampleRate, 采样率，每秒采样的个数。默认是48000。扬声器是通过震动产生声音的，采样率48000(下面简写为48K)也意味着扬声器播放这个声音时每秒最多有48000次震动，这取决于声音数据，也可能有大量的静止。
+    </li>
+    <li>
+      destination, 输出目标，把AudioContext处理完的声音输出到这个目标中，一般是扬声器。其他目标待研究
+    </li>
+    <li>
+      createBufferSource(),
+      创建一个音源，类型是AudioBuffer。ArrayBuffer中每一个元素代表了一个声音信号。如果采样率是48K，那么一个48000长度的ArrayBuffer就包含1秒的声音数据。每一个声音信号的范围为[-1,1]，应该是代表对应的声波振幅，待确认。
+    </li>
+  </ul>
+  <p>AudioBuffer，声音数据源</p>
+  <p>AudioBuffer的几个属性:</p>
+  <ul>
+    <li>numberOfChannels, 声道数量，声音从几个地方发出。左右就是两声道。</li>
+    <li>length，单个声道的声音采样数据量，比如采样率48K，持续时间2秒的的声音，length就是96K</li>
+    <li>sampleRate，同上面的解释</li>
+    <li>getChannelData(),
+      返回声音数据，这是最主要的数据，类型是Float32ArrayBuffer，每个元素代表一个采样。从Float32类型可以看出来，每个声音的采样通过32位浮点表示，也就是所谓32位深度...吗？因为取值范围是[-1,1]，应该不能完全涵盖Float32的所有值范围，不知道是否符合位深度的定义。
+    </li>
+  </ul>
+  <p>
+    播放一个自定义声音的过程就是先创建一个声音数据，设置好相关参数，给到AudioContext，AudioContext再传给destnation。为什么不直接给destination？因为AudioContext可以做很多处理，这在之后研究。这是一个处理的模板。
+  </p>
+  <button id="playNoiseButton">播放一个白噪音</button>
+  <pre>
+const frameCount = audioContext.sampleRate * 2
+const audioBuffer = new AudioBuffer({
+  numberOfChannels: 1,
+  length: frameCount,
+  sampleRate: audioContext.sampleRate
+})
+const channelData = audioBuffer.getChannelData(0);
+for (let i = 0; i < frameCount; i++) {
+  channelData[i] = (Math.random() - 0.5) * 2
+}
+const bufferSource = audioContext.createBufferSource();
+bufferSource.buffer = audioBuffer
+bufferSource.connect(audioContext.destination)
+bufferSource.start();
+  </pre>
+  <gj-pagination next="page2.html"></gj-pagination>
+  <script src="./page1.js" type="module"></script>
+</body>
+
+</html>

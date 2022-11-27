@@ -1,4 +1,7 @@
-import '../../web-components/html-source.js'
+import { HtmlSource } from '../../web-components/html-source.js'
+import { define } from '../../web-components/define.js'
+
+define(HtmlSource)
 
 const toggleSourceButton = document.getElementById('toggleSourceButton')
 const htmlSource = document.getElementById('htmlSource')

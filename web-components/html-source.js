@@ -1,5 +1,6 @@
 export class HtmlSource extends HTMLElement {
   static get observedAttributes() { return ['render']; }
+  static get defaultTagName() { return 'gj-html-source' }
 
   constructor() {
     super()
@@ -55,4 +56,6 @@ export class HtmlSource extends HTMLElement {
   }
 }
 
-customElements.define('html-source', HtmlSource)
+export function define() {
+  customElements.define('html-source', HtmlSource)
+}
