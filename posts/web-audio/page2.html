@@ -1,0 +1,74 @@
+<html>
+
+<head>
+  <title>Web Audio</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <style>
+    #waveDisplayCanvas {
+      border: 1px solid #ccc;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Web Audio -- 波形图</h1>
+  <p>要绘制声音波形图，需要拿到播放时的声音数据，确切地说，是播放时刻前一段时间的声音数据。有了这些数据，就可以使用canvas绘图了。</p>
+  <p>AnalyserNode，提供了getByteTimeDomainData方法，用以获取声音数据。</p>
+  <p>上一篇中，通过把AudioBuffer输出到AudioContext.distination实现声音播放。这个输出到过程时声音节点到声音节点的传输过程。节点的流转处理是Web Audio的处理模型。</p>
+  <p>这里波形图的绘制也是一样，把AudioBuffer的数据输出到AnalyserNode，即可拿到声音数据</p>
+  <svg width="400" height="200">
+    <rect x="10" y="75" width="100" height="50" stroke="gray" fill="none">
+    </rect>
+    <text x="20" y="105">ArrayBuffer</text>
+    <rect x="200" y="20" width="200" height="50" stroke="gray" fill="none"></rect>
+    <text x="210" y="40">AudioContext.distination</text>
+    <line x1="110" y1="90" x2="200" y2="40" stroke="gray"></line>
+    <rect x="200" y="120" width="200" height="50" stroke="gray" fill="none"></rect>
+    <text x="210" y="140">AnalyserNode</text>
+    <line x1="110" y1="90" x2="200" y2="140" stroke="gray"></line>
+  </svg>
+  <br />
+  <p>关键代码:</p>
+  <pre>
+const draw = () => {
+  const bufferLength = analyserNode.frequencyBinCount
+  const dataArray = new Uint8Array(bufferLength)
+  // 填充声音数据到dataArray
+  <b>analyserNode.getByteTimeDomainData(dataArray);</b>
+  raf = requestAnimationFrame(draw)
+  canvasContext.clearRect(0, 0, canvasWidth, canvasHeight)
+  canvasContext.beginPath()
+  if (dataArray.length) {
+    // value范围缩小到[0,1]后再扩大到[0, canvasHeight]
+    <b>let value = dataArray[0] / 256
+    const sliceWidth = canvasWidth / bufferLength
+    let x = 0
+    let y = value * canvasHeight</b>
+    canvasContext.moveTo(x, y)
+    x += sliceWidth
+    for (let i = 1; i < bufferLength; i++) {
+      value = dataArray[i] / 256
+      y = value * canvasHeight
+      canvasContext.lineTo(x, y)
+      x += sliceWidth
+    }
+  }
+  canvasContext.stroke()
+}
+  </pre>
+
+  <button id="playWithRhythmButton">播放</button>
+  <br />
+  <p>效果</p>
+  <canvas id="waveDisplayCanvas" width="375" height="200"></canvas>
+  <p>可以看到波形是方形的，听起来比较刺。下面试试正弦波。</p>
+  <button id="playSineWaveMelodyButton">播放正弦波</button>
+  <p>听起来就比较圆润了</p>
+  <gj-pagination prev="page1.html" next="page3.html"></gj-pagination>
+  <script src="./page2.js" type="module"></script>
+</body>
+
+</html>

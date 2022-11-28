@@ -3,29 +3,8 @@ import { define } from '../../web-components/define.js'
 define(Pagination)
 
 let audioContext
-
-
-const playNoiseButton = document.getElementById('playNoiseButton')
-playNoiseButton.addEventListener('click', () => {
-  if (!audioContext) {
-    audioContext = new AudioContext()
-  }
-  const frameCount = audioContext.sampleRate * 2
-  const audioBuffer = new AudioBuffer({
-    numberOfChannels: 1,
-    length: frameCount,
-    sampleRate: audioContext.sampleRate
-  })
-  const channelData = audioBuffer.getChannelData(0);
-  for (let i = 0; i < frameCount; i++) {
-    channelData[i] = (Math.random() - 0.5) * 2
-  }
-  const bufferSource = audioContext.createBufferSource();
-  bufferSource.buffer = audioBuffer
-  bufferSource.connect(audioContext.destination)
-  bufferSource.start();
-})
-
+let audioBuffer
+let analyserNode
 const doFrequency = 261.6
 const reFrequency = 293.6
 const miFrequency = 329.6
@@ -33,77 +12,7 @@ const faFrequency = 349.2
 const soFrequency = 392
 const laFrequency = 440
 const siFrequency = 493.8
-
-
-const playDoButton = document.getElementById('playDoButton')
-const playReButton = document.getElementById('playReButton')
-const playMiButton = document.getElementById('playMiButton')
-const playFaButton = document.getElementById('playFaButton')
-const playSoButton = document.getElementById('playSoButton')
-const playLaButton = document.getElementById('playLaButton')
-const playSiButton = document.getElementById('playSiButton')
-
-const playTone = (frequancy) => {
-  if (!audioContext) {
-    audioContext = new AudioContext()
-  }
-  const waveLength = audioContext.sampleRate / frequancy
-  const halfWaveLength = waveLength / 2
-  const frameCount = audioContext.sampleRate * 0.3
-  const audioBuffer = new AudioBuffer({
-    numberOfChannels: 1,
-    length: frameCount,
-    sampleRate: audioContext.sampleRate
-  })
-  const channelData = audioBuffer.getChannelData(0)
-  for (let i = 0; i < frameCount; i++) {
-    const isPositive = (i / halfWaveLength) % 2 < 1
-    channelData[i] = isPositive ? 1 : -1
-  }
-  const bufferSource = audioContext.createBufferSource();
-  bufferSource.buffer = audioBuffer
-  bufferSource.connect(audioContext.destination)
-  bufferSource.start();
-}
-
-playDoButton.addEventListener('click', () => {
-  playTone(doFrequency)
-})
-playReButton.addEventListener('click', () => {
-  playTone(reFrequency)
-})
-playMiButton.addEventListener('click', () => {
-  playTone(miFrequency)
-})
-playFaButton.addEventListener('click', () => {
-  playTone(faFrequency)
-})
-playSoButton.addEventListener('click', () => {
-  playTone(soFrequency)
-})
-playLaButton.addEventListener('click', () => {
-  playTone(laFrequency)
-})
-playSiButton.addEventListener('click', () => {
-  playTone(siFrequency)
-})
-
 const pitches = [doFrequency, reFrequency, miFrequency, faFrequency, soFrequency, laFrequency, siFrequency]
-const twinkleTwinkleLittleStar = [1, 1, 5, 5, 6, 6, 5, 4, 4, 3, 3, 2, 2, 1, 5, 5, 4, 4, 3, 3, 2, 5, 5, 4, 4, 3, 3, 2, 1, 1, 5, 5, 6, 6, 5, 4, 4, 3, 3, 2, 2, 1]
-const playMelodyButton = document.getElementById('playMelodyButton')
-const playDelay = (frequancy, delay) => {
-  return new Promise((resolve) => {
-    playTone(frequancy)
-    setTimeout(() => {
-      resolve()
-    }, delay)
-  })
-}
-playMelodyButton.addEventListener('click', async () => {
-  for (let i = 0; i < twinkleTwinkleLittleStar.length; i++) {
-    await playDelay(pitches[twinkleTwinkleLittleStar[i]], 500)
-  }
-})
 const quaterNote = 1 / 4
 const halfNote = 1 / 2
 const twinkleTwinkleLittleStarWithDuration = [{
@@ -276,15 +185,45 @@ const twinkleTwinkleLittleStarWithDuration = [{
 }
 ]
 
+let raf
+const waveDisplayCanvas = document.getElementById('waveDisplayCanvas')
+const canvasContext = waveDisplayCanvas.getContext("2d");
+const canvasHeight = waveDisplayCanvas.height
+const canvasWidth = waveDisplayCanvas.width
+const draw = () => {
+  const bufferLength = analyserNode.frequencyBinCount
+  const dataArray = new Uint8Array(bufferLength)
+  analyserNode.getByteTimeDomainData(dataArray);
+  raf = requestAnimationFrame(draw)
+  canvasContext.clearRect(0, 0, canvasWidth, canvasHeight)
+  canvasContext.beginPath()
+  if (dataArray.length) {
+    let value = dataArray[0] / 256
+    const sliceWidth = canvasWidth / bufferLength
+    let x = 0
+    let y = value * canvasHeight
+    canvasContext.moveTo(x, y)
+    x += sliceWidth
+    for (let i = 1; i < bufferLength; i++) {
+      value = dataArray[i] / 256
+      y = value * canvasHeight
+      canvasContext.lineTo(x, y)
+      x += sliceWidth
+    }
+  }
+  canvasContext.stroke()
+}
 
+// 例子1
 const playPitchDuration = (frequancy, duration) => {
   if (!audioContext) {
     audioContext = new AudioContext()
+    analyserNode = new AnalyserNode(audioContext)
   }
   const waveLength = audioContext.sampleRate / frequancy
   const halfWaveLength = waveLength / 2
   const frameCount = audioContext.sampleRate * duration / 1000
-  const audioBuffer = new AudioBuffer({
+  audioBuffer = new AudioBuffer({
     numberOfChannels: 1,
     length: frameCount,
     sampleRate: audioContext.sampleRate
@@ -297,7 +236,13 @@ const playPitchDuration = (frequancy, duration) => {
   const bufferSource = audioContext.createBufferSource();
   bufferSource.buffer = audioBuffer
   bufferSource.connect(audioContext.destination)
+  bufferSource.connect(analyserNode)
   bufferSource.start();
+
+  draw()
+  bufferSource.addEventListener('ended', () => {
+    cancelAnimationFrame(raf)
+  })
 }
 
 const playWithRhythmButton = document.getElementById('playWithRhythmButton')
@@ -316,3 +261,67 @@ playWithRhythmButton.addEventListener('click', async () => {
   }
 })
 
+// 例子2
+const playPitchDurationWithCustomWave = (frequancy, duration, waveFunction) => {
+  if (!audioContext) {
+    audioContext = new AudioContext()
+    analyserNode = new AnalyserNode(audioContext)
+  }
+  const waveLength = audioContext.sampleRate / frequancy
+  const halfWaveLength = waveLength / 2
+  const frameCount = audioContext.sampleRate * duration / 1000
+  audioBuffer = new AudioBuffer({
+    numberOfChannels: 1,
+    length: frameCount,
+    sampleRate: audioContext.sampleRate
+  })
+  const channelData = audioBuffer.getChannelData(0)
+  for (let i = 0; i < frameCount; i++) {
+    channelData[i] = waveFunction(i % waveLength, waveLength)
+  }
+  const bufferSource = audioContext.createBufferSource();
+  bufferSource.buffer = audioBuffer
+  bufferSource.connect(audioContext.destination)
+  bufferSource.connect(analyserNode)
+  bufferSource.start();
+
+  draw()
+  bufferSource.addEventListener('ended', () => {
+    cancelAnimationFrame(raf)
+  })
+}
+
+const playDelay = (playFunction, delay) => {
+  return new Promise((resolve) => {
+    playFunction()
+    setTimeout(() => {
+      resolve()
+    }, delay)
+  })
+}
+
+const playSineWaveMelodyButton = document.getElementById('playSineWaveMelodyButton')
+
+const bisquadWaveFunction = (index, waveLength) => {
+  const halfWaveLength = waveLength / 2
+  const isPositive = (index / halfWaveLength) % 2 < 1
+  return isPositive ? 1 : -1
+}
+
+const sineWaveFunction = (index, waveLength) => {
+  // const halfWaveLength = waveLength / 2
+  // const isPositive = (index / halfWaveLength) % 2 < 1
+  return Math.sin(index / waveLength * Math.PI * 2)
+}
+
+playSineWaveMelodyButton.addEventListener('click', async () => {
+  for (let i = 0; i < twinkleTwinkleLittleStarWithDuration.length; i++) {
+    const item = twinkleTwinkleLittleStarWithDuration[i]
+    await playDelay(() => {
+      playPitchDurationWithCustomWave(pitches[item.pitch],
+        item.duration * 1000,
+        sineWaveFunction
+      )
+    }, item.duration * 1000 + 100)
+  }
+})
