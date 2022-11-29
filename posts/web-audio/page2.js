@@ -302,15 +302,7 @@ const playDelay = (playFunction, delay) => {
 
 const playSineWaveMelodyButton = document.getElementById('playSineWaveMelodyButton')
 
-const bisquadWaveFunction = (index, waveLength) => {
-  const halfWaveLength = waveLength / 2
-  const isPositive = (index / halfWaveLength) % 2 < 1
-  return isPositive ? 1 : -1
-}
-
 const sineWaveFunction = (index, waveLength) => {
-  // const halfWaveLength = waveLength / 2
-  // const isPositive = (index / halfWaveLength) % 2 < 1
   return Math.sin(index / waveLength * Math.PI * 2)
 }
 
@@ -321,6 +313,22 @@ playSineWaveMelodyButton.addEventListener('click', async () => {
       playPitchDurationWithCustomWave(pitches[item.pitch],
         item.duration * 1000,
         sineWaveFunction
+      )
+    }, item.duration * 1000 + 100)
+  }
+})
+
+const triangleWaveFunction = (index, waveLength) => {
+  return index < (waveLength / 2) ? index * 2 / waveLength : (1 - index * 2 / waveLength)
+}
+
+playTriangleWaveMelodyButton.addEventListener('click', async () => {
+  for (let i = 0; i < twinkleTwinkleLittleStarWithDuration.length; i++) {
+    const item = twinkleTwinkleLittleStarWithDuration[i]
+    await playDelay(() => {
+      playPitchDurationWithCustomWave(pitches[item.pitch],
+        item.duration * 1000,
+        triangleWaveFunction
       )
     }, item.duration * 1000 + 100)
   }

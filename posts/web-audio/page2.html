@@ -66,7 +66,31 @@ const draw = () => {
   <canvas id="waveDisplayCanvas" width="375" height="200"></canvas>
   <p>可以看到波形是方形的，听起来比较刺。下面试试正弦波。</p>
   <button id="playSineWaveMelodyButton">播放正弦波</button>
-  <p>听起来就比较圆润了</p>
+  <pre>
+const sineWaveFunction = (index, waveLength) => {
+  return <b>Math.sin(index / waveLength * Math.PI * 2)</b>
+}
+
+playSineWaveMelodyButton.addEventListener('click', async () => {
+  for (let i = 0; i < twinkleTwinkleLittleStarWithDuration.length; i++) {
+    const item = twinkleTwinkleLittleStarWithDuration[i]
+    await playDelay(() => {
+      playPitchDurationWithCustomWave(pitches[item.pitch],
+        item.duration * 1000,
+        <b>sineWaveFunction</b>
+      )
+    }, item.duration * 1000 + 100)
+  }
+})
+    
+  </pre>
+  <p>听起来就比较圆润了，再来个三角波：</p>
+  <pre>
+    const triangleWaveFunction = (index, waveLength) => {
+      return index < (waveLength / 2) ? index * 2 / waveLength : (1 - index * 2 / waveLength)
+    }    
+  </pre>
+  <button id="playTriangleWaveMelodyButton">三角波</button>
   <gj-pagination prev="page1.html" next="page3.html"></gj-pagination>
   <script src="./page2.js" type="module"></script>
 </body>
