@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <title>Web Audio -- 画一个波形图</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+  <style>
+    #waveDisplayCanvas,
+    #waveEditorCanvas {
+      border: 1px solid #ccc;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Web Audio -- 画一个波形图</h1>
+  <p>既然波形图可以展示出来，那么能不能翻过来，根据画的波形来播放对应波形的声音</p>
+  <button id="playButton">播放</button>
+  <br />
+  <canvas id="waveEditorCanvas" width="375" height="200"></canvas>
+  <br/>
+  <br/>
+  <button id="playCustomWave">播放自定义波形</button>
+  <br/>
+  <canvas id="waveDisplayCanvas" width="375" height="200"></canvas>
+  <button id="stopPlaying">停止</button>
+  <p>
+    主要构件声音数据的代码在这里
+  </p>
+  <pre>
+for (let noteIndex = 0, frameInMelodyIndex = 0; noteIndex < melody.length; noteIndex++) {
+  // 构建单个音符的数据
+  const note = melody[noteIndex]
+  const noteFrameCount = audioContext.sampleRate * note.duration
+  const frequency = pitches[note.pitch]
+  const waveFrameCount = audioContext.sampleRate / frequency
+  // 构建单个波形
+  for (let frameInNoteIndex = 0; frameInNoteIndex < noteFrameCount; frameInNoteIndex++, frameInMelodyIndex++) {
+    const frameInWaveIndex = frameInNoteIndex % waveFrameCount
+    channelData[frameInMelodyIndex] = waveFunction(frameInWaveIndex, waveFrameCount) * noteFrameCount / (frameInNoteIndex + 1)
+  }
+  const delayFrameCount = audioContext.sampleRate * delay
+  // delay
+  for (let frameInDelayIndex = 0; frameInDelayIndex < delayFrameCount; frameInDelayIndex++, frameInMelodyIndex++) {
+    channelData[frameInMelodyIndex] = 0
+  }
+}
+  </pre>
+  <p>这里使用noteFrameCount / (frameInNoteIndex + 1)来构建一个逐渐递减强度的音，否则会引起来很机械，整个音从头至尾都是一样响的。加了递减之后，听起来更像弹簧一样。</p>
+  <p>
+    至此，发现要模拟钢琴的音色很难，就算照着钢琴的音色波形画，还是没能模拟，感觉这里的水有点深，不深入了。
+  </p>
+  <gj-pagination prev="page2.html" next="page4.html"></gj-pagination>
+  <script src="./page3.js" type="module"></script>
+</body>
+
+</html>
