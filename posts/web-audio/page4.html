@@ -1,0 +1,48 @@
+<html>
+
+<head>
+  <title>Web Audio -- 振荡器</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <link rel="stylesheet" href="common.css" />
+</head>
+
+<body>
+  <h1>Web Audio -- 振荡器</h1>
+  <p>在之前都是自己生成的ArrayBufferSource，Web Audio提供了OscillatorNode来方便地生成声音数据。振荡器，顾名思义，就是可以振荡，震荡了就会产生声音，所以是一个音源。</p>
+  <p>下面是一个简单Demo:</p>
+  <pre>
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+// 创建振荡器
+const oscillator = audioCtx.createOscillator();
+// 设置波形
+oscillator.type = 'sine';
+// 设置频率
+oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+oscillator.connect(audioCtx.destination);
+oscillator.start();
+  </pre>
+  <button id="playButton">Play</button>
+  <p>多一些自定义参数：</p>
+  <label>频率：</label><input id="demo2Frequency" type="range" name="frequency" min="20" max="20000" value="440" style="width: 60%"/>
+  <label id="frequencyDisplay">440</label><span>Hz</span>
+  <br/>
+  <label>波形</label>
+  <input type="radio" name="demo2WaveType" value="sine" checked="true" />
+  <label>sine</label>
+  <input type="radio" name="demo2WaveType" value="square" />
+  <label>square</label>
+  <input type="radio" name="demo2WaveType" value="sawtooth" />
+  <label>sawtooth</label>
+  <input type="radio" name="demo2WaveType" value="triangle" />
+  <label>triangle</label>
+  <br/>
+  <label>Detune</label><input id="demo2Detune" type="range" min="0" max="100" value="0" />
+  <br/>
+  <button id="playCustomButton">Play Custom Sound</button>
+  <button id="stopButton">Stop</button>
+  <gj-pagination prev="page3.html" next="page5.html"></gj-pagination>
+  <script src="./page4.js" type="module"></script>
+</body>
+
+</html>
