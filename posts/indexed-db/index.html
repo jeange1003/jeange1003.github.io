@@ -1,0 +1,142 @@
+<html>
+
+<head>
+  <title>IndexedDB</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <script src="./index.js"></script>
+</head>
+
+<body>
+  <h1>IndexedDB</h1>
+  <h2>简述</h2>
+  <p>
+    IndexedDB是存储对象的数据库，内置于浏览器内。对于存储容量有一定限制，对于大部分情况来说应该是足够的，具体限制规则可以看<a
+      href="https://developer.mozilla.org/zh-CN/docs/Web/API/IndexedDB_API/Browser_storage_limits_and_eviction_criteria">这个</a>
+  </p>
+  <p>
+    一般操作数据库有有以下操作：
+  <ul>
+    <li>
+      打开 database
+    </li>
+    <li>
+      从 database 中取得一个 objectStore
+    </li>
+    <li>
+      对 objectStore 操作，比如增删改查，这些操作是在 transaction 中完成的
+    </li>
+  </ul>
+  </p>
+  <img src="./images/outline.svg" />
+  <h2>创建Database</h2>
+  <p>创建Database方法:
+    indexedDB.open，这个方法接收2个参数，name和version，返回IDBOpenDBRequest对象。name就是数据库的名称，version则是数据库的版本，当version于目前的数据库版本不一致的时候，会触发IDBOpenDBRequest.onupgradeneeded事件，可以在这个事件中更新数据库的结构。
+  </p>
+  <pre>
+const dbOpenRequest = indexedDB.open('ecommerce', 1)
+let db
+dbOpenRequest.addEventListener('upgradeneeded', (e) => {
+  db = e.target.result
+  const objectStore = db.createObjectStore('products', { keyPath: 'id', autoIncrement: true })
+  objectStore.createIndex('name', 'name', { unique: true })
+  objectStore.createIndex('price', 'price', { unique: false })
+  objectStore.createIndex('stock', 'stock', { unique: false })
+})
+  </pre>
+  <h2>写入数据</h2>
+  <p>
+    先获取一个IDBTransaction，通过IDBDatabase.transaction(storeNames, mode)获取，其中storeNames是这个transaction所操作的object
+    store的名称，mode可以是readonly, readwrite.也就是只读和读写。
+  </p>
+  <div>
+    <label>产品名称：</label><input type="text" id="productNameInput" />
+    <label>价格：</label><input type="number" id="productPriceInput" />
+    <label>库存：</label><input type="number" id="productStockInput" />
+    <button id="addDataButton">add data</button>
+  </div>
+  <pre>
+const dbRequest = indexedDB.open('ecommerce', 1)
+dbRequest.addEventListener('success', (e) => {
+  const db = e.target.result
+  const transaction = db.transaction('products', 'readwrite')
+  const objectStore = transaction.objectStore('products')
+  const name = document.getElementById('productNameInput').value
+  const price = Number(document.getElementById('productPriceInput').value)
+  const stock = Number(document.getElementById('productStockInput').value)
+  const request = objectStore.add({ name, price, stock })
+  request.addEventListener('success', () => {
+    console.log('add succeed')
+  })
+})
+  </pre>
+  <h2>读取数据</h2>
+  <h3>获取单条数据。</h3>
+  <p>如果知道了数据的主键值，可以直接调用IDBObjectStore.get(key)来获取这条数据。</p>
+  <pre>
+const dbRequest = indexedDB.open('ecommerce', 1)
+dbRequest.addEventListener('success', (e1) => {
+  const db = e1.target.result
+  const transaction = db.transaction('products', 'readwrite')
+  const objectStore = transaction.objectStore('products')
+  const singleId = Number(document.getElementById('singleDataId').value)
+  const request = objectStore.<b>get(singleId)</b>
+  request.addEventListener('success', (e2) => {
+    const data = e2.target.result
+    console.log('data', data)
+  })
+})
+  </pre>
+  <div>
+    <label>ID:  </label><input type="number" id="singleDataId" />
+    <button id="getSingleData">Get Single Data</button>
+  </div>
+  <p>获取所有数据</p>
+  <pre>
+document.getElementById('getAllData').addEventListener('click', () => {
+  const dbRequest = indexedDB.open('ecommerce', 1)
+  dbRequest.addEventListener('success', (e1) => {
+    const db = e1.target.result
+    const transaction = db.transaction('products', 'readwrite')
+    const objectStore = transaction.objectStore('products')
+    const request = objectStore.<b>getAll()</b>
+    request.addEventListener('success', (e2) => {
+      const data = e2.target.result
+      console.log('data', data)
+    })
+  })
+})
+  </pre>
+  <div>
+    <button id="getAllData">Get All Data</button>
+  </div>
+  <h3>按条件获取数据</h3>
+  <p>IDBObjectStore.index(name)方法获取对应字段的索引IDBIndex，IDBIndex的getAll()方法可以接收一个IDBKeyRange参数，用以指定数据筛选条件。</p>
+  <pre>
+const lowestPrice = Number(document.getElementById('lowestPrice').value)
+const highestPrice = Number(document.getElementById('highestPrice').value)
+const dbRequest = indexedDB.open('ecommerce', 1)
+dbRequest.addEventListener('success', (e1) => {
+  const db = e1.target.result
+  const transaction = db.transaction('products', 'readwrite')
+  const objectStore = transaction.objectStore('products')
+  <b>const priceIndex = objectStore.index('price')
+  const range = IDBKeyRange.bound(lowestPrice, highestPrice, false, false)
+  const request = priceIndex.getAll(range)</b>
+  request.addEventListener('success', (e2) => {
+    const data = e2.target.result
+    console.log('data', data)
+  })
+})
+  </pre>
+  <div>
+    <label>按价格筛选</label>
+    <br/>
+    <label>最低：</label><input type="number" id="lowestPrice" value="0" />
+    <label>最高：</label><input type="number" id="highestPrice" value="100" />
+    <button id="searchByCondition">查询</button>
+  </div>
+  <p>2022.12.16</p>
+</body>
+
+</html>
