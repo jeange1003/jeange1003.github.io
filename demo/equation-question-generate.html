@@ -1,0 +1,148 @@
+<html>
+
+<head>
+  <title>算式题目生成</title>
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <style>
+    #expressionListContainer {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 20px 40px;
+    }
+
+    .expression-container {
+      width: 33%;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="settingPanel">
+    <label>最大结果</label>
+    <input type="number" id="maxResultLimitInput" value="20" /><br />
+    <label>最小结果</label>
+    <input type="number" id="minResultLimitInput" value="0" /><br />
+    <label>最多项数</label>
+    <input type="number" id="maxTermCountinput" value="3" /><br />
+    <label>最少项数</label>
+    <input type="number" id="minTermCountinput" value="2" /><br />
+    <label>问题数量</label>
+    <input type="number" id="questionCountinput" value="60" /><br />
+    <button onclick="generate()">生成</button>
+  </div>
+
+  <div id="expressionListContainer">
+
+  </div>
+
+  <script>
+    // const maxResultLimit = 20;
+    // const minResultLimit = 0;
+    // const maxTermCount = 3;
+    // const minTermCount = 2;
+    // const questionCount = 60;
+    const PLUS = '+'
+    const MINUS = '-'
+    const OperatorList = [PLUS, MINUS]
+    const expressionList = []
+    const expressionListContainer = document.getElementById('expressionListContainer')
+    const settingPanel = document.getElementById('settingPanel')
+    function generate() {
+      const maxResultLimit = Number(document.getElementById('maxResultLimitInput').value)
+      const minResultLimit = Number(document.getElementById('minResultLimitInput').value)
+      const maxTermCount = Number(document.getElementById('maxTermCountinput').value)
+      const minTermCount = Number(document.getElementById('minTermCountinput').value)
+      const questionCount = Number(document.getElementById('questionCountinput').value)
+
+
+      for (let i = 0; i < questionCount; i++) {
+        const termCount = generateInteger(minTermCount, maxTermCount)
+        console.log('termCount', termCount)
+        const termList = [generateInteger(minResultLimit, maxResultLimit)]
+        const operatorList = []
+        for (let termIndex = 0; termIndex < termCount - 1; termIndex++) {
+          console.log('termIndex', termIndex, termCount)
+          let currentResult = getCurrentResult(termList, operatorList)
+          const operator = generateOperator()
+          operatorList.push(operator)
+          termList.push(generateTerm(currentResult, minResultLimit, maxResultLimit, operator))
+        }
+        expressionList.push({
+          termList,
+          operatorList
+        })
+        console.log('termList', termList, 'operatorList', operatorList)
+      }
+      render()
+      settingPanel.style = 'display: none;'
+    }
+
+    function render() {
+      console.log('expressionList', expressionList)
+      for (let expression of expressionList) {
+        const { termList, operatorList } = expression
+        let resultString = `${termList[0]}`
+        for (let termIndex = 0; termIndex < termList.length - 1; termIndex++) {
+          resultString += ' ' + operatorList[termIndex]
+          resultString += ' ' + termList[termIndex + 1]
+        }
+        resultString += ' ='
+        console.log('resultString', resultString)
+        const expressionContainer = document.createElement('div')
+        expressionContainer.className = 'expression-container'
+        expressionContainer.innerText = resultString
+        expressionListContainer.appendChild(expressionContainer)
+      }
+    }
+
+    function getCurrentResult(termList, operatorList) {
+      if (termList.length === 0) {
+        return 0
+      }
+      if (termList.length === 1) {
+        return termList[0]
+      }
+      if (termList.length !== operatorList.length + 1) {
+        throw new Error('termList and operatorList length not match')
+      }
+      let currentResult = termList[0]
+      for (let termIndex = 1; termIndex < termList.length; termIndex++) {
+        switch (operatorList[termIndex - 1]) {
+          case PLUS:
+            currentResult += termList[termIndex]
+            break;
+          case MINUS:
+            currentResult -= termList[termIndex]
+            break;
+          default:
+            throw new Error('illegal operator')
+        }
+      }
+      return currentResult
+    }
+
+    function generateInteger(min, max) {
+      return min + Math.round((max - min) * Math.random())
+    }
+
+    function generateOperator() {
+      return Math.random() > 0.5 ? PLUS : MINUS
+    }
+
+    function generateTerm(current, min, max, operator) {
+      switch (operator) {
+        case PLUS:
+          // only positive number allow
+          return generateInteger(min, max - current)
+        case MINUS:
+          return generateInteger(min, current - min)
+        default:
+          throw new Error('illegal operator')
+      }
+    }
+  </script>
+</body>
+
+</html>
