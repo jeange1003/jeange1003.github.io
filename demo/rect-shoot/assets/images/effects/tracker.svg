@@ -1,0 +1,18 @@
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <g id="Layer_1">
+    <title>Layer 1</title>
+    <path id="svg_3" d="m5,5l390,0l0,390l-390,0l0,-390z" opacity="undefined" stroke-width="40" stroke="#007fff"
+      fill="none" />
+    <rect fill="#666666" stroke-width="10" x="250" y="234.5" width="117" height="117" id="svg_1" stroke="null" />
+    <line transform="rotate(90 66.5083 296.5)" fill="none" stroke-width="40" x1="6" y1="296.5" x2="127.01653" y2="296.5"
+      id="svg_3" stroke="#007fff" />
+    <path stroke="#007fff" stroke-width="30" fill="none" stroke-dasharray="30,30" opacity="NaN"
+      d="m76.04139,213.5c0.34729,-38.71611 -6.59862,-56.53782 11.46076,-117.37742c18.05938,-60.83961 118.269,-64.18853 150.03179,1.84362c31.76278,66.03215 14.92152,38.03982 36.46606,103.24297"
+      id="svg_9" />
+    <path stroke="#007fff" id="svg_10" d="m200,173.5l63,48" opacity="undefined" stroke-dasharray="30,30"
+      stroke-width="30" fill="none" />
+    <path id="svg_11" d="m314,132.5l-30,85" opacity="undefined" stroke-dasharray="30,30" stroke-width="30"
+      stroke="#007fff" fill="none" />
+  </g>
+
+</svg>

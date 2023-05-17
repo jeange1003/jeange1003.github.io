@@ -1,0 +1,9 @@
+export class Size {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+    clone() {
+        return new Size(this.width, this.height);
+    }
+}
