@@ -11,7 +11,8 @@ class Rect extends BaseObject {
             scene: params.scene,
             position: params.position,
             size: params.size,
-            direction: params.direction
+            direction: params.direction,
+            viewport: params.viewport
         });
         this.isDead = false;
         this.buffEffects = [];
@@ -28,7 +29,7 @@ class Rect extends BaseObject {
         this.damage = params.damage;
         this.shootSpeed = params.shootSpeed;
         this.restrictToArea = params.restrictToArea;
-        this.enemys = params.enemys || [];
+        this.enemies = params.enemies || [];
         this.bulletSpeed = params.bulletSpeed;
         this.level = params.gameData.level;
     }
@@ -82,6 +83,10 @@ class Rect extends BaseObject {
     update() {
         this.changePosition();
         this.shadeEffect();
+        const enemy = this.checkCollision();
+        if (enemy) {
+            this.hurtEnemy(enemy);
+        }
         this.render();
     }
     render() {
@@ -90,17 +95,26 @@ class Rect extends BaseObject {
     }
     changePosition() {
         const newPosition = this.position.clone();
+        const forceDirection = new Direction(0, 0);
         if (this.keyboardStatus.isLeftPressed) {
             newPosition.x = this.position.x - this.speed.x;
+            forceDirection.x = -1;
         }
         else if (this.keyboardStatus.isRightPressed) {
             newPosition.x = this.position.x + this.speed.x;
+            forceDirection.x = 1;
         }
         if (this.keyboardStatus.isUpPressed) {
             newPosition.y = this.position.y - this.speed.y;
+            forceDirection.y = -1;
         }
         else if (this.keyboardStatus.isDownPressed) {
             newPosition.y = this.position.y + this.speed.y;
+            forceDirection.y = 1;
+        }
+        if (forceDirection.length > 0) {
+            this.direction.x = forceDirection.x;
+            this.direction.y = forceDirection.y;
         }
         if (this.restrictToArea.isInArea(newPosition)) {
             this.position = newPosition;
@@ -122,15 +136,18 @@ class Rect extends BaseObject {
         this.bulletEffects = this.bulletEffects.filter(effect => effect.remainTime > 0);
     }
     fire() {
+        const position = new Position(this.position.x + this.direction.x * this.size.width + this.direction.x * 20, this.position.y + this.direction.y * this.size.height + this.direction.y * 20);
         const originBullet = new Bullet({
             scene: this.scene,
-            position: new Position(this.position.x + this.direction.x * this.size.width + this.direction.x * 20, this.position.y + this.direction.y * this.size.height + this.direction.y * 20),
+            position,
             direction: new Direction(this.direction.x, this.direction.y),
             speed: new Speed(this.direction.x * this.bulletSpeed, this.direction.y * this.bulletSpeed),
             color: this.color,
-            enemys: this.enemys,
+            enemys: this.enemies,
             damage: this.damage,
-            force: 15
+            force: 15,
+            viewport: this.viewport,
+            belongToRect: this
         });
         let afterEffectBullets = this.applyBulletEffect(originBullet);
         for (let bullet of afterEffectBullets) {
@@ -138,26 +155,42 @@ class Rect extends BaseObject {
         }
     }
     renderSelf() {
+        if (this.viewport.isObjectOutOfViewport(this)) {
+            return;
+        }
+        context.save();
         context.beginPath();
         context.lineWidth = 0;
         context.strokeStyle = 'red';
         context.fillStyle = this.color;
-        context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2, this.size.width, this.size.height);
+        const relativePosition = this.viewport.getPositionInViewport(this.position);
+        const scale = 1 / this.viewport.scale;
+        context.scale(scale, scale);
+        context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2, this.size.width, this.size.height);
         context.fill();
+        context.restore();
     }
     renderHp() {
+        if (this.viewport.isObjectOutOfViewport(this)) {
+            return;
+        }
+        context.save();
         context.beginPath();
         context.lineWidth = 0;
         context.strokeStyle = 'green';
         context.fillStyle = this.color;
-        context.rect(this.position.x - this.size.width / 2, this.position.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
+        const relativePosition = this.viewport.getPositionInViewport(this.position);
+        const scale = 1 / this.viewport.scale;
+        context.scale(scale, scale);
+        context.rect(relativePosition.x - this.size.width / 2, relativePosition.y - this.size.height / 2 - 15, this.size.width * (this.hp / this.maxHp), 5);
         context.fill();
+        context.restore();
     }
     addEnemy(enemy) {
-        this.enemys.push(enemy);
+        this.enemies.push(enemy);
     }
     removeEnemy(enemy) {
-        this.enemys = this.enemys.filter((e) => e !== enemy);
+        this.enemies = this.enemies.filter((e) => e !== enemy);
     }
     hurt(damage) {
         if (this.isDead) {
@@ -166,7 +199,7 @@ class Rect extends BaseObject {
         this.hp -= damage;
         if (this.hp <= 0) {
             this.dead();
-            this.enemys.forEach((e) => e.removeEnemy(this));
+            this.enemies.forEach((e) => e.removeEnemy(this));
         }
     }
     onDead(callback) {
@@ -177,6 +210,30 @@ class Rect extends BaseObject {
         for (let callback of this.onDeadCallbacks) {
             callback(this);
         }
+    }
+    checkCollision() {
+        for (let enemy of this.enemies) {
+            if (!enemy.isDead
+                && this.position.x > enemy.position.x - enemy.size.width
+                && this.position.x < enemy.position.x + enemy.size.width
+                && this.position.y > enemy.position.y - enemy.size.height
+                && this.position.y < enemy.position.y + enemy.size.height) {
+                return enemy;
+            }
+        }
+    }
+    hurtEnemy(enemy) {
+        // let customResult = true
+        // if (this.customHurtEnemyFunctions.length > 0) {
+        //   for (let func of this.customHurtEnemyFunctions) {
+        //     customResult = customResult && func.call(this, enemy)
+        //     if (!customResult) {
+        //       return
+        //     }
+        //   }
+        // }
+        enemy.hurt(0.5);
+        this.hurt(0.5);
     }
 }
 Rect.MaxSpeed = new Speed(15, 15);

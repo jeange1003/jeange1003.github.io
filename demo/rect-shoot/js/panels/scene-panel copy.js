@@ -13,7 +13,7 @@ export class ScenePanel extends Panel {
     }
     render() {
         context.save();
-        context.fillStyle = '#dddddd';
+        context.fillStyle = 'red';
         context.font = '60px Arial';
         switch (this.scene?.status) {
             case SceneStatus.BeforeStart:
@@ -28,7 +28,7 @@ export class ScenePanel extends Panel {
         }
         context.restore();
         context.save();
-        context.fillStyle = '#dddddd';
+        context.fillStyle = 'red';
         context.fillText(`FPS: ${Math.floor(1000 / (Date.now() - this.lastTime))}`, this.position.x, this.position.y + 16);
         context.restore();
     }

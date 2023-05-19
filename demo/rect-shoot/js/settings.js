@@ -18,7 +18,7 @@ export class Settings {
     }
     generateLevelScoreByPower() {
         const result = [];
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 1000; i++) {
             result.push(Math.pow(i, 2.2) * 10);
         }
         return result;

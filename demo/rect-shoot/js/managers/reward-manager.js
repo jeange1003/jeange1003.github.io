@@ -1,4 +1,3 @@
-import { canvas } from "../global/canvas.js";
 import { Manager } from "./manager.js";
 import { Reward } from "../objects/reward.js";
 import { Direction } from "../base-types/direction.js";
@@ -14,6 +13,7 @@ export class RewardManager extends Manager {
         this.settings = params.settings;
         this.cooldown = this.maxCooldown * 60;
         this.imageManager = params.imageManager;
+        this.viewport = params.viewport;
     }
     get maxCooldown() {
         // return 1
@@ -21,7 +21,7 @@ export class RewardManager extends Manager {
         return 4 - (this.gameData.level / this.settings.levelScore.length) * 2.6;
     }
     get maxCount() {
-        return 3 + this.gameData.level;
+        return 3 + this.gameData.level / 10;
     }
     update() {
         this.cooldown--;
@@ -34,13 +34,14 @@ export class RewardManager extends Manager {
     generateReward() {
         const reward = new Reward({
             scene: this.scene,
-            position: new Position(Math.floor(Math.random() * canvas.width * 3 / 4), Math.floor(Math.random() * canvas.height)),
+            position: new Position(this.viewport.center.x + Math.floor(Math.random() * this.viewport.originSize.width * 1 / 4), this.viewport.center.y + Math.floor(Math.random() * this.viewport.originSize.height / 4)).scale(this.viewport.scale),
             size: new Size(20, 20),
             direction: new Direction(0, 0),
             rects: this.rects,
             rewardManager: this,
             gameData: this.gameData,
-            imageManager: this.imageManager
+            imageManager: this.imageManager,
+            viewport: this.viewport
         });
         this.rewards.push(reward);
         this.scene.addObject(reward);

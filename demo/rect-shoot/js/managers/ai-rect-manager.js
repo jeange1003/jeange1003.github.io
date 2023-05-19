@@ -1,5 +1,4 @@
 import { AiKeyboardStatus } from '../keyboard/ai-keyboard-status.js';
-import { canvas } from '../global/canvas.js';
 import { Area } from '../base-types/area.js';
 import { Rect } from '../objects/rect.js';
 import { Position } from '../base-types/position.js';
@@ -14,6 +13,7 @@ class AiRectManager extends Manager {
         this.playerRects = params.playerRects;
         this.cooldown = AiRectManager.GenerateInterval;
         this.gameData = params.gameData;
+        this.viewport = params.viewport;
     }
     update() {
         this.cooldown--;
@@ -23,24 +23,27 @@ class AiRectManager extends Manager {
         }
     }
     generateAi() {
-        const area = new Area({ x1: 100, x2: canvas.width, y1: 0, y2: canvas.height });
+        const area = new Area({ x1: -999999, x2: 999999, y1: -999999, y2: 999999 });
+        const aiKeyboardStatus = new AiKeyboardStatus({ playerRects: this.playerRects });
         const aiRect = new Rect({
             name: 'AI',
             scene: this.scene,
-            position: new Position(canvas.width * 2 / 3 + Math.floor(Math.random() * canvas.width / 3), Math.floor(canvas.height * Math.random())),
+            position: new Position(this.viewport.center.x + (Math.random() > 0.5 ? 1 : -1) * this.viewport.originSize.width / 2, this.viewport.center.y + (Math.random() > 0.5 ? 1 : -1) * this.viewport.originSize.height / 2),
             size: new Size(50, 50),
             direction: new Direction(-1, 0),
-            keyboardStatus: new AiKeyboardStatus(),
+            keyboardStatus: aiKeyboardStatus,
             color: 'gray',
-            speed: new Speed(2, 2),
+            speed: new Speed(1, 1),
             hp: 40 * (1 + this.gameData.level * 0.5),
             maxHp: 40 * (1 + this.gameData.level * 0.5),
             damage: 20,
             shootSpeed: 2,
             bulletSpeed: (3 + this.gameData.level > 15) ? 15 : 3 + this.gameData.level,
             restrictToArea: area,
-            gameData: this.gameData
+            gameData: this.gameData,
+            viewport: this.viewport
         });
+        aiKeyboardStatus.controlTarget(aiRect);
         aiRect.onDead((rect) => {
             this.gameData.addScore(Math.pow(rect.level, 2));
         });

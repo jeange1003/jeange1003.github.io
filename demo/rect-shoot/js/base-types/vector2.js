@@ -105,4 +105,10 @@ export class Vector2 {
     add(vector) {
         return new Vector2(this.x + vector.x, this.y + vector.y);
     }
+    distance(vector) {
+        return Math.sqrt(Math.pow(this.x - vector.x, 2) + Math.pow(this.y - vector.x, 2));
+    }
+    scale(scale) {
+        return new Vector2(this.x * scale, this.y * scale);
+    }
 }

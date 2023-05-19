@@ -16,10 +16,12 @@ export class Scene {
                 this.scenePanel.render();
                 return;
             }
+            context.clearRect(0, 0, canvas.width, canvas.height);
             for (let manager of this.managers) {
                 manager.update();
             }
-            context.clearRect(0, 0, canvas.width, canvas.height);
+            this.viewport.update();
+            this.gameMap.update();
             for (let i = this.objects.length - 1; i >= 0; i--) {
                 const obj = this.objects[i];
                 obj.update();
@@ -71,6 +73,12 @@ export class Scene {
     }
     setScenePanel(scenePanel) {
         this.scenePanel = scenePanel;
+    }
+    setViewport(viewport) {
+        this.viewport = viewport;
+    }
+    setGameMap(gameMap) {
+        this.gameMap = gameMap;
     }
     dispose() {
         document.removeEventListener('keydown', this.onStart);

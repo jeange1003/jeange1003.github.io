@@ -33,16 +33,21 @@ export class Reward extends BaseObject {
         this.render();
     }
     async render() {
-        const x = this.position.x - this.size.width / 2;
-        const y = this.position.y - this.size.height / 2;
+        const relativePosition = this.viewport.getPositionInViewport(this.position);
+        const x = relativePosition.x - this.size.width / 2;
+        const y = relativePosition.y - this.size.height / 2;
         const image = await this.imageManager.getImage(`../../assets/images/effects/${rewardImage[this.type]}`);
+        const scale = 1 / this.viewport.scale;
+        context.save();
+        context.scale(scale, scale);
         context.drawImage(image, x, y, 32, 32);
+        context.restore();
     }
     /**
      * in frame
      */
     get effectTime() {
-        return (20 + this.gameData.level) * 60;
+        return (20 + this.gameData.level / 5) * 60;
     }
     getEffect(type) {
         switch (type) {

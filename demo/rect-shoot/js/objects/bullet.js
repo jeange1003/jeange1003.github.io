@@ -1,5 +1,4 @@
 import { context } from '../global/context.js';
-import { canvas } from '../global/canvas.js';
 import { BaseObject } from './base-object.js';
 import { Size } from '../base-types/size.js';
 export class Bullet extends BaseObject {
@@ -8,7 +7,8 @@ export class Bullet extends BaseObject {
             scene: params.scene,
             position: params.position,
             size: new Size(params.damage, Math.floor(params.damage / 6)),
-            direction: params.direction
+            direction: params.direction,
+            viewport: params.viewport
         });
         this.isDead = false;
         this.borderBufferLength = 100;
@@ -16,8 +16,9 @@ export class Bullet extends BaseObject {
         this.customHurtEnemyFunctions = [];
         this.speed = params.speed;
         this.color = params.color;
-        this.enemys = params.enemys;
+        this.enemies = params.enemys;
         this.damage = params.damage;
+        this.belongToRect = params.belongToRect;
         if (isNaN(params.force)) {
             throw new Error('invalid force');
         }
@@ -57,20 +58,24 @@ export class Bullet extends BaseObject {
         context.lineWidth = 0;
         context.strokeStyle = 'red';
         context.fillStyle = this.color;
-        context.translate(this.position.x, this.position.y);
+        const relativePosition = this.viewport.getPositionInViewport(this.position);
+        const scale = 1 / this.viewport.scale;
+        context.scale(scale, scale);
+        context.translate(relativePosition.x, relativePosition.y);
         context.rotate(this.speed.radian);
         context.rect(-this.size.width / 2, -this.size.height / 2, this.size.width, this.size.height);
         context.fill();
         context.restore();
     }
     isOutOfView() {
-        return this.position.x > canvas.width + this.borderBufferLength
-            || this.position.x < 0 - +this.borderBufferLength
-            || this.position.y > canvas.height + this.borderBufferLength
-            || this.position.y < 0 - this.borderBufferLength;
+        return this.viewport.isObjectOutOfViewport(this);
+        // return this.position.x > this.viewport.center.x + canvas.width / 2 + this.borderBufferLength
+        //   || this.position.x < this.viewport.center.x - canvas.width / 2 - this.borderBufferLength
+        //   || this.position.y > this.viewport.center.y + canvas.height / 2 + this.borderBufferLength
+        //   || this.position.y < this.viewport.center.y - canvas.height / 2 - this.borderBufferLength
     }
     checkCollision() {
-        for (let enemy of this.enemys) {
+        for (let enemy of this.enemies) {
             if (!enemy.isDead
                 && this.position.x > enemy.position.x - enemy.size.width
                 && this.position.x < enemy.position.x + enemy.size.width

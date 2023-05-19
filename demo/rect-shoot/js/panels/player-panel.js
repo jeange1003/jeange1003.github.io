@@ -12,7 +12,7 @@ export class PlayerPanel extends Panel {
     }
     async render() {
         context.save();
-        context.fillStyle = 'red';
+        context.fillStyle = '#dddddd';
         context.font = '16px serif';
         context.fillText(`${this.rect.name}:`, this.position.x, this.position.y);
         const effects = [...this.rect.buffEffects, ...this.rect.bulletEffects];

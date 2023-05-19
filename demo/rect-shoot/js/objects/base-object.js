@@ -5,5 +5,6 @@ export class BaseObject {
         this.position = params.position;
         this.size = params.size;
         this.direction = params.direction;
+        this.viewport = params.viewport;
     }
 }

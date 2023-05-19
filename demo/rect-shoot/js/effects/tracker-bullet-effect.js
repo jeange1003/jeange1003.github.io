@@ -5,16 +5,30 @@ export class TrackerBulletEffect extends BulletEffect {
     get name() {
         return RewardType.Tracker;
     }
+    getNearestEnemy(self, enemies) {
+        let nearestDistance = Infinity;
+        let nearestEnemy = enemies[0];
+        for (let enemy of enemies) {
+            const distance = enemy.position.distance(self.position);
+            if (distance < nearestDistance) {
+                nearestDistance = distance;
+                nearestEnemy = enemy;
+            }
+        }
+        return nearestEnemy;
+    }
     applyEffect(bullets) {
         bullets.forEach(bullet => {
+            const effect = this;
             bullet.addCustomUpdate(function () {
                 const target = this.meta.get('target');
                 if (target && target.isDead) {
                     this.meta.set('target', undefined);
                 }
-                const aliveEnemys = this.enemys.filter(e => !e.isDead);
+                const aliveEnemys = this.enemies.filter(e => !e.isDead);
                 if (aliveEnemys.length > 0) {
                     if (!target) {
+                        effect.getNearestEnemy(this, aliveEnemys);
                         this.meta.set('target', aliveEnemys[0]);
                     }
                 }
