@@ -36,7 +36,7 @@ export class Reward extends BaseObject {
         const relativePosition = this.viewport.getPositionInViewport(this.position);
         const x = relativePosition.x - this.size.width / 2;
         const y = relativePosition.y - this.size.height / 2;
-        const image = await this.imageManager.getImage(`../../assets/images/effects/${rewardImage[this.type]}`);
+        const image = await this.imageManager.getImage(`assets/images/effects/${rewardImage[this.type]}`);
         const scale = 1 / this.viewport.scale;
         context.save();
         context.scale(scale, scale);
