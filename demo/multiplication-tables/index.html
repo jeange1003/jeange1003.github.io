@@ -1,9 +1,14 @@
 <html>
 
-<body style="font-size: 96px;line-height: 96px;display: flex;align-items: center;">
-  <span id="left"></span>
-  <input id="right" type="text" style="height: 96px; font-size: inherit; width: 2em;" autofocus />
-  <span id="result"></span>
+<body style="position: relative;">
+  <button id="start" style="font-size: 72px; height: 96px; position: absolute;">开始</button>
+  <div id="container"
+    style="font-size: 96px;line-height: 96px;display: flex;align-items: center;height: 100vh;display: none; justify-content: center;">
+    <span id="left"></span>
+    <input id="right" type="text" style="height: 96px; font-size: inherit; width: 2em;" autofocus maxlength="2" />
+    <span id="result"></span>
+  </div>
+
   <script>
     const global = {
       a: 1,
@@ -16,7 +21,23 @@
     const leftEl = document.getElementById('left')
     const rightEl = document.getElementById('right')
     const resultEl = document.getElementById('result')
+    const startEl = document.getElementById('start')
+    const containerEl = document.getElementById('container')
+    startEl.addEventListener('click', () => {
+      init()
+      display()
+    })
 
+    function init() {
+      startEl.hidden = true
+      containerEl.style.display = 'flex'
+      global.a = 1
+      global.b = 1
+      global.timeout = 0
+      global.refreshTimeout = 0
+      global.correct = 0
+      global.incorrect = 0
+    }
 
     function next() {
       clearTimeout(global.refreshTimeout)
@@ -27,6 +48,8 @@
         global.b = global.a
       } else {
         resultEl.innerText = `结束，正确：${global.correct}，超时:${global.incorrect}，正确率:${(global.correct / (global.correct + global.incorrect) * 100).toFixed()}%`
+        startEl.hidden = false
+
         return
       }
       global.refreshTimeout = setTimeout(display, 1500)
@@ -38,9 +61,10 @@
       rightEl.value = ''
       global.timeout = setTimeout(() => {
         resultEl.innerText = `超时，答案:${global.a * global.b}`;
+        speech(global.a, global.b)
         global.incorrect++
         next()
-      }, 5000)
+      }, 2000)
     }
     rightEl.addEventListener('input', (e) => {
       const value = e.target.value
@@ -51,8 +75,14 @@
         next()
       }
     })
-    display()
 
+    function speech(a, b) {
+      result = a * b
+      let speechInstance = new SpeechSynthesisUtterance(`${a} ${b} ${result < 10 ? ' 得 ' : ''} ${result == 10 ? '一十' : result}`);
+      speechInstance.lang = 'zh-cn'
+      speechInstance.rate = 0.8
+      speechSynthesis.speak(speechInstance);
+    }
   </script>
 </body>
 
