@@ -1,0 +1,59 @@
+<html>
+
+<body style="font-size: 96px;line-height: 96px;display: flex;align-items: center;">
+  <span id="left"></span>
+  <input id="right" type="text" style="height: 96px; font-size: inherit; width: 2em;" autofocus />
+  <span id="result"></span>
+  <script>
+    const global = {
+      a: 1,
+      b: 1,
+      timeout: 0,
+      refreshTimeout: 0,
+      correct: 0,
+      incorrect: 0
+    }
+    const leftEl = document.getElementById('left')
+    const rightEl = document.getElementById('right')
+    const resultEl = document.getElementById('result')
+
+
+    function next() {
+      clearTimeout(global.refreshTimeout)
+      if (global.b < 9) {
+        global.b++
+      } else if (global.a < 9) {
+        global.a++
+        global.b = global.a
+      } else {
+        resultEl.innerText = `结束，正确：${global.correct}，超时:${global.incorrect}，正确率:${(global.correct / (global.correct + global.incorrect) * 100).toFixed()}%`
+        return
+      }
+      global.refreshTimeout = setTimeout(display, 1500)
+    }
+
+    function display() {
+      leftEl.innerText = `${global.a}×${global.b}=`
+      resultEl.innerText = ''
+      rightEl.value = ''
+      global.timeout = setTimeout(() => {
+        resultEl.innerText = `超时，答案:${global.a * global.b}`;
+        global.incorrect++
+        next()
+      }, 5000)
+    }
+    rightEl.addEventListener('input', (e) => {
+      const value = e.target.value
+      if (value == global.a * global.b) {
+        clearTimeout(global.timeout)
+        resultEl.innerText = '✅'
+        global.correct++
+        next()
+      }
+    })
+    display()
+
+  </script>
+</body>
+
+</html>

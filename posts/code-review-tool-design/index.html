@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    一款VSCode Code Review插件的设计
+  </title>
+</head>
+
+<body>
+  <h1>一款VSCode Code Review插件的设计</h1>
+  <h2>
+    功能介绍
+  </h2>
+  <ul>
+    <li>
+      一款VSCode插件
+    </li>
+    <li>
+      评论当前查看的代码，接收别人的评论，并与之讨论
+    </li>
+    <li>
+      查看，评论MR
+    </li>
+  </ul>
+  <p>
+    其中，代码讨论功能包含
+  </p>
+  <ul>
+    <li>
+      框选一段代码，并评论。
+    </li>
+    <li>
+      当别人@的时候，接收通知
+    </li>
+    <li>
+      打开通知后可以看到对方评论对针对的代码，以及讨论内容
+    </li>
+    <li>
+      点击评论中的代码，跳转至对应的代码位置
+    </li>
+    <li>
+      评论内容包含文本与图片
+    </li>
+    <li>
+      查看当前文件的所有讨论
+    </li>
+    <li>
+      查看自己的所有讨论
+    </li>
+    <li>
+      查看当前仓库的所有讨论
+    </li>
+    <li>
+      飞书通知别人@自己的评论
+    </li>
+  </ul>
+  <p>
+    Merge Request 相关功能包含
+  </p>
+  <ul>
+    <li>
+      查看当前仓库所有Merge Requests
+    </li>
+    <li>
+      查看自己参与的，需要自己Review的Merge Requests
+    </li>
+    <li>
+      查看单个 Merge Request，内容包括：标题，描述，创建者，assignee，discussion，代码diff，操作历史，不同patchset的diff
+    </li>
+    <li>
+      对Merge Request进行评论，评论存储于GitLab
+    </li>
+    <li>
+      代码高亮与代码跳转，包括（Goto Definition，Find All Reference等等）
+    </li>
+  </ul>
+  <h2>
+    系统设计
+  </h2>
+
+</body>
+
+</html>
