@@ -1,0 +1,52 @@
+body {
+  max-width: 1360px;
+  margin: auto;
+  padding: 8px;
+}
+#color-picker {
+  display: flex;
+  /* border: 1px solid #ddd; */
+  flex-wrap: wrap;
+  padding: 8px;
+  gap: 8px;
+  align-items: stretch;
+  max-width: 620px;
+}
+@media screen and (max-width: 768px) {
+  #color-picker {
+    flex-direction: column;
+  }
+}
+.values {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  justify-content: space-around;
+  gap: 8px;
+}
+
+#hue-slider,
+#saturation-slider,
+#lightness-slider {
+  max-width: 100%;
+  width: 300px;
+  height: 30px;
+  cursor: pointer;
+  appearance: none;
+  border-radius: 4px;
+}
+
+.display-color {
+  display: flex;
+  flex-direction: column;
+}
+#selected-color {
+  max-width: 100%;
+  min-width: 300px;
+  border-radius: 4px;
+  display: flex;
+  min-height: 100px;
+  flex-direction: column;
+  gap: 8px;
+  flex-grow: 1;
+}

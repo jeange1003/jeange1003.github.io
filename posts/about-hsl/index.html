@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <title>关于HSL与组件颜色</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <link href="./index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>关于HSL与组件颜色</h1>
+    <p>
+      入职了新公司，是一家制造业的IT部门，部门比较小，没有专业的视觉或交互设计师，领导给了我一个从未担任过的任务：制定UI规范。
+    </p>
+    <p>
+      UI规范还在制定中，其中遇到一个关于组件颜色的设计，以前一直在用，却没注意到的，觉得值得记录。
+    </p>
+    <h2>HSL是什么</h2>
+    <p>
+      在计算机中表示颜色有许多种方式。前端工程师最常用的就是十六进制表示的RGB了，也就是类似<i>#5599CC</i>形式的值。但RGB是为了符合显示器的三原色而设置的，并不适合人来理解。比如现在说想要一个淡橙色，一下子很难想出来应该写一个怎样的值。而HSL则更有助于人类理解。
+    </p>
+    <p>
+      RGB的值是由两位红色+两位绿色+两位蓝色组成，而HSL的值由色相（Hue）、饱和度（Saturation）、亮度（Light）组成，其中色相决定是红色，绿色，蓝色，黄色还是紫色，青色等。饱和度决定颜色的鲜艳程度，饱和度越高越鲜艳，越低越接近灰色。亮度决定颜色的明亮程度，值越大越接近白色，越小越接近黑色。
+    </p>
+    <p>盗用网上一张图：</p>
+    <img src="./image1.png" style="max-width: 100%; width: 400px" />
+    <p>下面是一个颜色选择器，可以体验HSL各个值所带来的变化：</p>
+    <div id="color-picker">
+      <div class="display-color">
+        <span>Selected color:</span>
+        <div id="selected-color"></div>
+      </div>
+      <div class="values">
+        <span>Hue:</span>
+        <input type="range" id="hue-slider" min="0" max="360" value="0" />
+        <span>Saturation:</span>
+        <input
+          type="range"
+          id="saturation-slider"
+          min="0"
+          max="100"
+          value="100"
+        />
+        <span>Light:</span>
+        <input
+          type="range"
+          id="lightness-slider"
+          min="0"
+          max="100"
+          value="50"
+        />
+      </div>
+    </div>
+    <p>
+      其中，饱和度和亮度可以很明确地表示人所感觉的颜色，色相需要做一定记忆。
+    </p>
+    <h2>组件库颜色</h2>
+    <p>这和组件颜色有什么关系呢？</p>
+    <script src="./index.js" type="module"></script>
+  </body>
+</html>
