@@ -1,3 +1,8 @@
+import { HtmlSource } from "../../web-components/html-source.js";
+import { define } from "../../web-components/define.js";
+
+define(HtmlSource);
+
 const hueSlider = document.getElementById("hue-slider");
 const saturationSlider = document.getElementById("saturation-slider");
 const lightnessSlider = document.getElementById("lightness-slider");
@@ -26,7 +31,7 @@ updateColor();
 const updateSaturationSliderColor = () => {
   let linearColors = [];
   for (let i = 0; i < 100; i++) {
-    linearColors.push(`hsl(${color.hue}, ${i}%, ${color.lightness}%) ${i}%`);
+    linearColors.push(`hsl(${color.hue}, ${i}%, ${50}%) ${i}%`);
   }
   saturationSlider.style.backgroundImage = `linear-gradient(to right, ${linearColors.join(
     ","

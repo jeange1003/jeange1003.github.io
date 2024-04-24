@@ -1,61 +1,66 @@
 export class HtmlSource extends HTMLElement {
-  static get observedAttributes() { return ['render']; }
-  static get defaultTagName() { return 'gj-html-source' }
+  static get observedAttributes() {
+    return ["render"];
+  }
+  static get defaultTagName() {
+    return "gj-html-source";
+  }
 
   constructor() {
-    super()
-    const render = this.getAttribute('render') === 'true'
-    const slot = document.createElement('slot')
-    this.shadow = this.attachShadow({ mode: 'open' })
-    this.shadow.appendChild(slot)
-    const pre = document.createElement('pre')
-    this.shadow.appendChild(pre)
-    let html = ''
-    this.childrenClone = [...this.children]
+    super();
+    const render = this.getAttribute("render") === "true";
+    const div = document.createElement("div");
+    this.renderContainer = div;
+    this.shadow = this.attachShadow({ mode: "open" });
+    this.shadow.appendChild(div);
+    const pre = document.createElement("pre");
+    this.shadow.appendChild(pre);
+    let html = "";
+    this.childrenClone = [...this.children];
     for (let child of this.childrenClone) {
-      html += child.outerHTML
-      html += '\r\n'
+      html += child.outerHTML;
+      html += "\r\n";
       if (!render) {
-        child.remove()
+        child.remove();
       }
     }
-    html = this.decreaseIndent(html)
-    pre.innerText = html
+    html = this.decreaseIndent(html);
+    pre.innerText = html;
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === 'render') {
-      if (oldValue !== 'true' && newValue === 'true') {
+    if (name === "render") {
+      if (oldValue !== "true" && newValue === "true") {
         for (let child of this.childrenClone) {
-          this.appendChild(child)
+          this.renderContainer.appendChild(child);
         }
       }
-      if (oldValue === 'true' && newValue !== 'true') {
+      if (oldValue === "true" && newValue !== "true") {
         for (let child of this.childrenClone) {
-          child.remove()
+          child.remove();
         }
       }
     }
   }
 
   outputHtml({ domId, loggerId }) {
-    const dom = document.getElementById(domId)
-    const logger = document.getElementById(loggerId)
-    logger.innerText = decreaseIndent(dom.outerHTML)
+    const dom = document.getElementById(domId);
+    const logger = document.getElementById(loggerId);
+    logger.innerText = decreaseIndent(dom.outerHTML);
   }
 
   decreaseIndent(text) {
-    const regex = new RegExp('\n( *)[^ ]')
-    const match = regex.exec(text)
+    const regex = new RegExp("\n( *)[^ ]");
+    const match = regex.exec(text);
     if (!match) {
-      return text
+      return text;
     }
-    const intendLength = match[1].length
-    const replaceReg = new RegExp(`\n {${intendLength - 2}}`, 'g')
-    return text.replace(replaceReg, '\n')
+    const intendLength = match[1].length;
+    const replaceReg = new RegExp(`\n {${intendLength - 2}}`, "g");
+    return text.replace(replaceReg, "\n");
   }
 }
 
 export function define() {
-  customElements.define('html-source', HtmlSource)
+  customElements.define("html-source", HtmlSource);
 }

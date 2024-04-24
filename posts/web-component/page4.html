@@ -1,27 +1,29 @@
 <html>
+  <head>
+    <title>Web Component -- 例子: 展示HTML</title>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <link rel="stylesheet" href="common.css" />
+  </head>
 
-<head>
-  <title>Web Component -- 例子: 展示HTML</title>
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
-  <link rel="stylesheet" href="common.css" />
-</head>
+  <body>
+    <h1>Web Component -- 例子: 展示HTML</h1>
+    <p>
+      写文章时需要展示HTML代码，按照原格式写的HTML代码会被解析，并不会展示源码，这里建一个Web
+      Component来展示HTML源码。同时支持render属性来设置是否渲染dom
+    </p>
+    <gj-html-source id="htmlSource" render="true">
+      <p>这是HTML源码1</p>
+      <p>这是HTML源码2</p>
+    </gj-html-source>
+    <button id="toggleSourceButton">Toggle Render</button>
+    <div class="paging">
+      <a href="page3.html">上一页</a> <a href="page5.html">下一页</a>
+    </div>
 
-<body>
-  <h1>Web Component -- 例子: 展示HTML</h1>
-  <p>写文章时需要展示HTML代码，按照原格式写的HTML代码会被解析，并不会展示源码，这里建一个Web Component来展示HTML源码。同时支持render属性来设置是否渲染dom</p>
-  <gj-html-source id="htmlSource" render="true">
-    <p>这是HTML源码1</p>
-    <p>这是HTML源码2</p>
-  </gj-html-source>
-  <button id="toggleSourceButton">Toggle Render</button>
-  <div class="paging">
-    <a href="page3.html">上一页</a> <a href="page5.html">下一页</a>
-  </div>
-
-  <script src="./page4.js" type="module"></script>
-  <!-- <script src="../../web-components/html-source.js" type="module"></script> -->
-
-</body>
-
+    <script src="./page4.js" type="module"></script>
+    <!-- <script src="../../web-components/html-source.js" type="module"></script> -->
+  </body>
 </html>

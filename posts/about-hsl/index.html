@@ -56,6 +56,236 @@
     </p>
     <h2>组件库颜色</h2>
     <p>这和组件颜色有什么关系呢？</p>
+    <p>以Element UI的Button为例，看一下各种类型的Button的颜色</p>
+    <p>primary:</p>
+    <img src="./button-primary-plain.png" />
+    <p>样式代码：</p>
+    <!-- prettier-ignore -->
+    <pre>
+.el-button--primary.is-plain {
+  color: #409eff;
+  background: #ecf5ff;
+  border-color: #b3d8ff;
+}
+    </pre>
+    <p>
+      这里是一个plain的button的字体颜色，背景色，和边框颜色，其Hex和HSL的对应关系：
+    </p>
+    <style>
+      .color-block {
+        width: 1em;
+        height: 1em;
+        display: inline-block;
+      }
+    </style>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      table,
+      tr,
+      th,
+      td {
+        border: 1px solid #666;
+      }
+      th,
+      td {
+        padding: 8px 16px;
+      }
+    </style>
+    <table>
+      <tr>
+        <th>颜色</th>
+        <th>Hex</th>
+        <th>HSL</th>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #409eff" class="color-block"></div>
+        </td>
+        <td>#409eff</td>
+        <td>hsl(210.5,100%,62.5%)</td>
+      </tr>
+    </table>
+    <tr>
+      <td>
+        <div style="background-color: #ecf5ff" class="color-block"></div>
+      </td>
+      <td>#ecf5ff</td>
+      <td>hsl(211.6,100%,96.3%)</td>
+    </tr>
+    <tr>
+      <td>
+        <div style="background-color: #b3d8ff" class="color-block"></div>
+      </td>
+      <td>#b3d8ff</td>
+      <td>hsl(210.8,100%,85.1%)</td>
+    </tr>
+    <p>可以看到，色相是相近的，相差1.1，区别最大的在于亮度</p>
+    <p>再看一下其他类型button的样式：</p>
+    <img src="./other-button-plain.png" />
+    <pre>
+.el-button--success.is-plain {
+    color: #67c23a;
+    background: #f0f9eb;
+    border-color: #c2e7b0;
+}
+.el-button--info.is-plain {
+  color: #909399;
+  background: #f4f4f5;
+  border-color: #d3d4d6;
+}
+.el-button--warning.is-plain {
+  color: #e6a23c;
+  background: #fdf6ec;
+  border-color: #f5dab1;
+}
+.el-button--danger.is-plain {
+  color: #f56c6c;
+  background: #fef0f0;
+  border-color: #fbc4c4;
+}
+    </pre>
+    <p>对应的颜色：</p>
+    <table>
+      <tr>
+        <th>类型</th>
+        <th>颜色</th>
+        <th>Hex</th>
+        <th>HSL</th>
+        <th>色相</th>
+      </tr>
+      <tr>
+        <td rowspan="3">Success</td>
+        <td>
+          <div style="background-color: #67c23a" class="color-block"></div>
+        </td>
+        <td>#67c23a</td>
+        <td>hsl(100.1,54%,49.4%)</td>
+        <td rowspan="3">100左右</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #f0f9eb" class="color-block"></div>
+        </td>
+        <td>#f0f9eb</td>
+        <td>hsl(98.6,53.8%,94.9%)</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #c2e7b0" class="color-block"></div>
+        </td>
+        <td>#c2e7b0</td>
+        <td>hsl(100.4,53.4%,79.8%)</td>
+      </tr>
+      <tr>
+        <td rowspan="3">Info</td>
+        <td>
+          <div style="background-color: #909399" class="color-block"></div>
+        </td>
+        <td>#909399</td>
+        <td>hsl(220,4.2%,58.2%)</td>
+        <td rowspan="3">230左右</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #f4f4f5" class="color-block"></div>
+        </td>
+        <td>#f4f4f5</td>
+        <td>hsl(240,4.8%,95.9%)</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #d3d4d6" class="color-block"></div>
+        </td>
+        <td>#d3d4d6</td>
+        <td>hsl(220,3.5%,83.3%)</td>
+      </tr>
+      <tr>
+        <td rowspan="3">Warning</td>
+        <td>
+          <div style="background-color: #e6a23c" class="color-block"></div>
+        </td>
+        <td>#e6a23c</td>
+        <td>hsl(36,77.3%,56.9%)</td>
+        <td rowspan="3">36左右</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #fdf6ec" class="color-block"></div>
+        </td>
+        <td>#fdf6ec</td>
+        <td>hsl(35.3,81%,95.9%)</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #f5dab1" class="color-block"></div>
+        </td>
+        <td>#f5dab1</td>
+        <td>hsl(36.2,77.3%,82.7%)</td>
+      </tr>
+      <tr>
+        <td rowspan="3">Danger</td>
+        <td>
+          <div style="background-color: #f56c6c" class="color-block"></div>
+        </td>
+        <td>#f56c6c</td>
+        <td>hsl(0,87.3%,69.2%)</td>
+        <td rowspan="3">0</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #fef0f0" class="color-block"></div>
+        </td>
+        <td>#fef0f0</td>
+        <td>hsl(0,87.5%,96.9%)</td>
+      </tr>
+      <tr>
+        <td>
+          <div style="background-color: #fbc4c4" class="color-block"></div>
+        </td>
+        <td>#fbc4c4</td>
+        <td>hsl(0,87.3%,87.6%)</td>
+      </tr>
+    </table>
+    <p>可以看到，差异主要在于亮度，部分颜色会有色相和饱和度的微调</p>
+    <h2>自定义组件颜色</h2>
+    <p>由此，如果想要动态地自定义组件颜色，可以利用这个规律来实现</p>
+    <p>
+      例如，如果想要自定义element ui
+      button的组件颜色，可以用js计算颜色值，然后通过css变量覆盖样式：
+    </p>
+    <pre>
+// template:
+&lt;el-button style="styleStr" type="primary"&gt;&lt;/el-button&gt;
+
+// script:
+this.styleStr = `--color: hsl(${this.hue} ${this.saturation}% ${this.light}%);
+--background: hsl(${this.hue} ${this.saturation}% ${this.light + 50}%);
+--border-color: hsl(${this.hue} ${this.saturation}% ${this.light + 30}%);
+`
+
+// style:
+.el-button--primary.is-plain {
+  color: var(--color);
+  background: var(--background);
+  border-color: var(--border-color);
+}
+    </pre>
+    <p>
+      如果只需要支持较新的浏览器，那么可以使用更方便的
+      <a
+        href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors"
+        target="_blank"
+      >
+        Relative Color</a
+      >：
+    </p>
+    <pre>
+this.styleStr = `--color: ${this.color}; --background: hsl(from var(--color) h s calc(l + 50)); --border-color: hsl(from var(--color) h s calc(l + 30));`
+    </pre>
+    <p>省去了使用js计算色值的过程，而使用css来计算</p>
+    <p>2024.4.24</p>
     <script src="./index.js" type="module"></script>
   </body>
 </html>
